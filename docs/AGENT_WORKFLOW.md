@@ -1,6 +1,6 @@
 # Coding-Agent Workflow — IA#2
 
-Status: **P1 merged (PR #3); P2 implemented and locally validated, pending student review** (2026-11-04). See `evidence/p2-node22-validation.txt` for 18/18 tests and actual disposable validation. P3–P5 and the final live traffic demonstration are NOT RUN. The remaining workflow is a handoff checklist. Work one phase at a time; commit code changes and ask the student to inspect each gate.
+Status: **P1/P2 merged (PR #3/#4); P3 implemented and tested on Node 22; tagged rehearsal and student review pending** (2026-11-04). See `evidence/p3-node22-tests.txt`. P4/P5 and the final live traffic demonstration are NOT RUN. Work one phase at a time; commit code changes and ask the student to inspect each gate.
 
 ## How to give the agent work
 
@@ -33,9 +33,10 @@ Start each agent session with: “Read `AGENTS.md`, `MIGRATION.md` and this work
 
 ### P3: Read new column; demonstrate the way back
 
-- [ ] Read `price_vnd` as source of truth only after `price_vnd_null=0` and `disagree=0`.
-- [ ] Keep both columns updated in v3; v2 must remain safe throughout the rollback experiment.
-- [ ] Under the same traffic process, roll v3→v2→v3 one port at a time, run labeled `npm run check` before and after, and capture true output.
+- [x] v3 startup rejects incomplete/invalid/disagreeing data before listening; menu and order reads use `price_vnd`. Fixtures qualify backfill before constructing v3.
+- [x] v3 keeps atomic dual writes; both client payloads and legacy thousands-of-VND order units pass mixed exact-tag v2/v3 tests. P1/P2 tests retain real v2 source instead of silently changing phase semantics.
+- [x] Automated WORKTREE rehearsal rolls v2/v2 → v3/v2 → v3/v3 → v3/v2 → v2/v2 → v2/v3 → v3/v3, with one traffic PID, real down/back events and labeled checks after every roll. Full Node 22 suite: 22/22 passed.
+- [ ] Tag tested v3 code, capture separate tagged rehearsal evidence, then stop for student review. Keep final v1-to-Contract demonstration separate.
 
 ### P4: New-only and contract
 

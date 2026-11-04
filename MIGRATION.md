@@ -1,6 +1,6 @@
 # IA#2 — Zero-downtime menu price migration
 
-**Status: P1 merged in PR #3; P2 implemented and validated on disposable databases, pending student review. P3–P5 and the final live demonstration are NOT RUN.**
+**Status: P1/P2 merged (PR #3/#4); P3 implemented with automated Node 22 validation. Tagged development rehearsal and student review pending. P4/P5 and the final live demonstration are NOT RUN.**
 
 P1 evidence: [docs/evidence/p1-validation.txt](docs/evidence/p1-validation.txt) records 10 passing tests and the actual 002 down/re-up CLI rehearsal on a fresh disposable database. Mixed original v1/v2 HTTP tests share one absolute temporary DB path; v2 reads only legacy `price` and derives both response fields from it, including after a v1 reprice leaves `price_vnd` stale. Health reports `version: v2`; `v1` remains the original starter SHA. The existing `v2` tag points to merged P1 commit `dadb816bac9dad5ffcbf098d130d387bbbdd338c`; P2 does not move this tag. P1 left existing seed rows NULL without backfill.
 
@@ -36,6 +36,14 @@ New-client `priceVnd` must be a positive safe integer, at most `100000000` VND, 
 | **v2** expand-aware | `price` | Both fields atomically | Both payloads and response fields; derive missing `priceVnd` from `price` before backfill | v1; v3 after backfill |
 | **v3** switch reads | `price_vnd` | Both fields atomically | Both clients; derive legacy `price` from integer VND | v2; v4 with sync bridge |
 | **v4** new-only | `price_vnd` | `price_vnd` only | Both clients; keep old `price` in JSON, orders unchanged | v3 with sync bridge; v4 after drop |
+
+### P3 read source, rollout gate and rounding
+
+v3 menu GET/list/POST/PATCH responses read only `price_vnd`, return it as `priceVnd`, and derive legacy `price = price_vnd / 1000`. Orders use the same new source converted to thousands for `order_items.unit_price` and totals. Their units and schema do not change. Both create and reprice remain one-statement dual writes; v3 normalizes the legacy stored price to `priceVnd / 1000`, keeping v2 rollback responses aligned with v3 writes. Input validation and the one-VND minimum remain the P1 rules.
+
+Before listening, v3 rejects a DB with NULL, non-integer, out-of-range or disagreeing new prices, or NULL legacy prices. This gate runs on each v3 startup; the operator must also obtain plain `CONSISTENT` after backfill and verify all writers are v2 before the first v3 roll. There is no fallback to legacy reads. No v1 writer may return during mixed v2/v3 operation. Startup qualification does not prevent later unauthorized writes; both running instances must continue atomic dual writes.
+
+Sub-VND legacy precision is rounded when v3 reads it. For example, a v2 write of `price: 45.1234` can still return `45.1234` from v2, while v3 returns `45.123` from `price_vnd: 45123`; both expose the same integer VND. A v3 write stores/returns `45.123` on both versions. Consequently sub-VND inputs can produce rounding differences in mixed-version legacy responses and order totals, although units remain thousands. The traffic generator uses exactly representable half-thousand prices; the zero-failure rehearsal does not establish unchanged sub-VND precision across versions. Tests explicitly cover the rounding behavior.
 
 **Tag policy:** `v1` must point to original SHA, **not** a new planning commit. Tag `v2`/`v3`/`v4` at tested deployable code commits. Commit Contract migration `004` **after** tagging v4; v4 must be deployable while `price` still exists.
 
@@ -75,7 +83,7 @@ The command `roll_one PORT TAG SLOT` is defined in section 5. Commands shown are
 Use one controlling Bash shell so process IDs are tracked. The following worktrees cannot be created until their corresponding tags exist.
 
 ```bash
-git tag v1 2b889bde433190c17744f30d3900d38ab333a756
+git rev-parse v1^{}  # must already be 2b889bde433190c17744f30d3900d38ab333a756; do not retag
 git worktree add ../ia2-v1 v1
 git worktree add ../ia2-v2 v2
 git worktree add ../ia2-v3 v3
@@ -109,9 +117,9 @@ After each roll, wait for that port's `/health` response and **verify its actual
 
 ### Traffic process and new clients
 
-`NEW_CLIENTS` remains the startup share when no file is configured. To change share without restarting, set `NEW_CLIENTS_FILE` to a small file containing a JSON number from 0 to 1. The file takes precedence over `NEW_CLIENTS` and is polled at most once every 250 ms between traffic operations. Every accepted change is timestamped as `CLIENT_MIX old -> new` in the same log. Each positive initial share or transition requires both target `/health` responses to report healthy `v2`; a zero share does not, so the continuous process can start on v1.
+`NEW_CLIENTS` remains the startup share when no file is configured. To change share without restarting, set `NEW_CLIENTS_FILE` to a small file containing a JSON number from 0 to 1. The file takes precedence over `NEW_CLIENTS` and is polled at most once every 250 ms between traffic operations. Every accepted change is timestamped as `CLIENT_MIX old -> new` in the same log. Each positive initial share or transition requires both target `/health` responses to report healthy `v2` or `v3`; a zero share does not, so the continuous process can start on v1. Backfill retains its stricter v2/v2 gate.
 
-Invalid/missing startup files fail startup. Invalid, missing, or rejected runtime updates are logged and retain the last accepted share; they do not reset counters. Replace the file atomically on the same filesystem. Before a later return to v1, set zero, observe the accepted log entry and allow in-flight requests to drain. Keep both instances on v2 while backfilling and enabling new clients. Health checks cannot prove that all writers have been identified or that both servers use the intended DB; the operator must confirm their process/version and identical absolute `DB_PATH`.
+Invalid/missing startup files fail startup. Invalid, missing, or rejected runtime updates are logged and retain the last accepted share; they do not reset counters. Replace the file atomically on the same filesystem. Before a later return to v1, set zero, observe the accepted log entry and allow in-flight requests to drain. Keep both instances on v2 while backfilling and initially enabling new clients; after qualification, mixed v2/v3 and v3/v3 can serve them. Health checks cannot prove that all writers have been identified or that both servers use the intended DB; the operator must confirm their process/version and identical absolute `DB_PATH`.
 
 Proposed operator commands (NOT executed against the live demonstration DB):
 
@@ -150,6 +158,24 @@ DB_PATH="$DB_PATH" npm run check
 ```
 
 The second run must report `updated:0`; check must show zero NULLs/disagreements and plain `CONSISTENT`. Reconciliation of stale values uses legacy price as authority; it is not a code rollback. Returning to v1 can make new values stale again, so reconcile again only after restoring v2/v2. Existing backups and the P1 schema/code rollback gates still apply.
+
+### P3 disposable development rehearsal
+
+`npm run rehearse:p3` is a development-only harness. It creates a fresh temporary DB, extracts exact v2/v3 application source from their tags into temporary release directories, logs commit/file fingerprints, starts v2 instances one at a time on ephemeral ports, backfills, and requires plain `CONSISTENT` before v3. It never uses a supplied live `DB_PATH`. The default `V3_REF` is `v3`; automated tests use a fingerprinted WORKTREE snapshot to validate changes before tagging. Existing v1/v2 tags are asserted against their pinned commits and never moved.
+
+One traffic process with `NEW_CLIENTS=0.3` spans all states:
+
+`v2/v2 → v3/v2 → v3/v3 → v3/v2 → v2/v2 → v2/v3 → v3/v3`.
+
+Only one instance stops at a time. The harness waits for actual traffic `down`/`back` events and the replacement's health/version before proceeding. It executes labeled `npm run migrate:status` and `npm run check` after backfill, at baseline, and after every roll (including before/after rollback), and asserts zero failure counters with a single traffic start/PID. No schema down is run for code rollback. No new schema migration is part of P3; existing 002 down/re-up remains a separate automated disposable test.
+
+Proposed replay command, with an unused output directory (existing evidence is never overwritten):
+
+```bash
+V3_REF=v3 P3_EVIDENCE_DIR=/absolute/new/evidence-directory npm run rehearse:p3
+```
+
+Review `rehearsal.txt` (commands, process identity, source fingerprints and checks), `checks.txt` (labeled schema/consistency output), and `traffic.txt` (unaltered traffic output). The temporary instances/DB are cleaned up afterward. This bounded rehearsal starts at v2 and does not qualify the final continuous v1-to-Contract demonstration or a live target.
 
 ### Data and migration-down checks
 
