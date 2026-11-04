@@ -1,10 +1,10 @@
 # Coding-Agent Workflow — IA#2
 
-Status: **P1 locally implemented and tested; student review pending** (2026-11-04). See `evidence/p1-validation.txt` for actual disposable validation. P2–P5 and live traffic are NOT RUN. The remaining workflow is a handoff checklist. Work one phase at a time; commit code changes and ask the student to inspect each gate.
+Status: **P1 merged (PR #3); P2 implemented and locally validated, pending student review** (2026-11-04). See `evidence/p2-node22-validation.txt` for 18/18 tests and actual disposable validation. P3–P5 and the final live traffic demonstration are NOT RUN. The remaining workflow is a handoff checklist. Work one phase at a time; commit code changes and ask the student to inspect each gate.
 
 ## How to give the agent work
 
-Start each agent session with: “Read `AGENTS.md`, `MIGRATION.md` and this workflow. Implement only phase Pn. Report actual commands/results, update `AI-LOG.md` honestly, and stop at its review gate.” Keep the CI workflow small; run the full two-instance traffic rehearsal locally.
+Start each agent session with: “Read `AGENTS.md`, `MIGRATION.md` and this workflow. Implement only phase Pn. Report actual commands/results, update `AI-LOG.md` honestly, and stop at its review gate.” Keep the CI workflow small; the final full two-instance traffic rehearsal remains a separately authorized phase.
 
 | Phase | Agent-owned tasks | Done when | Review gate |
 |---|---|---|---|
@@ -22,14 +22,14 @@ Start each agent session with: “Read `AGENTS.md`, `MIGRATION.md` and this work
 - [x] `002` adds nullable INTEGER without changing or deleting `price`, and its down can revert safely before newer code depends on it (disposable rehearsal passed).
 - [x] Both `POST /menu` and `PATCH /menu/:id` accept legacy `price` or new `priceVnd` and write both columns atomically.
 - [x] `GET /menu`, `GET /menu/:id`, and write responses expose numeric `price` and integer `priceVnd`; derive from legacy `price` for both null and stale new values.
-- [x] Mixed original v1/v2 compatibility verified by HTTP tests with old-client payloads on a shared temporary DB. v1 may write just `price`, so backfill **must not start yet**. Live rolling/traffic evidence is NOT RUN.
+- [x] Mixed original v1/v2 compatibility verified by HTTP tests with old-client payloads on a shared temporary DB. v1 may write just `price`, so backfill **must not start while any v1 writer remains**. Live rolling/traffic evidence is NOT RUN.
 
 ### P2: Batch backfill + dynamic clients
 
-- [ ] Wait for v2/v2; verify via health/ports/processes (not an assumed version).
-- [ ] Convert with `Math.round(price * 1000)` or equivalent SQL `CAST(round(price * 1000) AS INTEGER)`; validate safe integer/positive values.
-- [ ] Use short `BEGIN IMMEDIATE` / `COMMIT` transactions, bounded ID batches, only filling null or otherwise controlled rows, and re-run without changing correct data.
-- [ ] Change client mix from 0 to >0 **within the original traffic process**. Starter `NEW_CLIENTS` is read only on launch; a flag/file reload must be introduced and its changes logged. Do not restart or silently splice logs.
+- [x] Require two healthy v2 targets before CLI backfill or positive client shares; verified two disposable v2 processes with identical absolute DB paths. Operator confirmation of all live writers remains required before a live run.
+- [x] Convert with `Math.round(price * 1000)`, validate P1 positive/safe values and agreement with SQLite rounding; abort an invalid batch for explicit repair.
+- [x] Use short `BEGIN IMMEDIATE` / `COMMIT` transactions, bounded ID scans, reconcile NULL and stale values, skip correct rows. Concurrent HTTP writes, lock contention, SIGTERM/resume and unchanged reruns pass automated tests.
+- [x] `NEW_CLIENTS_FILE` reload changes 0 to 0.3 in the same traffic process and logs changes/rejections. Bounded disposable test observed actual new-client writes, one start/PID and zero failure counters. No request/assertion/counter weakening. Final live traffic demonstration remains NOT RUN.
 
 ### P3: Read new column; demonstrate the way back
 
@@ -54,4 +54,4 @@ Start each agent session with: “Read `AGENTS.md`, `MIGRATION.md` and this work
 
 ## One-command CI is intentionally limited
 
-The GitHub Actions workflow `.github/workflows/migration-ci.yml` runs tests and a fresh DB smoke sequence on PR/push. Passing CI says the current checkout can initialize, seed and pass basic checks; it cannot show rolling zero downtime, replay tags, or prove live rollback. Those need the local two-instance run.
+The GitHub Actions workflow `.github/workflows/migration-ci.yml` runs tests and a fresh DB smoke sequence on PR/push. P2 tests include two-instance disposable HTTP concurrency and a bounded traffic process; these do not replace the final continuous demonstration. Passing CI cannot show rolling zero downtime, replay all release tags, or prove live rollback. Those remain for the separately reviewed live run.

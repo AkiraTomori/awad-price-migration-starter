@@ -8,12 +8,15 @@
 //                     expect `priceVnd`; turn it on once your API offers it
 //   IDS=2000          menu ids 1..IDS are used; 1..50 are never re-priced
 //   LOG=traffic-log.txt
+//   NEW_CLIENTS_FILE=/absolute/path/client-share.json  optional JSON number;
+//                     atomically replace to change share in this same process
 //
 // Counted as failures: any 5xx, a response that breaks the contract, a read that
 // does not show the last acknowledged write ("stale"), and any moment when NO
 // instance answers ("unavailable"). One instance being down while another
 // answers is a rolling restart, not a failure — it is counted as "rerouted".
 import { appendFileSync } from 'node:fs';
+import { createClientMix } from './lib/client-mix.js';
 
 const TARGETS = (process.env.TARGETS ?? 'http://localhost:3001,http://localhost:3002').split(',');
 const DURATION = Number(process.env.DURATION ?? 0);
@@ -26,6 +29,10 @@ const FIXED = 50; // ids 1..FIXED keep their price: orders are checked against t
 const t0 = Date.now();
 const ts = () => ((Date.now() - t0) / 1000).toFixed(1).padStart(6) + 's';
 const log = (line) => { console.log(line); appendFileSync(LOG, line + '\n'); };
+const clientMix = await createClientMix({
+  initial: NEW_CLIENTS, file: process.env.NEW_CLIENTS_FILE, targets: TARGETS,
+  log: (line) => log(`${ts()} ${line}`),
+});
 
 const n = { ok: 0, error: 0, contract: 0, stale: 0, rerouted: 0, unavailable: 0 };
 const firstOf = {};
@@ -67,7 +74,7 @@ const expected = new Map(); // id -> last acknowledged price, in thousands
 const inflight = new Set();
 const created = [];         // ids of items this run created, read back later
 const pick = (lo, hi) => lo + Math.floor(Math.random() * (hi - lo + 1));
-const isNew = () => Math.random() < NEW_CLIENTS;
+const isNew = () => Math.random() < clientMix.share;
 
 function checkItem(r, client, where) {
   const d = r.data;
@@ -79,6 +86,7 @@ function checkItem(r, client, where) {
 }
 
 async function once() {
+  await clientMix.reload();
   const roll = Math.random();
   const client = isNew() ? 'new' : 'old';
 
@@ -158,7 +166,7 @@ for (let id = 1; id <= FIXED; id++) {
   expected.set(id, r.data.price);
 }
 
-log(`\n=== traffic start ${new Date().toISOString()} · targets ${TARGETS.join(' ')} · new clients ${NEW_CLIENTS}`);
+log(`\n=== traffic start ${new Date().toISOString()} · targets ${TARGETS.join(' ')} · new clients ${clientMix.share}`);
 let stop = false;
 process.on('SIGINT', () => { stop = true; });
 if (DURATION) setTimeout(() => { stop = true; }, DURATION * 1000);

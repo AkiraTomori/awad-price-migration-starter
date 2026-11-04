@@ -50,5 +50,6 @@ jobs:
       - name: Show applied schema migrations
         run: npm run migrate:status
 
-# Scope: fast CI only. It does not start two servers, inject steady traffic,
-# test rolling restarts, or prove zero downtime. See docs/AGENT_WORKFLOW.md.
+# Scope: disposable tests/smoke, including bounded two-instance traffic tests.
+# It does not run the final rolling demonstration or prove zero downtime.
+# See docs/AGENT_WORKFLOW.md.

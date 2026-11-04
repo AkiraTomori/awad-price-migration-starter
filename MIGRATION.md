@@ -1,8 +1,10 @@
 # IA#2 — Zero-downtime menu price migration
 
-**Status: P1 implemented and locally tested; student review pending. P2–P5 and the live demonstration are NOT RUN.**
+**Status: P1 merged in PR #3; P2 implemented and validated on disposable databases, pending student review. P3–P5 and the final live demonstration are NOT RUN.**
 
-P1 evidence: [docs/evidence/p1-validation.txt](docs/evidence/p1-validation.txt) records 10 passing tests and the actual 002 down/re-up CLI rehearsal on a fresh disposable database. Mixed original v1/v2 HTTP tests share one absolute temporary DB path; v2 reads only legacy `price` and derives both response fields from it, including after a v1 reprice leaves `price_vnd` stale. Health reports `version: v2`; `v1` remains the original starter SHA. No v2 tag has been created pending review. Existing seed rows intentionally retain NULL new values; no backfill ran. The runbook below remains proposed, not executed live evidence.
+P1 evidence: [docs/evidence/p1-validation.txt](docs/evidence/p1-validation.txt) records 10 passing tests and the actual 002 down/re-up CLI rehearsal on a fresh disposable database. Mixed original v1/v2 HTTP tests share one absolute temporary DB path; v2 reads only legacy `price` and derives both response fields from it, including after a v1 reprice leaves `price_vnd` stale. Health reports `version: v2`; `v1` remains the original starter SHA. The existing `v2` tag points to merged P1 commit `dadb816bac9dad5ffcbf098d130d387bbbdd338c`; P2 does not move this tag. P1 left existing seed rows NULL without backfill.
+
+P2 evidence: [docs/evidence/p2-node22-validation.txt](docs/evidence/p2-node22-validation.txt) records 18/18 passing tests on Node v22.23.4 and a disposable 20,000-row CLI rehearsal with two verified v2 instances sharing one absolute DB path. Starting with 10,000 NULL rows and 5,000 disagreeing rows, backfill updated 15,000 rows in 100 batches of 200. Both subsequent checks reported `price_vnd_null=0`, `disagree=0`, and plain `CONSISTENT`; the second backfill updated 0 rows. A separate bounded automated traffic test switched 0 to 0.3 in one PID, observed new-client writes, and finished with `error=0 contract=0 stale=0 unavailable=0`. This is not evidence of the final continuous v1-to-contract demonstration. The live runbook below remains proposed.
 
 Individual assignment (CSC13114), deadline **2026-11-05 22:00 ICT**. Original starter commit for immutable `v1`: `2b889bde433190c17744f30d3900d38ab333a756`. Convert `menu_items.price REAL` (thousands of VND, 45.5) to `menu_items.price_vnd INTEGER` (VND, 45500), then drop the old **database** column. The **HTTP** field `price` must remain usable by old clients. `order_items.unit_price` and `POST /orders` totals retain their old thousands-of-VND units.
 
@@ -107,7 +109,47 @@ After each roll, wait for that port's `/health` response and **verify its actual
 
 ### Traffic process and new clients
 
-The starter `scripts/traffic.js` captures `NEW_CLIENTS` at startup, so setting a new environment variable later does **nothing**. In P2, add an optional runtime-reloaded client-mix setting (for example, a controlled file), log every change and preserve the existing traffic assertions. Start with 0 new clients on v1, switch to 0.3 only on v2/v2, and **do not restart the traffic process**. It must end after S8 with an actual `RESULT: zero failed requests`.
+`NEW_CLIENTS` remains the startup share when no file is configured. To change share without restarting, set `NEW_CLIENTS_FILE` to a small file containing a JSON number from 0 to 1. The file takes precedence over `NEW_CLIENTS` and is polled at most once every 250 ms between traffic operations. Every accepted change is timestamped as `CLIENT_MIX old -> new` in the same log. Each positive initial share or transition requires both target `/health` responses to report healthy `v2`; a zero share does not, so the continuous process can start on v1.
+
+Invalid/missing startup files fail startup. Invalid, missing, or rejected runtime updates are logged and retain the last accepted share; they do not reset counters. Replace the file atomically on the same filesystem. Before a later return to v1, set zero, observe the accepted log entry and allow in-flight requests to drain. Keep both instances on v2 while backfilling and enabling new clients. Health checks cannot prove that all writers have been identified or that both servers use the intended DB; the operator must confirm their process/version and identical absolute `DB_PATH`.
+
+Proposed operator commands (NOT executed against the live demonstration DB):
+
+```bash
+export TARGETS=http://localhost:3001,http://localhost:3002
+export NEW_CLIENTS_FILE="$PWD/data/client-share.json"
+printf '0\n' > "$NEW_CLIENTS_FILE"
+NEW_CLIENTS=0 npm run traffic
+```
+
+In a separate controlling shell, only after both instances are verified v2 and backfill/check have completed:
+
+```bash
+printf '0.3\n' > "$NEW_CLIENTS_FILE.next"
+mv "$NEW_CLIENTS_FILE.next" "$NEW_CLIENTS_FILE"
+```
+
+Both shells must use the same absolute `NEW_CLIENTS_FILE`. Keep the one traffic process running; the eventual final run must finish after S8 with its actual result. All original request branches, assertions, failure counters and final result logic remain intact.
+
+### P2 batched backfill
+
+`scripts/backfill.js` requires an explicit absolute `DB_PATH` and exactly two distinct instance origins in `TARGETS` (default ports 3001 and 3002). Before opening the database, it checks that both report healthy `v2`. Do not run while any v1 writer remains, and do not roll versions during backfill. No v3/v4 code or new schema migration is included in P2.
+
+Each batch uses `BEGIN IMMEDIATE`, reads at most `BATCH_SIZE` rows in ID order and reconciles both NULL and disagreeing `price_vnd` values from the current legacy `price`. It validates the P1 conversion and updates only the new column, never legacy prices or order units. Selection and writes share the same write lock, so an acknowledged concurrent v2 update cannot be replaced using a previously read value. Correct rows are scanned but never updated. Defaults are 200 rows (allowed 1–1000) and 10 ms between commits (`BATCH_DELAY_MS`, allowed 0–60000); logging, delay and callbacks occur outside the transaction.
+
+The scan restarts from the beginning on rerun; correct rows are skipped, so no checkpoint file is needed. SIGINT/SIGTERM stop between committed batches (exit 130/143). A crash or failed batch rolls back that transaction while earlier commits remain. Invalid historical prices (including legacy NULL or values rounding to zero), unsafe conversions, or JavaScript/SQLite rounding disagreement fail the batch with its item ID for explicit repair. Lock contention waits using the existing 5-second SQLite busy timeout; a timeout fails safely and can be retried. Run `check` after completion; `COMPLETE` is a scan summary, not a substitute for the consistency check.
+
+Proposed commands after operator confirmation of v2/v2, using the same absolute DB path as both processes:
+
+```bash
+DB_PATH="$DB_PATH" BATCH_SIZE=200 BATCH_DELAY_MS=10 npm run backfill
+DB_PATH="$DB_PATH" npm run migrate:status
+DB_PATH="$DB_PATH" npm run check
+DB_PATH="$DB_PATH" npm run backfill
+DB_PATH="$DB_PATH" npm run check
+```
+
+The second run must report `updated:0`; check must show zero NULLs/disagreements and plain `CONSISTENT`. Reconciliation of stale values uses legacy price as authority; it is not a code rollback. Returning to v1 can make new values stale again, so reconcile again only after restoring v2/v2. Existing backups and the P1 schema/code rollback gates still apply.
 
 ### Data and migration-down checks
 
@@ -147,4 +189,4 @@ Before backfill the check may report `CONSISTENT, but ... rows have no price_vnd
 
 Deliverables at ZIP root (including repository's `.git`): tags `v1`...`v4`, all `.up/.down.sql`, batch backfill script, updated `MIGRATION.md`, `traffic-log.txt`, `check-log.txt`, English `AI-LOG.md` and English `SELF_ASSESSMENT_REPORT.md`. The report must have **one scored row per criterion**, evidence, a realistic total, “What I did not manage” and “What I would do differently.” Name the ZIP `<StudentID>_<total>.zip` and submit from `<StudentID>@student.hcmus.edu.vn`. GitHub's normal “Download ZIP” omits `.git` and is **not** suitable.
 
-**CI caveat:** `.github/workflows/migration-ci.yml` performs only fast tests and disposable-DB smoke checks. Passing it is not proof of live traffic, rolling restart, backfill consistency or safe rollback. No such evidence has been produced by this planning PR.
+**CI caveat:** `.github/workflows/migration-ci.yml` performs automated tests (including bounded disposable P2 concurrency/traffic fixtures) and disposable-DB smoke checks. Passing it does not prove the final continuous live traffic run, rolling restart or live rollback. Those remain NOT RUN in P2.
