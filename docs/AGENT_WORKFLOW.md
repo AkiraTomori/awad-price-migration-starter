@@ -1,6 +1,6 @@
 # Coding-Agent Workflow — IA#2
 
-Status: **P1/P2 merged (PR #3/#4); P3 implemented, Node 22 tested and exact-tag rehearsed; student review pending** (2026-11-04). See `evidence/p3-node22-tests.txt` and `evidence/p3-rollback/`. P4/P5 and the final live traffic demonstration are NOT RUN. Stop after P3 for review.
+Status: **P1/P2/P3 merged (PR #3/#4/#5); P3 Node 22 tests and exact-tag rehearsal recorded** (2026-11-04). See `evidence/p3-node22-tests.txt` and `evidence/p3-rollback/`. P4 handoff is in [`P4_AGENT_HANDOFF.md`](P4_AGENT_HANDOFF.md); P4/P5 and the final live traffic demonstration are NOT RUN.
 
 ## How to give the agent work
 
@@ -36,7 +36,7 @@ Start each agent session with: “Read `AGENTS.md`, `MIGRATION.md` and this work
 - [x] v3 startup rejects incomplete/invalid/disagreeing data before listening; menu and order reads use `price_vnd`. Fixtures qualify backfill before constructing v3.
 - [x] v3 keeps atomic dual writes; both client payloads and legacy thousands-of-VND order units pass mixed exact-tag v2/v3 tests. P1/P2 tests retain real v2 source instead of silently changing phase semantics.
 - [x] Automated WORKTREE rehearsal rolls v2/v2 → v3/v2 → v3/v3 → v3/v2 → v2/v2 → v2/v3 → v3/v3, with one traffic PID, real down/back events and labeled checks after every roll. Full Node 22 suite: 22/22 passed.
-- [x] Tested code tagged `v3=ccd19db7c1cf14d2a5df21f38769c73dd96f27b2` without changing v1/v2. Separate Node 22 exact-tag rehearsal captured all seven states, six down/back pairs and one traffic PID 51678; final error/contract/stale/unavailable all 0. Every labeled check was plain CONSISTENT with NULL/disagree=0. Sources, process identity, command output and cleanup are in `evidence/p3-rollback/`. Student review pending; final v1-to-Contract demonstration remains separate and NOT RUN.
+- [x] Tested code tagged `v3=ccd19db7c1cf14d2a5df21f38769c73dd96f27b2` without changing v1/v2. Separate Node 22 exact-tag rehearsal captured all seven states, six down/back pairs and one traffic PID 51678; final error/contract/stale/unavailable all 0. Every labeled check was plain CONSISTENT with NULL/disagree=0. Sources, process identity, command output and cleanup are in `evidence/p3-rollback/`. P3 PR #5 was reviewed and merged on 2026-11-04; final v1-to-Contract demonstration remains separate and NOT RUN.
 
 ### P4: New-only and contract
 
