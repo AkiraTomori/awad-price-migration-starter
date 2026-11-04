@@ -4,6 +4,8 @@
 
 This is a coding task brief, **not evidence of execution**. The deadline for the entire assignment is 2026-11-05 at 22:00 ICT.
 
+**Implementation follow-up (2026-11-04):** P4 is implemented on this branch and awaits student review. v4 code is tagged `51669379446f8f34473a90104ea939284335e9f2`; 004 was added later at `29153bd8eb2ecaf44cf38338f17fd60e4c1d9a3e`. See [28/28 Node 22 verification](evidence/p4-node22-validation.txt), [tagged rolling evidence](evidence/p4-rollback/rehearsal.txt) and [disposable schema/HTTP recovery proof](evidence/p4-contract/contract.txt). This follow-up records execution; the original brief below remains the scope/review contract. No live S8 or final continuous demonstration was executed.
+
 ## Copy-paste task for Coding-Agent
 
 > Read `AGENTS.md`, `MIGRATION.md`, `docs/AGENT_WORKFLOW.md`, and this file first. Implement **P4 only** on `feat/p4-bridge-v4-contract`. Add automated tests and honest evidence, update the English project documentation and `AI-LOG.md`, and open a PR for review. Stop without merging, applying migrations to a live database, executing the final v1→Contract demonstration, or submitting the assignment. Never change the `v1`/`v2`/`v3` tags. Run the entire test suite under Node.js 22.

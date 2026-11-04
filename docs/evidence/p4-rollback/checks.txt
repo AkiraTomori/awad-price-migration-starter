@@ -1,0 +1,198 @@
+
+=== QUALIFIED v3/v3 BEFORE BRIDGE v3/v3 DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db ===
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   300
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+
+=== BRIDGE INSTALLED / BEFORE v4 v3/v3 DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db ===
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   300
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+
+=== BASELINE v3/v3 DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db ===
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   359
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+
+=== DEPLOY A v4/v3 DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db ===
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   519
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+
+=== DEPLOY B / BEFORE ROLLBACK v4/v4 DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db ===
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   701
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+
+=== ROLLBACK B v4/v3 DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db ===
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   903
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+
+=== ROLLBACK A v3/v3 DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db ===
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   1110
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+
+=== RESTORE B v3/v4 DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db ===
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   1282
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+
+=== RESTORE A / AFTER ROLLBACK v4/v4 DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db ===
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   1476
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT

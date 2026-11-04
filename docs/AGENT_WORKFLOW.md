@@ -1,6 +1,6 @@
 # Coding-Agent Workflow — IA#2
 
-Status: **P1/P2/P3 merged (PR #3/#4/#5); P3 Node 22 tests and exact-tag rehearsal recorded** (2026-11-04). See `evidence/p3-node22-tests.txt` and `evidence/p3-rollback/`. P4 handoff is in [`P4_AGENT_HANDOFF.md`](P4_AGENT_HANDOFF.md); P4/P5 and the final live traffic demonstration are NOT RUN.
+Status: **P1–P3 merged; P4 implemented and validated on disposable databases, pending student review** (2026-11-04). See `evidence/p4-node22-validation.txt`, `evidence/p4-rollback/`, and `evidence/p4-contract/`. Live Contract, P5 and the final continuous demonstration are NOT RUN. Stop after P4; do not merge automatically.
 
 ## How to give the agent work
 
@@ -40,10 +40,12 @@ Start each agent session with: “Read `AGENTS.md`, `MIGRATION.md` and this work
 
 ### P4: New-only and contract
 
-- [ ] While v3 and v4 coexist, use a reversible database synchronization bridge (e.g. trigger from new column to legacy) so v3 dual-write and v4 new-only do not produce `disagree` while `price` exists.
-- [ ] v4 reads/writes `price_vnd` only; legacy API `price` is calculated from the integer. `POST /orders` still returns total in thousands and stores `order_items.unit_price` in thousands.
-- [ ] Deploy v4 to **both** instances, then run `004` to remove temporary triggers and drop `price`.
-- [ ] `004.down.sql` is a recovery procedure to recreate/backfill legacy data, not permission to restart v3 against the contracted schema.
+- [x] 003 bridge covers INSERT/UPDATE and is reversible; recursion ON/OFF tests pass. 003 up/down/re-up and data preservation proven on disposable DBs.
+- [x] v4 SQL uses only `price_vnd`, including startup validation; SQL trace and actual restart after Contract prove legacy independence. Both HTTP fields/payloads and original order-price units pass tests.
+- [x] v4 tagged at `51669379446f8f34473a90104ea939284335e9f2` before 004 existed; Contract introduced later at `29153bd8eb2ecaf44cf38338f17fd60e4c1d9a3e`. v1–v3 unchanged. Full final Node 22 suite: 28/28.
+- [x] Exact-tag disposable rolling/rollback: v3/v3 → v4/v3 → v4/v4 → v4/v3 → v3/v3 → v3/v4 → v4/v4, traffic PID 72935, six down/back pairs, all four failure counters 0; labeled checks after every roll are plain CONSISTENT.
+- [x] On a separate disposable DB only, verify two tagged v4 listeners and backups, then execute 004 up/down/up. Menu/order data, old/new HTTP, seed/check and restored bridge pass. v3 initialization fails before schema recovery and succeeds afterward. No code-only rollback claim.
+- [ ] **Live S8 gate remains closed:** student review of P4, verified live v4/v4 and shared DB identity, current verified backup and explicit student go-ahead are required before dropping live `price`. Final demonstration/P5 needs a separate task. No live Contract has been executed.
 
 ## Evidence and reproducibility
 
@@ -55,4 +57,4 @@ Start each agent session with: “Read `AGENTS.md`, `MIGRATION.md` and this work
 
 ## One-command CI is intentionally limited
 
-The GitHub Actions workflow `.github/workflows/migration-ci.yml` runs tests and a fresh DB smoke sequence on PR/push. P2 tests include two-instance disposable HTTP concurrency; P3 adds a bounded rolling/rollback traffic fixture. These do not replace the final continuous demonstration. Passing CI cannot qualify a live target or the full v1-to-Contract run. Remote CI is separate from the recorded local Node 22/tagged development evidence.
+The GitHub Actions workflow `.github/workflows/migration-ci.yml` runs tests and a fresh DB smoke sequence on PR/push. P2/P3/P4 tests include disposable concurrency, rolling rollback and Contract/recovery fixtures. They do not replace the final continuous demonstration or approve live S8. Remote CI is separate from the recorded local Node 22/tagged evidence; passing it cannot qualify a live target or P5.
