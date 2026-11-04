@@ -1,0 +1,277 @@
+{
+  "scope": "P5-A PLAN ONLY",
+  "executionEnabled": false,
+  "repo": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter",
+  "runDir": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104",
+  "dbPath": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+  "ports": [
+    3001,
+    3002
+  ],
+  "targets": [
+    "http://127.0.0.1:3001",
+    "http://127.0.0.1:3002"
+  ],
+  "releases": {
+    "v1": "2b889bde433190c17744f30d3900d38ab333a756",
+    "v2": "dadb816bac9dad5ffcbf098d130d387bbbdd338c",
+    "v3": "ccd19db7c1cf14d2a5df21f38769c73dd96f27b2",
+    "v4": "51669379446f8f34473a90104ea939284335e9f2"
+  },
+  "trafficLog": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/traffic-log.txt",
+  "checkLog": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/check-log.txt",
+  "shareFile": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/client-share.json",
+  "reviewGate": "No demonstration DB creation, instance deployment or traffic start before Gate A review. No S8 without separate explicit approval.",
+  "steps": [
+    {
+      "id": "S0-schema",
+      "state": "v1/v1",
+      "action": "migration",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "command": [
+        "npm",
+        "run",
+        "migrate",
+        "--",
+        "--to",
+        "001_init"
+      ]
+    },
+    {
+      "id": "S0-seed",
+      "state": "v1/v1",
+      "action": "seed exactly 20000 rows before traffic",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "command": [
+        "node",
+        "scripts/seed.js",
+        "20000"
+      ]
+    },
+    {
+      "id": "S0-start-A",
+      "state": "v1/-",
+      "action": "start_instance",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "A",
+      "version": "v1"
+    },
+    {
+      "id": "S0-start-B",
+      "state": "v1/v1",
+      "action": "start_instance",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "B",
+      "version": "v1"
+    },
+    {
+      "id": "S0-traffic",
+      "state": "v1/v1",
+      "action": "start exactly one traffic process",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "share": 0,
+      "duration": 0,
+      "log": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/traffic-log.txt"
+    },
+    {
+      "id": "S1",
+      "state": "v1/v1",
+      "action": "migration",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "command": [
+        "npm",
+        "run",
+        "migrate",
+        "--",
+        "--to",
+        "002_add_price_vnd"
+      ]
+    },
+    {
+      "id": "S2-A",
+      "state": "v2/v1",
+      "action": "roll_one",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "A",
+      "version": "v2",
+      "keepTrafficPid": true
+    },
+    {
+      "id": "S2-B",
+      "state": "v2/v2",
+      "action": "roll_one",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "B",
+      "version": "v2",
+      "keepTrafficPid": true
+    },
+    {
+      "id": "S3-backfill",
+      "state": "v2/v2",
+      "action": "backfill after proving no v1 writer remains",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "command": [
+        "npm",
+        "run",
+        "backfill"
+      ],
+      "requirePlainConsistent": true
+    },
+    {
+      "id": "S3-rerun",
+      "state": "v2/v2",
+      "action": "backfill rerun must update 0",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "command": [
+        "npm",
+        "run",
+        "backfill"
+      ],
+      "requirePlainConsistent": true
+    },
+    {
+      "id": "S3-clients",
+      "state": "v2/v2",
+      "action": "atomically replace NEW_CLIENTS_FILE; observe accepted log entry in same traffic PID",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "share": 0.3
+    },
+    {
+      "id": "S4-A",
+      "state": "v3/v2",
+      "action": "roll_one",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "A",
+      "version": "v3",
+      "keepTrafficPid": true
+    },
+    {
+      "id": "S4-B",
+      "state": "v3/v3",
+      "action": "roll_one",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "B",
+      "version": "v3",
+      "keepTrafficPid": true
+    },
+    {
+      "id": "S5-back-B",
+      "state": "v3/v2",
+      "action": "roll_one",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "B",
+      "version": "v2",
+      "keepTrafficPid": true
+    },
+    {
+      "id": "S5-back-A",
+      "state": "v2/v2",
+      "action": "roll_one",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "A",
+      "version": "v2",
+      "keepTrafficPid": true
+    },
+    {
+      "id": "S5-forward-B",
+      "state": "v2/v3",
+      "action": "roll_one",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "B",
+      "version": "v3",
+      "keepTrafficPid": true
+    },
+    {
+      "id": "S5-forward-A",
+      "state": "v3/v3",
+      "action": "roll_one",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "A",
+      "version": "v3",
+      "keepTrafficPid": true
+    },
+    {
+      "id": "S6",
+      "state": "v3/v3",
+      "action": "migration",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "command": [
+        "npm",
+        "run",
+        "migrate",
+        "--",
+        "--to",
+        "003_sync_legacy_price"
+      ]
+    },
+    {
+      "id": "S7-A",
+      "state": "v4/v3",
+      "action": "roll_one",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "A",
+      "version": "v4",
+      "keepTrafficPid": true
+    },
+    {
+      "id": "S7-B",
+      "state": "v4/v4",
+      "action": "roll_one",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "B",
+      "version": "v4",
+      "keepTrafficPid": true
+    },
+    {
+      "id": "S8-gate",
+      "state": "v4/v4",
+      "action": "STOP; keep traffic running; present DB/PID/bridge/consistency/counter/backup evidence for explicit student approval",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "approvalRequired": true
+    },
+    {
+      "id": "S8",
+      "state": "v4/v4",
+      "action": "migration ONLY AFTER specific DB approval and fresh revalidation",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "approvalRequired": true,
+      "command": [
+        "npm",
+        "run",
+        "migrate",
+        "--",
+        "--to",
+        "004_drop_price"
+      ]
+    },
+    {
+      "id": "post-S8",
+      "state": "v4/v4",
+      "action": "verify both HTTP clients and orders; stop traffic exactly once; inspect one final result",
+      "status": "NOT RUN",
+      "checkAfter": true
+    }
+  ]
+}

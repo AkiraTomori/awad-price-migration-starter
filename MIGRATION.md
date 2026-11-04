@@ -1,28 +1,32 @@
 # IA#2 — Zero-downtime menu price migration
 
-**Status: P4 code is integrated in latest main at PR #7's merged commit; PR #6 remains closed/unmerged. P5-A preflight and operator preparation are complete, pending Gate A review. Final S0–S8 execution, live Contract, score/ZIP and submission are NOT RUN.**
+Student: **23127379 — Thái Minh Huy**. Deadline: **2026-11-05 22:00 ICT**.
 
-P5-A is on `feat/p5-final-execution`, created from latest main `3733dbde2336f3de1d35eb85408ceaa2d2fc8f2f`. [Verified provenance](docs/evidence/p5-a-provenance.json) records PR #7 merged and PR #6 closed/unmerged; reviewed P4 head `c0d3326` is in main ancestry. Do not wait for or invent a PR #6 merged flag.
+**Final execution: S0–S8 completed on 2026-11-04.** Migration 004 ran once, after explicit approval and fresh verified v4/v4/backup gates. One original traffic PID 29850 spanned baseline, migrations, backfill, rolling deploy/rollback and Contract, then ended once at 19:07:43 ICT:
 
-[Gate A Node 22 validation](docs/evidence/p5-a-node22-validation.txt) passed **32/32 tests** on Node v22.23.4. [Preflight](docs/evidence/p5-a-preflight/preflight.json) checked exact v1–v4 pins, absence of 004 from v4, P4 ancestry, paired migrations and ports 3001/3002. Two independent exact-v1 processes (PIDs 11174/11198) opened the same disposable SQLite file, confirmed by actual file handles/inode and cross-instance writes/orders after a 20,000-row seed. This does not qualify future demonstration PIDs. [Separate disposable migration evidence](docs/evidence/p5-a-disposable-migrations/contract.txt) reran 001–004 up/down/re-up and schema recovery; no such operation used the planned demonstration DB.
+```text
+4165.8s FINAL ok=35309724 error=0 contract=0 stale=0 unavailable=0 rerouted=101
+RESULT: zero failed requests
+```
 
-The [preflight summary](docs/evidence/p5-a-preflight/summary.json) confirms all 14 existing tracked evidence files matched their [SHA-256 manifest](docs/evidence/p5-a-preflight/preserved-evidence.json), tags unchanged, and demonstration/traffic not started. The proposed DB is `/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db`; its directory and root traffic/check logs are still absent. [Plan JSON](docs/evidence/p5-a-preflight/plan.json) marks every action NOT RUN with execution disabled and a separate S8 approval step. See [the prepared final operator flow](docs/P5_FINAL_OPERATOR.md). Review Gate A before any S0 creation/deployment, then keep one traffic PID through the eventual S8 approval pause. Preflight port/identity observations are point-in-time checks and must be repeated against the actual processes before execution.
+[Final S8 facts](docs/P5_S8_RESULT.md), [root traffic](traffic-log.txt), [labeled checks](check-log.txt), [actual deployment events](docs/evidence/p5-b-execution/events.jsonl), and [actual Contract/HTTP events](docs/evidence/p5-s8-completion/events.jsonl) are retained unchanged. The final saved DB verification is integrity=ok, FK check empty, columns `id,name,price_vnd`, migrations 001–004 and plain CONSISTENT. This finalization does not rerun the demonstration or modify its DB/logs. Earlier pending-S8 packets under docs/evidence are immutable historical snapshots, not current status.
 
-P4 follows [docs/P4_AGENT_HANDOFF.md](docs/P4_AGENT_HANDOFF.md). Code tag **v4 = `51669379446f8f34473a90104ea939284335e9f2`** passed [27/27 pre-tag Node 22 tests](docs/evidence/p4-pretag-node22.txt), contains migration 003, and contains no 004. Contract files were introduced afterward in **`29153bd8eb2ecaf44cf38338f17fd60e4c1d9a3e`**. Existing v1/v2/v3 tags are unchanged. The [final Node 22 evidence](docs/evidence/p4-node22-validation.txt) records **28/28 tests**, exact-tag rehearsals and a separate 20,000-row post-Contract disposable smoke check.
+Final validation: Node.js **v22.23.4**, current suite **32/32**, controller/backup **4/4**. Default `npm test` on the preserved workspace also discovers historical release-worktree tests and passed **95/95**. [Actual final verification](docs/evidence/p5-c-canonical-verification/) retains both results and the prior failed fixture attempts are preserved separately. [Student-approved self-assessment](SELF_ASSESSMENT_REPORT.md): **98/100**. P5-C authorizes conditional PR #9 integration and packaging; exact merge/CI/archive outcomes belong to the PR and the independently produced ZIP verification receipt, not a prediction of those future actions. No automated Classwork submission.
 
-The [P4 process/source log](docs/evidence/p4-rollback/rehearsal.txt), [labeled checks](docs/evidence/p4-rollback/checks.txt) and [raw traffic](docs/evidence/p4-rollback/traffic.txt) record one PID **72935**, share 0.3, and `v3/v3 → v4/v3 → v4/v4 → v4/v3 → v3/v3 → v3/v4 → v4/v4`. All nine labeled checks were plain CONSISTENT with NULL/disagree=0, including before/after 003 and every roll. Six actual down/back pairs ended `ok=60286 error=0 contract=0 stale=0 unavailable=0 rerouted=33`. This bounded 300-row starting fixture is development evidence, not the final demonstration or capacity qualification.
+## Original and target schema
 
-[Disposable migration/HTTP evidence](docs/evidence/p4-contract/contract.txt) proves 001/002/003/004 up/down/re-up, data preservation, runner staging, verified SQLite backups, both old/new HTTP payloads/responses, unchanged order units, and v4 restart after price is absent. 004.down restores the legacy values and both bridge triggers before v3 can initialize again. All DBs, backup files and listeners used here were temporary. No live S8 or final demonstration has run.
+The starter stores `menu_items.price REAL` in thousands of VND: 45.5 represents 45500 VND. The target stores `menu_items.price_vnd INTEGER` in VND and removes only the legacy **DB** column. HTTP `price` remains in thousands for old clients; `priceVnd` is integer VND. `order_items.unit_price` remains REAL in thousands, and POST /orders totals retain that unit throughout. No order-column migration exists.
 
-P1 evidence: [docs/evidence/p1-validation.txt](docs/evidence/p1-validation.txt) records 10 passing tests and the actual 002 down/re-up CLI rehearsal on a fresh disposable database. Mixed original v1/v2 HTTP tests share one absolute temporary DB path; v2 reads only legacy `price` and derives both response fields from it, including after a v1 reprice leaves `price_vnd` stale. Health reports `version: v2`; `v1` remains the original starter SHA. The existing `v2` tag points to merged P1 commit `dadb816bac9dad5ffcbf098d130d387bbbdd338c`; P2 does not move this tag. P1 left existing seed rows NULL without backfill.
+## Immutable deployed versions
 
-P2 evidence: [docs/evidence/p2-node22-validation.txt](docs/evidence/p2-node22-validation.txt) records 18/18 passing tests on Node v22.23.4 and a disposable 20,000-row CLI rehearsal with two verified v2 instances sharing one absolute DB path. Starting with 10,000 NULL rows and 5,000 disagreeing rows, backfill updated 15,000 rows in 100 batches of 200. Both subsequent checks reported `price_vnd_null=0`, `disagree=0`, and plain `CONSISTENT`; the second backfill updated 0 rows. A separate bounded automated traffic test switched 0 to 0.3 in one PID, observed new-client writes, and finished with `error=0 contract=0 stale=0 unavailable=0`. This is not evidence of the final continuous v1-to-contract demonstration. The live runbook below remains proposed.
+| Tag | Exact commit | Read source | Write paths | Schema compatibility |
+|---|---|---|---|---|
+| v1 | `2b889bde433190c17744f30d3900d38ab333a756` | legacy price | legacy only | 001 or expanded 002; old clients only |
+| v2 | `dadb816bac9dad5ffcbf098d130d387bbbdd338c` | legacy price | POST/PATCH atomic dual write | 002; mixed v1 only at share0; v3 only after backfill |
+| v3 | `ccd19db7c1cf14d2a5df21f38769c73dd96f27b2` | price_vnd | POST/PATCH atomic dual write | qualified 002/003; v4 coexistence needs 003 |
+| v4 | `51669379446f8f34473a90104ea939284335e9f2` | price_vnd | new column only | 003 bridge before drop; 004 after drop |
 
-P3 evidence: [Node 22 suite](docs/evidence/p3-node22-tests.txt) passed 22/22. The [tagged rehearsal command](docs/evidence/p3-rollback/command.txt) ran on Node v22.23.4 with immutable `v2=dadb816bac9dad5ffcbf098d130d387bbbdd338c` and new `v3=ccd19db7c1cf14d2a5df21f38769c73dd96f27b2`. One absolute temporary SQLite DB was backfilled before v3 started. [Checks](docs/evidence/p3-rollback/checks.txt) show plain `CONSISTENT`, NULL=0 and disagree=0 after backfill and every instance roll. The [traffic log](docs/evidence/p3-rollback/traffic.txt) has one start at share 0.3, six real down/back pairs, and `FINAL ok=59401 error=0 contract=0 stale=0 unavailable=0 rerouted=24`. [Process/source evidence](docs/evidence/p3-rollback/rehearsal.txt) records the same traffic PID 51678 across `v2/v2 → v3/v2 → v3/v3 → v3/v2 → v2/v2 → v2/v3 → v3/v3`, exact source hashes, each health version and cleanup. This short 300-row starting fixture is a development rehearsal, not capacity qualification or the final continuous demonstration. v1/v2 tags were unchanged; v3 remains pinned to the tested code commit while later commits add documentation/evidence.
-
-Individual assignment (CSC13114), deadline **2026-11-05 22:00 ICT**. Original starter commit for immutable `v1`: `2b889bde433190c17744f30d3900d38ab333a756`. Convert `menu_items.price REAL` (thousands of VND, 45.5) to `menu_items.price_vnd INTEGER` (VND, 45500), then drop the old **database** column. The **HTTP** field `price` must remain usable by old clients. `order_items.unit_price` and `POST /orders` totals retain their old thousands-of-VND units.
-
-Read `AGENTS.md` and `docs/AGENT_WORKFLOW.md` before implementing. These are proposed steps; replace plans with actual observed commands and evidence at the end.
+v4 contains 001–003, not 004. Contract files were committed later at `29153bd8eb2ecaf44cf38338f17fd60e4c1d9a3e`. All four tags identify real deployed code and remain unchanged. Main includes P4 through PR #7; PR #6's closed/unmerged metadata is not the integration proof. P5-A merged through PR #8; final evidence/finalization is PR #9.
 
 ## 1. Invariants
 
@@ -61,7 +65,7 @@ Sub-VND legacy precision is rounded when v3 reads it. For example, a v2 write of
 
 **Tag policy:** `v1` must point to original SHA, **not** a new planning commit. Tag `v2`/`v3`/`v4` at tested deployable code commits. Commit Contract migration `004` **after** tagging v4; v4 must be deployable while `price` still exists.
 
-## 3. Migration files to implement
+## 3. Implemented migration pairs
 
 | File pair | Up | Down | Gate |
 |---|---|---|---|
@@ -70,64 +74,76 @@ Sub-VND legacy precision is rounded when v3 reads it. For example, a v2 write of
 | `003_sync_legacy_price` | Add guarded AFTER INSERT/UPDATE triggers to mirror `price_vnd → price` during mixed v3/v4 | Drop those triggers | Install before v4; remove only after all instances return to v3 |
 | `004_drop_price` | Drop `003` triggers, then `ALTER TABLE menu_items DROP COLUMN price;` in the same schema migration transaction | Recovery: add legacy REAL `price`, reconstruct `price_vnd / 1000.0`, restore bridge if needed | Up only with v4/v4; down is controlled recovery before any v3 deployment |
 
-The sync bridge is included so `npm run check` continues to report consistency while v4 writes only the new column but `price` still exists. The agent must prove that the SQLite trigger statements and their downs work with the actual schema and tests.
+The sync bridge is included so `npm run check` continues to report consistency while v4 writes only the new column but `price` still exists. Actual 003 trigger/down tests and separate 001–004 recovery rehearsals are recorded in the linked disposable evidence.
 
-## 4. Required step matrix and undo commands
+## 4. Executed steps and exact undo operations
 
-The command `roll_one PORT TAG SLOT` is defined in section 5. Commands shown are **proposed**, not evidence that they ran.
+All forward states below actually occurred on the final run. Undo commands describe **conditional recovery**, not an assertion that every undo ran on the final DB. The required S5 code rollback did run there under the same traffic PID. Schema downs/re-ups ran only on disposable databases. `DB_PATH` means the explicitly reviewed absolute target; `TEST_DB` means a separate disposable file. Never execute these recovery commands against the completed demonstration as a rehearsal.
 
-| Step | Schema **after** step | Running instances A / B | Exact undo operation / command | Earlier versions safe on that schema |
+`roll_one PORT TAG SLOT` and `set_share SHARE` are defined in section 5. Before each roll, verify the other listener/DB identity, then wait for real down/back, health and consistency before changing any other instance. Each individual forward action has a label in root check-log.txt.
+
+| Executed step | Schema after step | Actual A / B | Exact conditional undo command | Earlier safe versions |
 |---|---|---|---|---|
-| **S0 Baseline**: run `001`, seed 20,000 rows, start traffic | Only `price` | v1 / v1 | Recreate disposable test DB; only test `001.down` with `DB_PATH="$TEST_DB" npm run migrate:down` | v1 |
-| **S1 Expand**: apply `002` | `price` + nullable `price_vnd` | v1 / v1 | `DB_PATH="$DB_PATH" npm run migrate:down` while `002` is last applied and **before any v2 deploy** | v1 |
-| **S2 v2 rollout**: A then B | Both, old rows may have NULL new values | v2 / v1 → v2 / v2 | With NEW_CLIENTS=0: `roll_one 3002 v1 B` then `roll_one 3001 v1 A` | v1 for old clients; v2 |
-| **S3 Backfill**: run batched script; enable new clients in same traffic process | Both; 0 NULL and 0 disagree | v2 / v2 | Code can keep reading `price`; to return to v1, disable new clients first, roll both to v1, and only then apply `002.down` | v2; v1 only without new clients or v3 readers |
-| **S4 v3 rollout**: A then B, read new column | Both synchronized | v3 / v2 → v3 / v3 | `roll_one 3002 v2 B` then `roll_one 3001 v2 A`; check CONSISTENT | v2, v3 (not v1) |
-| **S5 Required live rollback**: v3→v2→v3, one instance at a time | Both synchronized | v3/v3 → v3/v2 → v2/v2 → v2/v3 → v3/v3 | `roll_one 3002 v2 B`; `roll_one 3001 v2 A`; `roll_one 3001 v3 A`; `roll_one 3002 v3 B` | v2, v3 |
-| **S6 Bridge**: apply `003` before v4 | Both + new→old triggers | v3 / v3 | `DB_PATH="$DB_PATH" npm run migrate:down` while v3/v3 and `003` is last | v2, v3, v4 |
-| **S7 v4 rollout**: A then B | Both + bridge; consistent | v4 / v3 → v4 / v4 | `roll_one 3002 v3 B` then `roll_one 3001 v3 A`; only after v3/v3 may `003.down` run | v3, v4; v2 only while bridge guarantees legacy reads |
-| **S8 Contract**: backup, check v4/v4, apply `004` | Only `price_vnd` | v4 / v4 | **No safe code-only rollback**. Recover schema **first** via `DB_PATH="$DB_PATH" npm run migrate:down` with `004` last, verify old column and CONSISTENT, only then consider v3 | v4 only until controlled recovery |
+| S0: `--to 001_init`, seed exactly20000, start v1/v1 and traffic share0 | legacy price only | v1/v1 | Test only: `DB_PATH="$TEST_DB" npm run migrate:down` with001 last; destroys tables. Preserve final DB. | v1 |
+| S1: `--to 002_add_price_vnd` | price + nullable price_vnd | v1/v1 | Before dependent code: `DB_PATH="$DB_PATH" npm run migrate:down` with002 last | v1 |
+| S2-A: roll A to v2 | both, incomplete new values | v2/v1 | `roll_one 3001 v1 A` with share0 | v1, v2 |
+| S2-B: roll B to v2 | both, incomplete new values | v2/v2 | `roll_one 3002 v1 B; roll_one 3001 v1 A` with share0 | v1, v2 |
+| S3: batched backfill, rerun updated0 | both, NULL/disagree0 | v2/v2 | Keep v2 legacy reads. Full retreat after share0: `set_share 0; roll_one 3002 v1 B; roll_one 3001 v1 A; DB_PATH="$DB_PATH" npm run migrate:down` with002 last | v2; v1 only after disabling new clients and with no v3 readers |
+| S3 clients: share0→0.3 in same PID | both synchronized | v2/v2 | `set_share 0` then observe accepted transition/drain | v2; v1 only after share0 |
+| S4-A: roll A to v3 | both synchronized | v3/v2 | `roll_one 3001 v2 A` | v2,v3 |
+| S4-B: roll B to v3 | both synchronized | v3/v3 | `roll_one 3002 v2 B; roll_one 3001 v2 A` | v2,v3 |
+| S5 rollback B | both synchronized | v3/v2 | `roll_one 3002 v3 B` | v2,v3 |
+| S5 rollback A | both synchronized | v2/v2 | `roll_one 3001 v3 A; roll_one 3002 v3 B` | v2,v3 |
+| S5 restore B | both synchronized | v2/v3 | `roll_one 3002 v2 B` | v2,v3 |
+| S5 restore A | both synchronized | v3/v3 | `roll_one 3001 v2 A; roll_one 3002 v2 B` | v2,v3 |
+| S6: `--to 003_sync_legacy_price` | both + new→old bridge | v3/v3 | `DB_PATH="$DB_PATH" npm run migrate:down` with003 last and no v4 writer | v2,v3; v4 with bridge |
+| S7-A: roll A to v4 | both + bridge | v4/v3 | `roll_one 3001 v3 A` | v3,v4; v2 while bridge preserves legacy values |
+| S7-B: roll B to v4 | both + bridge | v4/v4 | `roll_one 3002 v3 B; roll_one 3001 v3 A` before any003 down | v3,v4 with bridge |
+| S8: verified backup/approval, `--to 004_drop_price` | price_vnd only; bridge removed | v4/v4 | **No code-only rollback.** Controlled schema recovery: `DB_PATH="$DB_PATH" npm run migrate:down` with004 last, then `npm run migrate:status` and `npm run check` under same DB_PATH; verify reconstructed price + bridge BEFORE any v3 restart | v4 only until schema recovered |
 
-**Operational point of no return: S8, dropping the legacy column.** Earlier code cannot simply restart against the contracted schema. A `004.down.sql` may reconstruct legacy prices, but that is a separately verified **schema recovery**, not a one-command zero-downtime code rollback. State this distinction in the final report.
+**Point of no return for code-only rollback: S8.** The legacy column/bridge is gone; restarting v3 directly would fail. `004.down.sql` reconstructs legacy price from integer VND and restores both triggers; it cannot restore pre-rounding precision. This is controlled schema recovery, not a promise of a zero-downtime one-command rollback. A full pre-Contract backup restore would also discard subsequent writes unless separately reconciled.
 
-**Migration runner trap:** bare `npm run migrate` still applies **all pending `*.up.sql` in its checkout**. Running it from the final tree at S1 would drop `price` too early. Use the current checkout's tested `--to NNN_name` option or a release checkout containing only that stage's migrations. Historical v1–v3 runners do not support this new flag. An unknown target or target below an already applied schema is rejected; no implicit down occurs. P4 evidence proves `--to 003_sync_legacy_price` leaves 004 pending and `price` present even in the final tree.
+Actual final-run commands used the reviewed current migration runner with explicit targets001,002,003,004. Bare `npm run migrate` applies all pending migrations and must never be used for an intermediate staged rollout. Historical v1–v3 runners lack `--to`.
 
-## 5. Operator runbook (to verify and adapt)
+## 5. Reproduction reference — not commands to run on the completed DB
 
-Use one controlling Bash shell so process IDs are tracked. The following worktrees cannot be created until their corresponding tags exist.
+The exact executed controller/events are the evidence. For a future separately approved **fresh** fixture, the prepared flow is [P5_FINAL_OPERATOR.md](docs/P5_FINAL_OPERATOR.md); fresh-run guards deliberately reject completed logs/DBs. Set one absolute shared DB_PATH, create detached worktrees from immutable tags, use Node22, and keep one traffic PID from v1 through004. Never reuse or clear the final evidence to pass preflight.
 
-```bash
-git rev-parse v1^{}  # must already be 2b889bde433190c17744f30d3900d38ab333a756; do not retag
-git worktree add ../ia2-v1 v1
-git worktree add ../ia2-v2 v2
-git worktree add ../ia2-v3 v3
-git worktree add ../ia2-v4 v4
-
-export DB_PATH="$PWD/data/app.db"
-DB_PATH="$DB_PATH" npm run migrate
-DB_PATH="$DB_PATH" npm run seed
-npm test
-
-(cd ../ia2-v1 && PORT=3001 DB_PATH="$DB_PATH" npm start) &
-PID_A=$!
-(cd ../ia2-v1 && PORT=3002 DB_PATH="$DB_PATH" npm start) &
-PID_B=$!
-```
-
-Graceful rolling helper (only in that same shell, after recording `PID_A`/`PID_B`):
+The conditional undo notation above uses these shell helpers. This reference block was not retroactively executed as the original control shell. `PID_A`, `PID_B`, `REPO`, `RUN_DIR`, `DB_PATH` and `NEW_CLIENTS_FILE` must identify a separately reviewed run. Use verified Node22 in PATH.
 
 ```bash
+set_share() {
+  printf '%s\n' "$1" > "$NEW_CLIENTS_FILE.next"
+  mv "$NEW_CLIENTS_FILE.next" "$NEW_CLIENTS_FILE"
+  # Wait for accepted CLIENT_MIX in the SAME original traffic log; drain requests.
+}
 roll_one() {
   local port="$1" tag="$2" slot="$3" old_pid
+  # Verify the other instance's health, PID, pinned cwd and shared DB handle first.
   if [ "$slot" = A ]; then old_pid="$PID_A"; else old_pid="$PID_B"; fi
   kill -TERM "$old_pid"
   wait "$old_pid"
-  (cd "../ia2-$tag" && PORT="$port" DB_PATH="$DB_PATH" npm start) &
+  (cd "$RUN_DIR/releases/$tag" && PORT="$port" DB_PATH="$DB_PATH" exec node src/server.js) &
   if [ "$slot" = A ]; then PID_A=$!; else PID_B=$!; fi
+  # Wait for actual down/back, verify PID/cwd/SHA/listener/DB handles and health.
+  # Append labeled migrate:status and check output; stop before another roll if bad.
 }
 ```
 
-After each roll, wait for that port's `/health` response and **verify its actual version** before touching the other port. Commands in S5 explicitly require the rollback **while the same traffic process is still running**.
+### Actual traffic, rollback and backup
+
+S0 started at 17:58:18 ICT with 20000 seeded rows, v1/v1 and share0. All ten deliberate instance rolls were separate: A2,B2,A3,B3,B2,A2,B3,A3,A4,B4. S5 traversed v3/v3→v3/v2→v2/v2→v2/v3→v3/v3; atomic dual writes and the completed backfill keep v2 legacy reads aligned with v3 new reads. v1 is unsafe once new-column readers/clients depend on synchronized data.
+
+After both v2 writers were verified, S3 backfill used207 batches, scanned41078 rows and updated38683. Rerun scanned41666 and updated0. These counts grew under traffic; they are not a static seed-size claim. Share0→0.3 was accepted in the original PID at traffic-log line28. From S3 onward every data check was plain CONSISTENT. Ten deliberate down/back pairs plus sixteen transient route failures during the wait produced26 pairs total and101 reroutes. All four final request-failure counters are0. Extra TimeoutError/ECONNRESET causes are unestablished; this does not measure a latency SLO or prove no transport interruption.
+
+Before004, actual A/B PIDs32012/32117 both matched pinned v4, ports3001/3002 and physical DB device16777231/inode28975812. Only those DB holders were found. A new SQLite-backup-API copy of one pinned read snapshot passed integrity/FK/schema/ordered-content/count verification while writers continued. [Backup packet](docs/evidence/p5-s8-approved-precontract/s8-packet.json) records the exact absolute paths/counts/restore location. Backup SHA256 `14d86de21c0a91ff7400166dfcfc9d2aaf361f490c89fa8734c8387cc41e5070`, verified12:06:19 UTC. The backup remains local outside the submission ZIP; its verification evidence is included. The student then authorized004 explicitly; it exited0. Both v4 processes continued without restart. Both HTTP payloads/routes/orders passed after drop, then the same generator received one SIGINT and emitted the original final result.
+
+### Observed anomalies retained honestly
+
+- S2-A/S2-B raw check exit1 with28/11 disagreements: v1 legacy-only reprices made filled new values stale. Share stayed0, both readers used legacy, and no request failures occurred. S3 reconciled only after all v1 writers retired. No checker output was weakened or relabeled as passing.
+- S0 controller demanded a start-log line too early. Detached processes continued; reattachment used the same PID29850. No restart/reset. Non-child exit status is recorded unavailable rather than fabricated0.
+- After004, the wrapper expected disagree=0 although the checker properly omitted an inapplicable metric and exited0 CONSISTENT. Diagnosed continuation skipped migration and finished with the same traffic PID. Raw failure and recovery remain in S8 events.
+- Initial P5-C preflight tests assumed an evidence-free real repo, then used mismatched /var and /private/var fixture paths. Failed outputs remain under p5-c-verification and p5-c-final-verification. The final fix creates its own Git fixture and canonicalizes only existing roots with realpathSync; production guards are unchanged. Current32 tests and controller4 now pass.
 
 ### Traffic process and new clients
 
@@ -151,11 +167,11 @@ printf '0.3\n' > "$NEW_CLIENTS_FILE.next"
 mv "$NEW_CLIENTS_FILE.next" "$NEW_CLIENTS_FILE"
 ```
 
-Both shells must use the same absolute `NEW_CLIENTS_FILE`. Keep the one traffic process running; the eventual final run must finish after S8 with its actual result. All original request branches, assertions, failure counters and final result logic remain intact.
+Both shells must use the same absolute `NEW_CLIENTS_FILE`. Keep the one traffic process running; the recorded final run finished after S8 with its actual result. All original request branches, assertions, failure counters and final result logic remain intact.
 
 ### P2 batched backfill
 
-`scripts/backfill.js` requires an explicit absolute `DB_PATH` and exactly two distinct instance origins in `TARGETS` (default ports 3001 and 3002). Before opening the database, it checks that both report healthy `v2`. Do not run while any v1 writer remains, and do not roll versions during backfill. No v3/v4 code or new schema migration is included in P2.
+`scripts/backfill.js` requires an explicit absolute `DB_PATH` and exactly two distinct instance origins in `TARGETS` (default ports 3001 and 3002). Before opening the database, it checks that both report healthy `v2`. Do not run while any v1 writer remains, and do not roll versions during backfill. Historically P2 introduced no v3/v4 code or new schema migration; later phases are complete above.
 
 Each batch uses `BEGIN IMMEDIATE`, reads at most `BATCH_SIZE` rows in ID order and reconciles both NULL and disagreeing `price_vnd` values from the current legacy `price`. It validates the P1 conversion and updates only the new column, never legacy prices or order units. Selection and writes share the same write lock, so an acknowledged concurrent v2 update cannot be replaced using a previously read value. Correct rows are scanned but never updated. Defaults are 200 rows (allowed 1–1000) and 10 ms between commits (`BATCH_DELAY_MS`, allowed 0–60000); logging, delay and callbacks occur outside the transaction.
 
@@ -224,7 +240,7 @@ These tools always allocate their own temporary DBs; they never consume a suppli
 
 ### Data and migration-down checks
 
-Append `npm run check` after **every step** and after **each individual instance roll**, with visible labels:
+The completed root check log contains labeled checks after every step and individual roll. The following remains an illustrative recipe for a separate future fixture, not authorization to append to the frozen final log:
 
 ```bash
 {
@@ -234,9 +250,9 @@ Append `npm run check` after **every step** and after **each individual instance
 } >> check-log.txt 2>&1
 ```
 
-Before backfill the check may report `CONSISTENT, but ... rows have no price_vnd yet`. After S3 it must be plain `CONSISTENT`. For **each** migration, initialize a separate throwaway `TEST_DB` at the target version, then log `DB_PATH="$TEST_DB" npm run migrate:down`, a check, an up migration, and a second check. Do **not** naively copy a running SQLite WAL DB file; use a fresh test DB or a proper database backup mechanism.
+Before backfill the check may report `CONSISTENT, but ... rows have no price_vnd yet`. After S3 it must be plain `CONSISTENT`. For a separately authorized down rehearsal of **each** migration, initialize a separate throwaway `TEST_DB` at the target version, then log `DB_PATH="$TEST_DB" npm run migrate:down`, a check, an up migration, and a second check. Do **not** naively copy a running SQLite WAL DB file; use a fresh test DB or a proper database backup mechanism.
 
-### Tests the coding agent must add
+### Implemented verification coverage
 
 - Both old and new menu payloads on **create and PATCH**, including validation and atomic dual writes.
 - Legacy `price` and new `priceVnd` in individual, list and write responses; rounding/precision and mixed-version behavior.
@@ -260,4 +276,10 @@ Before backfill the check may report `CONSISTENT, but ... rows have no price_vnd
 
 Deliverables at ZIP root (including repository's `.git`): tags `v1`...`v4`, all `.up/.down.sql`, batch backfill script, updated `MIGRATION.md`, `traffic-log.txt`, `check-log.txt`, English `AI-LOG.md` and English `SELF_ASSESSMENT_REPORT.md`. The report must have **one scored row per criterion**, evidence, a realistic total, “What I did not manage” and “What I would do differently.” Name the ZIP `<StudentID>_<total>.zip` and submit from `<StudentID>@student.hcmus.edu.vn`. GitHub's normal “Download ZIP” omits `.git` and is **not** suitable.
 
-**CI caveat:** `.github/workflows/migration-ci.yml` performs automated tests (including disposable concurrency, rolling, Contract and Gate A fixtures) and disposable-DB smoke checks. It does not qualify the live target or final continuous v1-to-Contract demonstration. Recorded local Node 22 results are separate from remote CI; P5-A preparation does not authorize or complete S0–S8 execution.
+**CI disposition:** the student explicitly requested deleting `.github/workflows/migration-ci.yml` and proceeding without CI. The old startup failure remains preserved in `docs/evidence/p5-c-ci-blocker/result.json`; it is not claimed fixed or passing. Local Node22 current-suite32/32 and controller4/4 evidence remains the verification basis. No repository protection is bypassed. The student approved the self-assessment total **98/100**; this remains a claimed score, not an awarded grade.
+
+### Final evidence locations and scope
+
+All001–004 down/re-up commands actually ran on disposable DBs; see [p5-a-disposable-migrations/contract.txt](docs/evidence/p5-a-disposable-migrations/contract.txt) and [p4-contract/contract.txt](docs/evidence/p4-contract/contract.txt). Their raw output is separate from root check-log.txt; this rubric-format limitation is disclosed in the assessment. Do not splice or regenerate completed logs. Historical packets remain unchanged. Final integrity audit rechecked57 baseline evidence files,160 manifest comparisons, four release pins/pairs and the two root-log hashes without opening the demonstration DB.
+
+Submission packaging uses the final merged Git tree and a real self-contained .git directory. Exclude local data/, Node runtime, backups, node_modules and temporary fixtures; preserve them locally. The extraction verification receipt identifies exact merged commit, archive SHA/size, tag/history/file checks and score98 matching23127379_98.zip. Student review and upload using23127379@student.hcmus.edu.vn before2026-11-05 22:00 ICT remain manual. No grade or CI success is inferred from local tests; available remote checks are inspected separately during integration.

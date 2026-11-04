@@ -1,0 +1,10 @@
+[
+  {
+    "command": [
+      "npm",
+      "test"
+    ],
+    "exit": 1,
+    "output": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/docs/evidence/p5-c-final-verification/node22-tests.txt"
+  }
+]

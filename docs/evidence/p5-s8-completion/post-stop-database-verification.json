@@ -1,0 +1,17 @@
+{
+  "at": "2026-11-04T12:09:51.571033+00:00",
+  "DB_PATH": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+  "integrity_check": "ok",
+  "foreign_key_check": [],
+  "columns": [
+    "id",
+    "name",
+    "price_vnd"
+  ],
+  "versions": [
+    "001_init",
+    "002_add_price_vnd",
+    "003_sync_legacy_price",
+    "004_drop_price"
+  ]
+}

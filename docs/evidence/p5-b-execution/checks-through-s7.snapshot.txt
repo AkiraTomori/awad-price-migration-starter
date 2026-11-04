@@ -1,0 +1,552 @@
+
+=== S0-schema-001 2026-11-04T10:58:16.890006+00:00 DB_PATH=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db states=-/- traffic_pid=NOT STARTED ===
+$ npm run migrate:status
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db
+[x] 001_init
+[ ] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+(node:29649) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+$ npm run check
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price
+rows                   0
+CONSISTENT
+
+=== S0-seed-20000 2026-11-04T10:58:17.118721+00:00 DB_PATH=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db states=-/- traffic_pid=NOT STARTED ===
+$ npm run migrate:status
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db
+[x] 001_init
+[ ] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+(node:29694) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+$ npm run check
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price
+rows                   20000
+CONSISTENT
+
+=== S0-A-v1 2026-11-04T10:58:17.379537+00:00 DB_PATH=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db states=v1/- traffic_pid=NOT STARTED ===
+$ npm run migrate:status
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db
+[x] 001_init
+[ ] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+(node:29746) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+$ npm run check
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price
+rows                   20000
+CONSISTENT
+
+=== S0-B-v1 2026-11-04T10:58:17.839157+00:00 DB_PATH=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db states=v1/v1 traffic_pid=NOT STARTED ===
+$ npm run migrate:status
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db
+[x] 001_init
+[ ] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+(node:29824) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+$ npm run check
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price
+rows                   20000
+CONSISTENT
+
+=== S0-one-traffic-start-share-0 2026-11-04T10:59:56.013668+00:00 DB_PATH=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db states=v1/v1 traffic_pid=29850 ===
+$ npm run migrate:status
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db
+[x] 001_init
+[ ] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+(node:30805) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+$ npm run check
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price
+rows                   40029
+CONSISTENT
+
+=== S1-expand 2026-11-04T10:59:56.317463+00:00 DB_PATH=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db states=v1/v1 traffic_pid=29850 ===
+$ npm run migrate:status
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db
+[x] 001_init
+[x] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+(node:30872) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+$ npm run check
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   40083
+price_vnd_null         40083
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT, but 40083 rows have no price_vnd yet — nothing may read price_vnd until they do
+
+=== S2-A-v2/v1 2026-11-04T10:59:57.059842+00:00 DB_PATH=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db states=v2/v1 traffic_pid=29850 ===
+$ npm run migrate:status
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db
+[x] 001_init
+[x] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+(node:30964) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+$ npm run check
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   40323
+price_vnd_null         39886
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               28
+INCONSISTENT
+
+=== S2-B-v2/v2 2026-11-04T10:59:57.785555+00:00 DB_PATH=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db states=v2/v2 traffic_pid=29850 ===
+$ npm run migrate:status
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db
+[x] 001_init
+[x] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+(node:31070) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+$ npm run check
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   40555
+price_vnd_null         38823
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               11
+INCONSISTENT
+
+=== S3-backfill-complete 2026-11-04T11:00:00.740134+00:00 DB_PATH=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db states=v2/v2 traffic_pid=29850 ===
+$ npm run migrate:status
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db
+[x] 001_init
+[x] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+(node:31176) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+$ npm run check
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   41135
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+
+=== S3-idempotent-rerun 2026-11-04T11:00:03.583038+00:00 DB_PATH=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db states=v2/v2 traffic_pid=29850 ===
+$ npm run migrate:status
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db
+[x] 001_init
+[x] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+(node:31279) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+$ npm run check
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   41706
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+
+=== S3-clients-0.3-same-PID 2026-11-04T11:00:03.840899+00:00 DB_PATH=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db states=v2/v2 traffic_pid=29850 ===
+$ npm run migrate:status
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db
+[x] 001_init
+[x] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+(node:31329) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+$ npm run check
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   41759
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+
+=== S4-A-v3/v2 2026-11-04T11:00:04.568415+00:00 DB_PATH=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db states=v3/v2 traffic_pid=29850 ===
+$ npm run migrate:status
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db
+[x] 001_init
+[x] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+(node:31419) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+$ npm run check
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   41993
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+
+=== S4-B-v3/v3 2026-11-04T11:00:05.288696+00:00 DB_PATH=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db states=v3/v3 traffic_pid=29850 ===
+$ npm run migrate:status
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db
+[x] 001_init
+[x] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+(node:31508) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+$ npm run check
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   42234
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+
+=== S5-rollback-B-v3/v2 2026-11-04T11:00:06.011826+00:00 DB_PATH=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db states=v3/v2 traffic_pid=29850 ===
+$ npm run migrate:status
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db
+[x] 001_init
+[x] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+(node:31612) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+$ npm run check
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   42480
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+
+=== S5-rollback-A-v2/v2 2026-11-04T11:00:06.732016+00:00 DB_PATH=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db states=v2/v2 traffic_pid=29850 ===
+$ npm run migrate:status
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db
+[x] 001_init
+[x] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+(node:31701) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+$ npm run check
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   42727
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+
+=== S5-restore-B-v2/v3 2026-11-04T11:00:07.449767+00:00 DB_PATH=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db states=v2/v3 traffic_pid=29850 ===
+$ npm run migrate:status
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db
+[x] 001_init
+[x] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+(node:31790) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+$ npm run check
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   42963
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+
+=== S5-restore-A-v3/v3 2026-11-04T11:00:08.177602+00:00 DB_PATH=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db states=v3/v3 traffic_pid=29850 ===
+$ npm run migrate:status
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db
+[x] 001_init
+[x] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+(node:31895) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+$ npm run check
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   43175
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+
+=== S6-bridge-v3/v3 2026-11-04T11:00:08.639040+00:00 DB_PATH=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db states=v3/v3 traffic_pid=29850 ===
+$ npm run migrate:status
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+(node:31980) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+$ npm run check
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   43281
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+
+=== S7-A-v4/v3 2026-11-04T11:00:09.386073+00:00 DB_PATH=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db states=v4/v3 traffic_pid=29850 ===
+$ npm run migrate:status
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+(node:32069) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+$ npm run check
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   43553
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+
+=== S7-B-v4/v4 2026-11-04T11:00:10.121833+00:00 DB_PATH=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db states=v4/v4 traffic_pid=29850 ===
+$ npm run migrate:status
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+(node:32173) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+$ npm run check
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   43803
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+
+=== S8-GATE-before-backup-NO-004 2026-11-04T11:00:10.487296+00:00 DB_PATH=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db states=v4/v4 traffic_pid=29850 ===
+$ npm run migrate:status
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+(node:32236) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+$ npm run check
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   43865
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+
+=== S8-GATE-after-backup-NO-004 2026-11-04T11:00:12.625990+00:00 DB_PATH=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db states=v4/v4 traffic_pid=29850 ===
+$ npm run migrate:status
+
+> awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+(node:32328) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+$ npm run check
+
+> awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   44337
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT

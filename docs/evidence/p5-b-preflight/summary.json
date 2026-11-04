@@ -1,0 +1,21 @@
+{
+  "scope": "P5-A ONLY",
+  "passed": true,
+  "identityProbe": {
+    "initialRows": 20000,
+    "pids": [
+      28824,
+      28848
+    ],
+    "dbPath": "/private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5-a-probe-D725E3/disposable.db",
+    "crossInstanceVisibility": true,
+    "orderUnit": "thousands of VND"
+  },
+  "plannedDb": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+  "demonstrationCreated": false,
+  "finalTrafficStarted": false,
+  "existingEvidenceFilesVerified": 21,
+  "existingEvidenceUnchanged": true,
+  "tagsUnchanged": true,
+  "gate": "STOP FOR GATE A REVIEW; no S0-S8 execution"
+}

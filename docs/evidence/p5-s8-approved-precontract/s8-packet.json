@@ -1,0 +1,354 @@
+{
+  "at": "2026-11-04T12:06:23.913464+00:00",
+  "gate": "S8 AWAITING EXPLICIT STUDENT APPROVAL; 004 NOT EXECUTED",
+  "DB_PATH": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+  "runtime": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/runtime/node",
+  "runtime_sha256": "2cc28a1880d0774616959f2210ee739bffa6ac695c887e8988a496a21271f6c0",
+  "traffic_pid": 29850,
+  "traffic_running": true,
+  "traffic_counters": {
+    "seconds": "4085.8",
+    "ok": "34698592",
+    "error": "0",
+    "contract": "0",
+    "stale": "0",
+    "unavailable": "0",
+    "rerouted": "101"
+  },
+  "traffic_log_prefix_bytes": 61895,
+  "traffic_log_prefix_sha256": "357b7a14c0aa24084742cd4fe9898fcd083a5bc00e9275d42e13ca907422ff02",
+  "traffic_starts": 1,
+  "traffic_final_results": 0,
+  "down_events": 26,
+  "back_events": 26,
+  "instances": [
+    {
+      "slot": "A",
+      "pid": 32012,
+      "tag": "v4",
+      "sha": "51669379446f8f34473a90104ea939284335e9f2",
+      "port": 3001,
+      "health": {
+        "ok": true,
+        "version": "v4"
+      },
+      "ps": "32012 /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/runtime/node src/server.js",
+      "cwd_lsof": "p32012\nfcwd\nn/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/releases/v4",
+      "db_lsof": "p32012\nf11\nn/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+      "listener_lsof": "p32012\nf15\nn*:3001",
+      "DB_PATH": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+      "db_device": 16777231,
+      "db_inode": 28975812
+    },
+    {
+      "slot": "B",
+      "pid": 32117,
+      "tag": "v4",
+      "sha": "51669379446f8f34473a90104ea939284335e9f2",
+      "port": 3002,
+      "health": {
+        "ok": true,
+        "version": "v4"
+      },
+      "ps": "32117 /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/runtime/node src/server.js",
+      "cwd_lsof": "p32117\nfcwd\nn/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/releases/v4",
+      "db_lsof": "p32117\nf11\nn/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+      "listener_lsof": "p32117\nf15\nn*:3002",
+      "DB_PATH": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+      "db_device": 16777231,
+      "db_inode": 28975812
+    }
+  ],
+  "versions": [
+    "001_init",
+    "002_add_price_vnd",
+    "003_sync_legacy_price"
+  ],
+  "schema": [
+    [
+      0,
+      "id",
+      "INTEGER",
+      0,
+      null,
+      1
+    ],
+    [
+      1,
+      "name",
+      "TEXT",
+      1,
+      null,
+      0
+    ],
+    [
+      2,
+      "price",
+      "REAL",
+      0,
+      null,
+      0
+    ],
+    [
+      3,
+      "price_vnd",
+      "INTEGER",
+      0,
+      null,
+      0
+    ]
+  ],
+  "triggers": [
+    [
+      "menu_price_vnd_insert",
+      "CREATE TRIGGER menu_price_vnd_insert AFTER INSERT ON menu_items\nWHEN NEW.price_vnd IS NOT NULL AND NEW.price IS NOT NEW.price_vnd / 1000.0\nBEGIN\n  UPDATE menu_items SET price = NEW.price_vnd / 1000.0 WHERE id = NEW.id;\nEND"
+    ],
+    [
+      "menu_price_vnd_update",
+      "CREATE TRIGGER menu_price_vnd_update AFTER UPDATE OF price_vnd, price ON menu_items\nWHEN NEW.price_vnd IS NOT NULL AND NEW.price IS NOT NEW.price_vnd / 1000.0\nBEGIN\n  UPDATE menu_items SET price = NEW.price_vnd / 1000.0 WHERE id = NEW.id;\nEND"
+    ]
+  ],
+  "backup": {
+    "started_at": "2026-11-04T12:04:27.181026+00:00",
+    "verified_at": "2026-11-04T12:06:19.022030+00:00",
+    "source": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+    "backup": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/s8-precontract-backup-20261104T120426083180Z.db",
+    "method": "SQLite backup API from one pinned read transaction; writers continue",
+    "integrity_check": "ok",
+    "foreign_key_check": [],
+    "tables": {
+      "menu_items": {
+        "rows": 697738,
+        "sha256": "d898225db26f29679d93a71ece288c1592b77d22e88164960a8463fb4917dc04"
+      },
+      "orders": {
+        "rows": 5087245,
+        "sha256": "fba02f8ab2e25d3df44b6680961238a6f150008493836fd87399a1d30c5ffe36"
+      },
+      "order_items": {
+        "rows": 10174490,
+        "sha256": "8cddc2380177226d011e7cc43a63cae3e7f1553e9cfc2ecd9041fe5050dc07fd"
+      },
+      "schema_migrations": {
+        "rows": 3,
+        "sha256": "7010b87bffbd80ef0704bc08640886160287b20de616bc998b1285c54f1d3932"
+      }
+    },
+    "schema_identical": true,
+    "versions": [
+      "001_init",
+      "002_add_price_vnd",
+      "003_sync_legacy_price"
+    ],
+    "triggers": [
+      "menu_price_vnd_insert",
+      "menu_price_vnd_update"
+    ],
+    "bytes": 375771136,
+    "file_sha256": "14d86de21c0a91ff7400166dfcfc9d2aaf361f490c89fa8734c8387cc41e5070",
+    "intended_restore_location": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/recovery/app-restored.db",
+    "restored": false
+  },
+  "stages": [
+    {
+      "label": "S0-schema-001",
+      "at": "2026-11-04T10:58:17.084156+00:00",
+      "state": "-/-",
+      "check_exit": 0,
+      "plain_required": false
+    },
+    {
+      "label": "S0-seed-20000",
+      "at": "2026-11-04T10:58:17.289441+00:00",
+      "state": "-/-",
+      "check_exit": 0,
+      "plain_required": false
+    },
+    {
+      "label": "S0-A-v1",
+      "at": "2026-11-04T10:58:17.547295+00:00",
+      "state": "v1/-",
+      "check_exit": 0,
+      "plain_required": false
+    },
+    {
+      "label": "S0-B-v1",
+      "at": "2026-11-04T10:58:18.008125+00:00",
+      "state": "v1/v1",
+      "check_exit": 0,
+      "plain_required": false
+    },
+    {
+      "label": "S0-one-traffic-start-share-0",
+      "at": "2026-11-04T10:59:56.226633+00:00",
+      "state": "v1/v1",
+      "check_exit": 0,
+      "plain_required": false
+    },
+    {
+      "label": "S1-expand",
+      "at": "2026-11-04T10:59:56.508487+00:00",
+      "state": "v1/v1",
+      "check_exit": 0,
+      "plain_required": false
+    },
+    {
+      "label": "S2-A-v2/v1",
+      "at": "2026-11-04T10:59:57.255601+00:00",
+      "state": "v2/v1",
+      "check_exit": 1,
+      "plain_required": false
+    },
+    {
+      "label": "S2-B-v2/v2",
+      "at": "2026-11-04T10:59:58.000338+00:00",
+      "state": "v2/v2",
+      "check_exit": 1,
+      "plain_required": false
+    },
+    {
+      "label": "S3-backfill-complete",
+      "at": "2026-11-04T11:00:00.940017+00:00",
+      "state": "v2/v2",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S3-idempotent-rerun",
+      "at": "2026-11-04T11:00:03.777777+00:00",
+      "state": "v2/v2",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S3-clients-0.3-same-PID",
+      "at": "2026-11-04T11:00:04.047225+00:00",
+      "state": "v2/v2",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S4-A-v3/v2",
+      "at": "2026-11-04T11:00:04.762342+00:00",
+      "state": "v3/v2",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S4-B-v3/v3",
+      "at": "2026-11-04T11:00:05.490254+00:00",
+      "state": "v3/v3",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S5-rollback-B-v3/v2",
+      "at": "2026-11-04T11:00:06.206697+00:00",
+      "state": "v3/v2",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S5-rollback-A-v2/v2",
+      "at": "2026-11-04T11:00:06.926328+00:00",
+      "state": "v2/v2",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S5-restore-B-v2/v3",
+      "at": "2026-11-04T11:00:07.645748+00:00",
+      "state": "v2/v3",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S5-restore-A-v3/v3",
+      "at": "2026-11-04T11:00:08.381927+00:00",
+      "state": "v3/v3",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S6-bridge-v3/v3",
+      "at": "2026-11-04T11:00:08.844567+00:00",
+      "state": "v3/v3",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S7-A-v4/v3",
+      "at": "2026-11-04T11:00:09.591802+00:00",
+      "state": "v4/v3",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S7-B-v4/v4",
+      "at": "2026-11-04T11:00:10.320103+00:00",
+      "state": "v4/v4",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S8-GATE-before-backup-NO-004",
+      "at": "2026-11-04T11:00:10.685779+00:00",
+      "state": "v4/v4",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S8-GATE-after-backup-NO-004",
+      "at": "2026-11-04T11:00:12.821370+00:00",
+      "state": "v4/v4",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S8-GATE-before-backup-NO-004",
+      "at": "2026-11-04T11:05:19.228041+00:00",
+      "state": "v4/v4",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S8-GATE-after-backup-NO-004",
+      "at": "2026-11-04T11:05:26.405601+00:00",
+      "state": "v4/v4",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S8-GATE-before-backup-NO-004",
+      "at": "2026-11-04T11:10:05.765945+00:00",
+      "state": "v4/v4",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S8-GATE-after-backup-NO-004",
+      "at": "2026-11-04T11:10:21.822624+00:00",
+      "state": "v4/v4",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S8-GATE-before-backup-NO-004",
+      "at": "2026-11-04T12:04:27.172797+00:00",
+      "state": "v4/v4",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S8-GATE-after-backup-NO-004",
+      "at": "2026-11-04T12:06:21.049241+00:00",
+      "state": "v4/v4",
+      "check_exit": 0,
+      "plain_required": true
+    }
+  ],
+  "previous_evidence_files_verified": 21,
+  "tags_unchanged": true,
+  "approval": "NOT GIVEN",
+  "final_submission": "NOT PREPARED"
+}

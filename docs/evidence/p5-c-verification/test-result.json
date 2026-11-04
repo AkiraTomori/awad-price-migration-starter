@@ -1,0 +1,8 @@
+{
+  "checkout": "/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5c-tests-98w2sic8/repo",
+  "source_commit": "f8282979c0ad630e0ba2ddac7ce9cddcfdd68fc5",
+  "node": "v22.23.4",
+  "command": "npm test",
+  "exit": 1,
+  "demo_touched": false
+}

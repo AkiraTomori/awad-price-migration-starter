@@ -1,0 +1,19 @@
+{
+  "head": "53ce3c2be2a14efc76525d9ec8828b7f690df304",
+  "pr": 9,
+  "pr_ready": true,
+  "merged": false,
+  "workflow": {
+    "id": 41830535281,
+    "url": "https://github.com/AkiraTomori/awad-price-migration-starter/actions/runs/41830535281",
+    "head": "53ce3c2be2a14efc76525d9ec8828b7f690df304",
+    "status": "completed",
+    "conclusion": "failure",
+    "jobs": 0,
+    "created_at": "2026-11-04T12:35:07Z"
+  },
+  "diagnosis": "GitHub workflow failed before any jobs were created. No job logs/check-run success exists; underlying startup failure not established from API evidence.",
+  "local_current_suite": "32/32 PASS on Node v22.23.4",
+  "local_controller_backup": "4/4 PASS",
+  "gate": "STOP: failed available remote workflow; no merge or ZIP"
+}

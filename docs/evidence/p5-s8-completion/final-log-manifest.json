@@ -1,0 +1,10 @@
+{
+  "traffic-log.txt": {
+    "bytes": 63188,
+    "sha256": "f90fd5a26f607910f974f3feb09836dd3a0116971afd4f11555c9c383bfb36d6"
+  },
+  "check-log.txt": {
+    "bytes": 30612,
+    "sha256": "eb7aebae43bf9a391e04e19f387bffb91eae32446251957b06ff13384e094519"
+  }
+}

@@ -1,6 +1,14 @@
 # P5 final demonstration — prepared operator flow
 
-**PLAN ONLY.** P5-A performs preflight and disposable probes. This document does not authorize starting S0, creating the demonstration DB, or executing S8. Stop for Gate A review first. Final traffic/check logs, the self-assessment score and the submission ZIP do not exist as final evidence yet.
+**P5-C finalization follow-up:** the student authorized final verification, assessment, conditional PR #9 integration and ZIP packaging. Current Node22 source tests pass 32/32 and controller/backup tests 4/4; proposed assessment 98/100. [Final migration/status reference](../MIGRATION.md), [assessment](../SELF_ASSESSMENT_REPORT.md), and final integration/ZIP receipts supersede historical pending approval or submission-preparation statements below. S0–S8 logs and DB are frozen; no replay, migration or traffic restart is authorized. Upload remains manual.
+
+
+**Current follow-up (2026-11-04 19:07:43 ICT):** the student explicitly approved S8. Migration `--to 004_drop_price` and both-client/order verification completed on the same DB and uninterrupted traffic PID 29850. The original generator ended once: **35,309,724 successful requests, zero error/contract/stale/unavailable**, one start/FINAL/RESULT and 26 observed down/back pairs (ten deliberate rolls plus sixteen transient route failures during the wait). Both v4 instances remain running. [Completed S8 evidence and limitations](P5_S8_RESULT.md). The earlier gate/snapshot text below is historical; do not rerun setup, migration or traffic. No merge, score/ZIP or submission.
+
+
+**Executed follow-up (2026-11-04):** the student subsequently authorized P5-B S0–S7. Execution reached S7 and stopped for S8 review with original traffic PID 29850 running, v4/v4 PIDs 32012/32117 and no 004. [Current review packet](P5_S8_REVIEW.md). The recipe below is retained as the preparation reference; actual commands/checks/process identities are in the execution events, not an assertion that every illustrative shell block was run verbatim. Do not rerun setup against the active DB/logs. S8 remains separately approval-gated.
+
+**Historical preparation recipe.** P5-A covered preflight/disposable probes; the student later explicitly authorized P5-B S0–S7. The run is now stopped at S8 for separate approval, with live root logs and no final RESULT. This document does not authorize S8, a final score or a submission ZIP.
 
 P4 is integrated into main's PR #7 ancestry. PR #6 is closed with `merged=false`; that flag is not the integration gate. Verify that the reviewed P4 head `c0d33268bd8b791a1948d2dfda8bc116d9dadc17` is an ancestor of latest main. Preserve all four release pins listed in `scripts/p5-plan.js` and the existing raw evidence under `docs/evidence/`.
 

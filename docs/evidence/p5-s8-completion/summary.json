@@ -1,0 +1,155 @@
+{
+  "at": "2026-11-04T12:07:43.928938+00:00",
+  "DB_PATH": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+  "completed": true,
+  "migration004_executed": true,
+  "approval": "explicit student instruction in current conversation",
+  "traffic_pid": 29850,
+  "traffic_running": false,
+  "traffic_exit_status": "UNAVAILABLE: reattached non-child; actual FINAL/RESULT and termination verified",
+  "counters": {
+    "seconds": "4165.8",
+    "ok": "35309724",
+    "error": "0",
+    "contract": "0",
+    "stale": "0",
+    "unavailable": "0",
+    "rerouted": "101"
+  },
+  "starts": 1,
+  "final_results": 1,
+  "down_events": 26,
+  "back_events": 26,
+  "instances": [
+    {
+      "slot": "A",
+      "pid": 32012,
+      "tag": "v4",
+      "sha": "51669379446f8f34473a90104ea939284335e9f2",
+      "port": 3001,
+      "health": {
+        "ok": true,
+        "version": "v4"
+      },
+      "ps": "32012 /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/runtime/node src/server.js",
+      "cwd_lsof": "p32012\nfcwd\nn/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/releases/v4",
+      "db_lsof": "p32012\nf11\nn/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+      "listener_lsof": "p32012\nf15\nn*:3001",
+      "DB_PATH": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+      "db_device": 16777231,
+      "db_inode": 28975812
+    },
+    {
+      "slot": "B",
+      "pid": 32117,
+      "tag": "v4",
+      "sha": "51669379446f8f34473a90104ea939284335e9f2",
+      "port": 3002,
+      "health": {
+        "ok": true,
+        "version": "v4"
+      },
+      "ps": "32117 /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/runtime/node src/server.js",
+      "cwd_lsof": "p32117\nfcwd\nn/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/releases/v4",
+      "db_lsof": "p32117\nf11\nn/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+      "listener_lsof": "p32117\nf15\nn*:3002",
+      "DB_PATH": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+      "db_device": 16777231,
+      "db_inode": 28975812
+    }
+  ],
+  "backup": {
+    "started_at": "2026-11-04T12:04:27.181026+00:00",
+    "verified_at": "2026-11-04T12:06:19.022030+00:00",
+    "source": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+    "backup": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/s8-precontract-backup-20261104T120426083180Z.db",
+    "method": "SQLite backup API from one pinned read transaction; writers continue",
+    "integrity_check": "ok",
+    "foreign_key_check": [],
+    "tables": {
+      "menu_items": {
+        "rows": 697738,
+        "sha256": "d898225db26f29679d93a71ece288c1592b77d22e88164960a8463fb4917dc04"
+      },
+      "orders": {
+        "rows": 5087245,
+        "sha256": "fba02f8ab2e25d3df44b6680961238a6f150008493836fd87399a1d30c5ffe36"
+      },
+      "order_items": {
+        "rows": 10174490,
+        "sha256": "8cddc2380177226d011e7cc43a63cae3e7f1553e9cfc2ecd9041fe5050dc07fd"
+      },
+      "schema_migrations": {
+        "rows": 3,
+        "sha256": "7010b87bffbd80ef0704bc08640886160287b20de616bc998b1285c54f1d3932"
+      }
+    },
+    "schema_identical": true,
+    "versions": [
+      "001_init",
+      "002_add_price_vnd",
+      "003_sync_legacy_price"
+    ],
+    "triggers": [
+      "menu_price_vnd_insert",
+      "menu_price_vnd_update"
+    ],
+    "bytes": 375771136,
+    "file_sha256": "14d86de21c0a91ff7400166dfcfc9d2aaf361f490c89fa8734c8387cc41e5070",
+    "intended_restore_location": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/recovery/app-restored.db",
+    "restored": false
+  },
+  "http_proofs": [
+    {
+      "port": 3001,
+      "payload": {
+        "price": 45.501
+      },
+      "item": 723340,
+      "order": {
+        "id": 5280156,
+        "total": 91.002
+      },
+      "unit_price": 45.501
+    },
+    {
+      "port": 3001,
+      "payload": {
+        "priceVnd": 45501
+      },
+      "item": 724528,
+      "order": {
+        "id": 5289861,
+        "total": 91.002
+      },
+      "unit_price": 45.501
+    },
+    {
+      "port": 3002,
+      "payload": {
+        "price": 45.501
+      },
+      "item": 725042,
+      "order": {
+        "id": 5293745,
+        "total": 91.002
+      },
+      "unit_price": 45.501
+    },
+    {
+      "port": 3002,
+      "payload": {
+        "priceVnd": 45501
+      },
+      "item": 725102,
+      "order": {
+        "id": 5294239,
+        "total": 91.002
+      },
+      "unit_price": 45.501
+    }
+  ],
+  "tags_unchanged": true,
+  "tracked_evidence_files_verified": 41,
+  "submission": "NOT PREPARED"
+}
