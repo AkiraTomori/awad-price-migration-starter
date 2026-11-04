@@ -6,6 +6,7 @@ outside the archive, so it can describe the actual final ZIP without self-hashin
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import subprocess
@@ -21,13 +22,17 @@ PINS = {
 
 
 def git(repo, *args):
-    return subprocess.check_output(['git', *args], cwd=repo, text=True).strip()
+    # Read-only verification must not refresh the extracted .git/index before
+    # its archived bytes are compared with the original snapshot.
+    return subprocess.check_output(['git', *args], cwd=repo, text=True,
+                                   env=dict(os.environ, GIT_OPTIONAL_LOCKS='0')).strip()
 
 
 def verify(repo, expected):
     assert (repo / '.git').is_dir(), '.git must be a real directory'
     assert not (repo / '.git/objects/info/alternates').exists(), 'external object store is forbidden'
     assert not (repo / '.git/commondir').exists(), 'external worktree is forbidden'
+    assert not (repo / '.git/shallow').exists(), 'complete history is required'
     assert git(repo, 'rev-parse', 'HEAD') == expected
     assert not git(repo, 'status', '--porcelain'), 'package only a clean merged checkout'
     for tag, sha in PINS.items():

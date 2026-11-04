@@ -1,0 +1,8 @@
+{
+  "decision": "Student explicitly requests removing CI workflow, approves claimed self-assessment 98/100, commits all current changes and authorizes PR #9 merge.",
+  "ci_failure": "preserved; not represented as passing",
+  "score": 98,
+  "student_id": "23127379",
+  "submission": "manual only",
+  "merge": "authorized through PR without protection bypass"
+}

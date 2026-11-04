@@ -4,7 +4,7 @@ Submitted by: **23127379 — Thái Minh Huy** (individual assignment)
 
 Total I claim: **98 / 100**
 
-This is a proposed self-assessment for the student to review, not an awarded grade. The six criteria and maximum marks come from the supplied `IA#2 rubric — Zero-downtime migration (23KTPM1).pdf`, pages 2–3. The structure follows `SELF_ASSESSMENT_REPORT template.pdf`: criterion table, evidence, and the two reflection sections.
+The student explicitly reviewed and approved this self-assessment total of 98/100. It is a claimed score, not an awarded grade. The six criteria and maximum marks come from the supplied `IA#2 rubric — Zero-downtime migration (23KTPM1).pdf`, pages 2–3. The structure follows `SELF_ASSESSMENT_REPORT template.pdf`: criterion table, evidence, and the two reflection sections.
 
 | Criterion | Max | I claim | Evidence |
 |---|---:|---:|---|
@@ -22,7 +22,7 @@ I did not place disposable down-migration output inside the original root check 
 
 The S0 controller readiness race and the post-Contract wrapper assertion were diagnosed while preserving the same traffic PID. S2 check failures (28/11 disagreements from v1 legacy-only reprices) were retained and reconciled only after v1 retirement at S3. The process was later reattached, so its OS exit status is unavailable; the actual FINAL/RESULT and termination are the evidence. Sub-VND precision changes at v3 are documented, not claimed unchanged. After Contract, v3 requires schema recovery; a pre-Contract backup restore alone would lose subsequent writes unless reconciled.
 
-The assistant authored code/documents and executed the shell/test/demonstration commands under the student's phase approvals. This is disclosed in [AI-LOG.md](AI-LOG.md), rather than described as manual student execution. The student must personally review, understand and explain the work before submission. GitHub CI status is separate from the local Node22 results and is reported only from actual check data.
+The assistant authored code/documents and executed the shell/test/demonstration commands under the student's phase approvals. This is disclosed in [AI-LOG.md](AI-LOG.md), rather than described as manual student execution. The student must personally review, understand and explain the work before submission. The student explicitly requested removing the CI workflow after its startup failure; that failure is preserved, not described as passing. Local Node22 verification is reported separately.
 
 ## What I would do differently
 
