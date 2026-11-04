@@ -1,0 +1,359 @@
+P2 disposable validation — 2026-11-04 ICT; NOT the final live demonstration.
+Base: latest origin/main dadb816, containing merged P1 PR #3. No new schema migrations.
+
+$ npm exec --cache /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p2-node22-uw9p1voz/cache --yes --package=node@22 -- node -p process.execPath
+/private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p2-node22-uw9p1voz/cache/_npx/52027bd8fc0022aa/node_modules/node/bin/node
+npm notice
+npm notice New major version of npm available! 11.18.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+exit=0
+PATH prepended with /private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p2-node22-uw9p1voz/cache/_npx/52027bd8fc0022aa/node_modules/node/bin
+DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p2-node22-uw9p1voz/shared.db
+
+$ node --version
+v22.23.4
+exit=0
+
+$ npm --version
+11.18.0
+exit=0
+
+$ npm test
+
+> awad-price-migration-starter@2.0.0 test
+> node --test --test-reporter=spec
+
+(node:38129) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ GET /menu/:id returns price in thousands of dong (11.129291ms)
+✔ PATCH /menu/:id changes the price (2.932125ms)
+✔ POST /orders totals at the current price (1.46575ms)
+✔ errors have one shape (3.360708ms)
+(node:38130) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ v2 supports both clients on create/reprice/list/get and preserves order units (30.351917ms)
+✔ invalid payloads do not create or change rows on either write path (12.408792ms)
+✔ original v1 and v2 share expanded DB; v2 reads legacy writes even with stale VND (20.291292ms)
+✔ 002 up/down/re-up preserves legacy menu and order data on a separate DB (2.316208ms)
+(node:38131) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ backfill rolls back an invalid batch, retains earlier commits and resumes after repair (10.0915ms)
+✔ backfill reconciles NULL/stale rows in bounded batches without touching correct rows or orders (164.099625ms)
+✔ SIGTERM preserves committed progress and a fresh process resumes idempotently (131.106166ms)
+✔ separate backfill process preserves concurrent v2 HTTP create/reprice writes from both instances (780.631875ms)
+✔ backfill waits for an in-flight v2 transaction before reading its latest price (137.052417ms)
+✔ CLI refuses backfill when either target is not v2, before changing data (113.872625ms)
+✔ client mix validates inputs, rejects bad updates, and reloads valid shares (4.77925ms)
+P2 disposable traffic child pid=38167: === traffic start 2026-11-04T09:00:24.762Z · targets http://127.0.0.1:58363 http://127.0.0.1:58364 · new clients 0 |    0.5s CLIENT_MIX 0 -> 0.3 file=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p2-test-K02zfS/share.json |    0.5s FINAL ok=8001 error=0 contract=0 stale=0 unavailable=0 rerouted=0 | RESULT: zero failed requests
+✔ one traffic child switches 0 to 0.3 under backfill with all original failure counters zero (575.425292ms)
+✔ price conversion keeps legacy precision and rounds integer VND (0.717083ms)
+✔ price validation rejects absent, invalid, unsafe and conflicting values (0.094292ms)
+ℹ tests 18
+ℹ suites 0
+ℹ pass 18
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 1970.063209
+exit=0
+
+$ npm run migrate
+
+> awad-price-migration-starter@2.0.0 migrate
+> node scripts/migrate.js up
+
+applied  001_init
+applied  002_add_price_vnd
+(node:38207) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+exit=0
+
+$ npm run seed
+
+> awad-price-migration-starter@2.0.0 seed
+> node scripts/seed.js
+
+seeded 20000 menu items
+(node:38229) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+exit=0
+
+$ node --input-type=module -e import {open} from './src/db.js'; const db=open(); db.exec('UPDATE menu_items SET price_vnd = CASE WHEN id % 4 = 0 THEN 1 WHEN id % 4 = 1 THEN CAST(round(price * 1000) AS INTEGER) ELSE NULL END'); console.log(JSON.stringify(db.prepare('SELECT count(*) AS rows, sum(price_vnd IS NULL) AS missing, sum(price_vnd <> CAST(round(price * 1000) AS INTEGER)) AS disagree FROM menu_items').get())); db.close();
+{"rows":20000,"missing":10000,"disagree":5000}
+(node:38230) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+exit=0
+Instance A: pid=38231, target=http://127.0.0.1:58385, DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p2-node22-uw9p1voz/shared.db, health={'ok': True, 'version': 'v2'}
+Instance B: pid=38232, target=http://127.0.0.1:58388, DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p2-node22-uw9p1voz/shared.db, health={'ok': True, 'version': 'v2'}
+TARGETS=http://127.0.0.1:58385,http://127.0.0.1:58388
+
+$ npm run migrate:status
+
+> awad-price-migration-starter@2.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p2-node22-uw9p1voz/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+(node:38254) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+exit=0
+
+$ npm run backfill
+
+> awad-price-migration-starter@2.0.0 backfill
+> node scripts/backfill.js
+
+(node:38276) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+V2_READY targets=http://127.0.0.1:58385,http://127.0.0.1:58388 db=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p2-node22-uw9p1voz/shared.db; operator must ensure these are all writers and share this DB
+BATCH {"batches":1,"scanned":200,"updated":150,"cursor":200,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":2,"scanned":400,"updated":300,"cursor":400,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":3,"scanned":600,"updated":450,"cursor":600,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":4,"scanned":800,"updated":600,"cursor":800,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":5,"scanned":1000,"updated":750,"cursor":1000,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":6,"scanned":1200,"updated":900,"cursor":1200,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":7,"scanned":1400,"updated":1050,"cursor":1400,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":8,"scanned":1600,"updated":1200,"cursor":1600,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":9,"scanned":1800,"updated":1350,"cursor":1800,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":10,"scanned":2000,"updated":1500,"cursor":2000,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":11,"scanned":2200,"updated":1650,"cursor":2200,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":12,"scanned":2400,"updated":1800,"cursor":2400,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":13,"scanned":2600,"updated":1950,"cursor":2600,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":14,"scanned":2800,"updated":2100,"cursor":2800,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":15,"scanned":3000,"updated":2250,"cursor":3000,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":16,"scanned":3200,"updated":2400,"cursor":3200,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":17,"scanned":3400,"updated":2550,"cursor":3400,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":18,"scanned":3600,"updated":2700,"cursor":3600,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":19,"scanned":3800,"updated":2850,"cursor":3800,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":20,"scanned":4000,"updated":3000,"cursor":4000,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":21,"scanned":4200,"updated":3150,"cursor":4200,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":22,"scanned":4400,"updated":3300,"cursor":4400,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":23,"scanned":4600,"updated":3450,"cursor":4600,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":24,"scanned":4800,"updated":3600,"cursor":4800,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":25,"scanned":5000,"updated":3750,"cursor":5000,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":26,"scanned":5200,"updated":3900,"cursor":5200,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":27,"scanned":5400,"updated":4050,"cursor":5400,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":28,"scanned":5600,"updated":4200,"cursor":5600,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":29,"scanned":5800,"updated":4350,"cursor":5800,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":30,"scanned":6000,"updated":4500,"cursor":6000,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":31,"scanned":6200,"updated":4650,"cursor":6200,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":32,"scanned":6400,"updated":4800,"cursor":6400,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":33,"scanned":6600,"updated":4950,"cursor":6600,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":34,"scanned":6800,"updated":5100,"cursor":6800,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":35,"scanned":7000,"updated":5250,"cursor":7000,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":36,"scanned":7200,"updated":5400,"cursor":7200,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":37,"scanned":7400,"updated":5550,"cursor":7400,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":38,"scanned":7600,"updated":5700,"cursor":7600,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":39,"scanned":7800,"updated":5850,"cursor":7800,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":40,"scanned":8000,"updated":6000,"cursor":8000,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":41,"scanned":8200,"updated":6150,"cursor":8200,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":42,"scanned":8400,"updated":6300,"cursor":8400,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":43,"scanned":8600,"updated":6450,"cursor":8600,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":44,"scanned":8800,"updated":6600,"cursor":8800,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":45,"scanned":9000,"updated":6750,"cursor":9000,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":46,"scanned":9200,"updated":6900,"cursor":9200,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":47,"scanned":9400,"updated":7050,"cursor":9400,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":48,"scanned":9600,"updated":7200,"cursor":9600,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":49,"scanned":9800,"updated":7350,"cursor":9800,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":50,"scanned":10000,"updated":7500,"cursor":10000,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":51,"scanned":10200,"updated":7650,"cursor":10200,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":52,"scanned":10400,"updated":7800,"cursor":10400,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":53,"scanned":10600,"updated":7950,"cursor":10600,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":54,"scanned":10800,"updated":8100,"cursor":10800,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":55,"scanned":11000,"updated":8250,"cursor":11000,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":56,"scanned":11200,"updated":8400,"cursor":11200,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":57,"scanned":11400,"updated":8550,"cursor":11400,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":58,"scanned":11600,"updated":8700,"cursor":11600,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":59,"scanned":11800,"updated":8850,"cursor":11800,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":60,"scanned":12000,"updated":9000,"cursor":12000,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":61,"scanned":12200,"updated":9150,"cursor":12200,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":62,"scanned":12400,"updated":9300,"cursor":12400,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":63,"scanned":12600,"updated":9450,"cursor":12600,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":64,"scanned":12800,"updated":9600,"cursor":12800,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":65,"scanned":13000,"updated":9750,"cursor":13000,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":66,"scanned":13200,"updated":9900,"cursor":13200,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":67,"scanned":13400,"updated":10050,"cursor":13400,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":68,"scanned":13600,"updated":10200,"cursor":13600,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":69,"scanned":13800,"updated":10350,"cursor":13800,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":70,"scanned":14000,"updated":10500,"cursor":14000,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":71,"scanned":14200,"updated":10650,"cursor":14200,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":72,"scanned":14400,"updated":10800,"cursor":14400,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":73,"scanned":14600,"updated":10950,"cursor":14600,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":74,"scanned":14800,"updated":11100,"cursor":14800,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":75,"scanned":15000,"updated":11250,"cursor":15000,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":76,"scanned":15200,"updated":11400,"cursor":15200,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":77,"scanned":15400,"updated":11550,"cursor":15400,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":78,"scanned":15600,"updated":11700,"cursor":15600,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":79,"scanned":15800,"updated":11850,"cursor":15800,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":80,"scanned":16000,"updated":12000,"cursor":16000,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":81,"scanned":16200,"updated":12150,"cursor":16200,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":82,"scanned":16400,"updated":12300,"cursor":16400,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":83,"scanned":16600,"updated":12450,"cursor":16600,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":84,"scanned":16800,"updated":12600,"cursor":16800,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":85,"scanned":17000,"updated":12750,"cursor":17000,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":86,"scanned":17200,"updated":12900,"cursor":17200,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":87,"scanned":17400,"updated":13050,"cursor":17400,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":88,"scanned":17600,"updated":13200,"cursor":17600,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":89,"scanned":17800,"updated":13350,"cursor":17800,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":90,"scanned":18000,"updated":13500,"cursor":18000,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":91,"scanned":18200,"updated":13650,"cursor":18200,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":92,"scanned":18400,"updated":13800,"cursor":18400,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":93,"scanned":18600,"updated":13950,"cursor":18600,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":94,"scanned":18800,"updated":14100,"cursor":18800,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":95,"scanned":19000,"updated":14250,"cursor":19000,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":96,"scanned":19200,"updated":14400,"cursor":19200,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":97,"scanned":19400,"updated":14550,"cursor":19400,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":98,"scanned":19600,"updated":14700,"cursor":19600,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":99,"scanned":19800,"updated":14850,"cursor":19800,"interrupted":false,"rows":200,"changed":150}
+BATCH {"batches":100,"scanned":20000,"updated":15000,"cursor":20000,"interrupted":false,"rows":200,"changed":150}
+COMPLETE {"batches":100,"scanned":20000,"updated":15000,"cursor":20000,"interrupted":false}
+exit=0
+
+$ npm run check
+
+> awad-price-migration-starter@2.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   20000
+price_vnd_null         0
+price_vnd_not_integer  0
+disagree               0
+CONSISTENT
+exit=0
+
+$ npm run backfill
+
+> awad-price-migration-starter@2.0.0 backfill
+> node scripts/backfill.js
+
+(node:38338) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+V2_READY targets=http://127.0.0.1:58385,http://127.0.0.1:58388 db=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p2-node22-uw9p1voz/shared.db; operator must ensure these are all writers and share this DB
+BATCH {"batches":1,"scanned":200,"updated":0,"cursor":200,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":2,"scanned":400,"updated":0,"cursor":400,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":3,"scanned":600,"updated":0,"cursor":600,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":4,"scanned":800,"updated":0,"cursor":800,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":5,"scanned":1000,"updated":0,"cursor":1000,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":6,"scanned":1200,"updated":0,"cursor":1200,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":7,"scanned":1400,"updated":0,"cursor":1400,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":8,"scanned":1600,"updated":0,"cursor":1600,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":9,"scanned":1800,"updated":0,"cursor":1800,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":10,"scanned":2000,"updated":0,"cursor":2000,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":11,"scanned":2200,"updated":0,"cursor":2200,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":12,"scanned":2400,"updated":0,"cursor":2400,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":13,"scanned":2600,"updated":0,"cursor":2600,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":14,"scanned":2800,"updated":0,"cursor":2800,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":15,"scanned":3000,"updated":0,"cursor":3000,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":16,"scanned":3200,"updated":0,"cursor":3200,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":17,"scanned":3400,"updated":0,"cursor":3400,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":18,"scanned":3600,"updated":0,"cursor":3600,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":19,"scanned":3800,"updated":0,"cursor":3800,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":20,"scanned":4000,"updated":0,"cursor":4000,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":21,"scanned":4200,"updated":0,"cursor":4200,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":22,"scanned":4400,"updated":0,"cursor":4400,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":23,"scanned":4600,"updated":0,"cursor":4600,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":24,"scanned":4800,"updated":0,"cursor":4800,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":25,"scanned":5000,"updated":0,"cursor":5000,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":26,"scanned":5200,"updated":0,"cursor":5200,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":27,"scanned":5400,"updated":0,"cursor":5400,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":28,"scanned":5600,"updated":0,"cursor":5600,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":29,"scanned":5800,"updated":0,"cursor":5800,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":30,"scanned":6000,"updated":0,"cursor":6000,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":31,"scanned":6200,"updated":0,"cursor":6200,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":32,"scanned":6400,"updated":0,"cursor":6400,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":33,"scanned":6600,"updated":0,"cursor":6600,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":34,"scanned":6800,"updated":0,"cursor":6800,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":35,"scanned":7000,"updated":0,"cursor":7000,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":36,"scanned":7200,"updated":0,"cursor":7200,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":37,"scanned":7400,"updated":0,"cursor":7400,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":38,"scanned":7600,"updated":0,"cursor":7600,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":39,"scanned":7800,"updated":0,"cursor":7800,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":40,"scanned":8000,"updated":0,"cursor":8000,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":41,"scanned":8200,"updated":0,"cursor":8200,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":42,"scanned":8400,"updated":0,"cursor":8400,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":43,"scanned":8600,"updated":0,"cursor":8600,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":44,"scanned":8800,"updated":0,"cursor":8800,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":45,"scanned":9000,"updated":0,"cursor":9000,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":46,"scanned":9200,"updated":0,"cursor":9200,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":47,"scanned":9400,"updated":0,"cursor":9400,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":48,"scanned":9600,"updated":0,"cursor":9600,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":49,"scanned":9800,"updated":0,"cursor":9800,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":50,"scanned":10000,"updated":0,"cursor":10000,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":51,"scanned":10200,"updated":0,"cursor":10200,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":52,"scanned":10400,"updated":0,"cursor":10400,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":53,"scanned":10600,"updated":0,"cursor":10600,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":54,"scanned":10800,"updated":0,"cursor":10800,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":55,"scanned":11000,"updated":0,"cursor":11000,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":56,"scanned":11200,"updated":0,"cursor":11200,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":57,"scanned":11400,"updated":0,"cursor":11400,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":58,"scanned":11600,"updated":0,"cursor":11600,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":59,"scanned":11800,"updated":0,"cursor":11800,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":60,"scanned":12000,"updated":0,"cursor":12000,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":61,"scanned":12200,"updated":0,"cursor":12200,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":62,"scanned":12400,"updated":0,"cursor":12400,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":63,"scanned":12600,"updated":0,"cursor":12600,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":64,"scanned":12800,"updated":0,"cursor":12800,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":65,"scanned":13000,"updated":0,"cursor":13000,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":66,"scanned":13200,"updated":0,"cursor":13200,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":67,"scanned":13400,"updated":0,"cursor":13400,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":68,"scanned":13600,"updated":0,"cursor":13600,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":69,"scanned":13800,"updated":0,"cursor":13800,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":70,"scanned":14000,"updated":0,"cursor":14000,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":71,"scanned":14200,"updated":0,"cursor":14200,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":72,"scanned":14400,"updated":0,"cursor":14400,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":73,"scanned":14600,"updated":0,"cursor":14600,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":74,"scanned":14800,"updated":0,"cursor":14800,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":75,"scanned":15000,"updated":0,"cursor":15000,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":76,"scanned":15200,"updated":0,"cursor":15200,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":77,"scanned":15400,"updated":0,"cursor":15400,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":78,"scanned":15600,"updated":0,"cursor":15600,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":79,"scanned":15800,"updated":0,"cursor":15800,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":80,"scanned":16000,"updated":0,"cursor":16000,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":81,"scanned":16200,"updated":0,"cursor":16200,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":82,"scanned":16400,"updated":0,"cursor":16400,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":83,"scanned":16600,"updated":0,"cursor":16600,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":84,"scanned":16800,"updated":0,"cursor":16800,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":85,"scanned":17000,"updated":0,"cursor":17000,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":86,"scanned":17200,"updated":0,"cursor":17200,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":87,"scanned":17400,"updated":0,"cursor":17400,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":88,"scanned":17600,"updated":0,"cursor":17600,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":89,"scanned":17800,"updated":0,"cursor":17800,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":90,"scanned":18000,"updated":0,"cursor":18000,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":91,"scanned":18200,"updated":0,"cursor":18200,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":92,"scanned":18400,"updated":0,"cursor":18400,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":93,"scanned":18600,"updated":0,"cursor":18600,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":94,"scanned":18800,"updated":0,"cursor":18800,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":95,"scanned":19000,"updated":0,"cursor":19000,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":96,"scanned":19200,"updated":0,"cursor":19200,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":97,"scanned":19400,"updated":0,"cursor":19400,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":98,"scanned":19600,"updated":0,"cursor":19600,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":99,"scanned":19800,"updated":0,"cursor":19800,"interrupted":false,"rows":200,"changed":0}
+BATCH {"batches":100,"scanned":20000,"updated":0,"cursor":20000,"interrupted":false,"rows":200,"changed":0}
+COMPLETE {"batches":100,"scanned":20000,"updated":0,"cursor":20000,"interrupted":false}
+exit=0
+
+$ npm run check
+
+> awad-price-migration-starter@2.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   20000
+price_vnd_null         0
+price_vnd_not_integer  0
+disagree               0
+CONSISTENT
+exit=0
+
+$ git rev-parse v1^{}
+2b889bde433190c17744f30d3900d38ab333a756
+exit=0
+
+The temporary DB/runtime are removed after validation.
+Traffic output above belongs only to a bounded automated test on a disposable fixture.
+NOT RUN: final continuous live demonstration, rolling restart/down/back evidence, v3/v4/Contract, deployment, submission.
