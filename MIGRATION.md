@@ -1,6 +1,12 @@
 # IA#2 — Zero-downtime menu price migration
 
-**Status: P1/P2 merged (PR #3/#4); P3 implemented, tested on Node 22 and rehearsed from exact v2/v3 tags on a disposable DB. Student review pending. P4/P5 and the final live demonstration are NOT RUN.**
+**Status: P1–P3 merged. P4 implemented and validated on disposable databases; student review pending. P5, live Contract and the final continuous v1-to-Contract demonstration are NOT RUN.**
+
+P4 follows [docs/P4_AGENT_HANDOFF.md](docs/P4_AGENT_HANDOFF.md). Code tag **v4 = `51669379446f8f34473a90104ea939284335e9f2`** passed [27/27 pre-tag Node 22 tests](docs/evidence/p4-pretag-node22.txt), contains migration 003, and contains no 004. Contract files were introduced afterward in **`29153bd8eb2ecaf44cf38338f17fd60e4c1d9a3e`**. Existing v1/v2/v3 tags are unchanged. The [final Node 22 evidence](docs/evidence/p4-node22-validation.txt) records **28/28 tests**, exact-tag rehearsals and a separate 20,000-row post-Contract disposable smoke check.
+
+The [P4 process/source log](docs/evidence/p4-rollback/rehearsal.txt), [labeled checks](docs/evidence/p4-rollback/checks.txt) and [raw traffic](docs/evidence/p4-rollback/traffic.txt) record one PID **72935**, share 0.3, and `v3/v3 → v4/v3 → v4/v4 → v4/v3 → v3/v3 → v3/v4 → v4/v4`. All nine labeled checks were plain CONSISTENT with NULL/disagree=0, including before/after 003 and every roll. Six actual down/back pairs ended `ok=60286 error=0 contract=0 stale=0 unavailable=0 rerouted=33`. This bounded 300-row starting fixture is development evidence, not the final demonstration or capacity qualification.
+
+[Disposable migration/HTTP evidence](docs/evidence/p4-contract/contract.txt) proves 001/002/003/004 up/down/re-up, data preservation, runner staging, verified SQLite backups, both old/new HTTP payloads/responses, unchanged order units, and v4 restart after price is absent. 004.down restores the legacy values and both bridge triggers before v3 can initialize again. All DBs, backup files and listeners used here were temporary. No live S8 or final demonstration has run.
 
 P1 evidence: [docs/evidence/p1-validation.txt](docs/evidence/p1-validation.txt) records 10 passing tests and the actual 002 down/re-up CLI rehearsal on a fresh disposable database. Mixed original v1/v2 HTTP tests share one absolute temporary DB path; v2 reads only legacy `price` and derives both response fields from it, including after a v1 reprice leaves `price_vnd` stale. Health reports `version: v2`; `v1` remains the original starter SHA. The existing `v2` tag points to merged P1 commit `dadb816bac9dad5ffcbf098d130d387bbbdd338c`; P2 does not move this tag. P1 left existing seed rows NULL without backfill.
 
@@ -78,7 +84,7 @@ The command `roll_one PORT TAG SLOT` is defined in section 5. Commands shown are
 
 **Operational point of no return: S8, dropping the legacy column.** Earlier code cannot simply restart against the contracted schema. A `004.down.sql` may reconstruct legacy prices, but that is a separately verified **schema recovery**, not a one-command zero-downtime code rollback. State this distinction in the final report.
 
-**Migration runner trap:** the starter's `npm run migrate` applies **all pending `*.up.sql` in its checkout**. Running it from the final tree at S1 could drop `price` too early. Apply from a release worktree containing only the migrations released at that stage, or implement a tested explicit target-version option before the real run.
+**Migration runner trap:** bare `npm run migrate` still applies **all pending `*.up.sql` in its checkout**. Running it from the final tree at S1 would drop `price` too early. Use the current checkout's tested `--to NNN_name` option or a release checkout containing only that stage's migrations. Historical v1–v3 runners do not support this new flag. An unknown target or target below an already applied schema is rejected; no implicit down occurs. P4 evidence proves `--to 003_sync_legacy_price` leaves 004 pending and `price` present even in the final tree.
 
 ## 5. Operator runbook (to verify and adapt)
 
@@ -119,7 +125,7 @@ After each roll, wait for that port's `/health` response and **verify its actual
 
 ### Traffic process and new clients
 
-`NEW_CLIENTS` remains the startup share when no file is configured. To change share without restarting, set `NEW_CLIENTS_FILE` to a small file containing a JSON number from 0 to 1. The file takes precedence over `NEW_CLIENTS` and is polled at most once every 250 ms between traffic operations. Every accepted change is timestamped as `CLIENT_MIX old -> new` in the same log. Each positive initial share or transition requires both target `/health` responses to report healthy `v2` or `v3`; a zero share does not, so the continuous process can start on v1. Backfill retains its stricter v2/v2 gate.
+`NEW_CLIENTS` remains the startup share when no file is configured. To change share without restarting, set `NEW_CLIENTS_FILE` to a small file containing a JSON number from 0 to 1. The file takes precedence over `NEW_CLIENTS` and is polled at most once every 250 ms between traffic operations. Every accepted change is timestamped as `CLIENT_MIX old -> new` in the same log. Each positive initial share or transition requires both target `/health` responses to report healthy `v2`, `v3` or `v4`; a zero share does not, so the continuous process can start on v1. Backfill retains its stricter v2/v2 gate. Version acceptance alone does not qualify a mixed pair: v3/v4 still requires bridge 003.
 
 Invalid/missing startup files fail startup. Invalid, missing, or rejected runtime updates are logged and retain the last accepted share; they do not reset counters. Replace the file atomically on the same filesystem. Before a later return to v1, set zero, observe the accepted log entry and allow in-flight requests to drain. Keep both instances on v2 while backfilling and initially enabling new clients; after qualification, mixed v2/v3 and v3/v3 can serve them. Health checks cannot prove that all writers have been identified or that both servers use the intended DB; the operator must confirm their process/version and identical absolute `DB_PATH`.
 
@@ -179,6 +185,37 @@ V3_REF=v3 P3_EVIDENCE_DIR=/absolute/new/evidence-directory npm run rehearse:p3
 
 Review `rehearsal.txt` (commands, process identity, source fingerprints and checks), `checks.txt` (labeled schema/consistency output), and `traffic.txt` (unaltered traffic output). The temporary instances/DB are cleaned up afterward. This bounded rehearsal starts at v2 and does not qualify the final continuous v1-to-Contract demonstration or a live target.
 
+### P4 bridge, release and Contract gates
+
+003 uses guarded AFTER INSERT and AFTER UPDATE OF `price_vnd, price` triggers to maintain `price = price_vnd / 1000.0`. The follow-up legacy UPDATE stops when the values agree, including with `recursive_triggers=ON`; tests exercise ON and OFF. Install only on backfilled/consistent v3/v3. Remove it only after both writers have returned to v3. v4 application SQL, including startup validation and orders, never queries/writes legacy `price`; it validates positive integer VND, uses new-column-only writes and derives legacy HTTP values. Tests trace all prepared SQL and restart the exact v4 tag against the contracted schema.
+
+Use the current runner with the intended shared absolute DB_PATH, **not bare migrate**, for this proposed live staging sequence (NOT RUN here):
+
+```bash
+# Initial schema and Expand at their respective earlier gates:
+DB_PATH="$DB_PATH" npm run migrate -- --to 001_init
+DB_PATH="$DB_PATH" npm run migrate -- --to 002_add_price_vnd
+# Only after completed backfill, CONSISTENT, and verified v3/v3:
+DB_PATH="$DB_PATH" npm run migrate -- --to 003_sync_legacy_price
+DB_PATH="$DB_PATH" npm run migrate:status
+DB_PATH="$DB_PATH" npm run check
+# Roll one instance at a time to immutable v4, checking after EACH roll.
+# STOP: verify v4/v4 processes and DB identity, check CONSISTENT, verify backup,
+# and obtain the student's explicit S8 go-ahead before executing the next command:
+DB_PATH="$DB_PATH" npm run migrate -- --to 004_drop_price
+```
+
+The v4 tag itself contains 001–003 only and is deployable before Contract. 004 drops both bridge triggers before dropping `price` inside the runner's transaction. No order column changes. 004.down adds a nullable REAL legacy column, reconstructs it from integer VND and restores both triggers while 003 remains recorded as applied. This cannot recover historical sub-VND precision; it reconstructs canonical thousands-of-VND values. After S8 there is **no safe code-only v3 rollback**. Keep v4 running, execute controlled schema recovery only with the expected 004 migration last, inspect schema/triggers and plain CONSISTENT, and only then consider one-at-a-time v3 rollback. A verified backup remains a separate recovery option.
+
+Reproducible development-only commands (use new absolute directories; existing evidence is never overwritten):
+
+```bash
+V4_REF=v4 P4_EVIDENCE_DIR=/absolute/new/rolling-evidence npm run rehearse:p4
+P4_CONTRACT_EVIDENCE_DIR=/absolute/new/contract-evidence node scripts/rehearse-contract.js
+```
+
+These tools always allocate their own temporary DBs; they never consume a supplied live DB_PATH. The rolling rehearsal keeps one traffic process through all v3/v4 states. The separate Contract rehearsal checks 001–004 downs/re-ups, menu/order preservation, two tagged v4 listeners, verified VACUUM INTO backups, old/new HTTP after drop, v4 restart and 004 schema recovery. 001.down removes application tables, so schema absence is checked instead of claiming application CONSISTENT there. No active v4 writer is present during 003.down. Seed now supports legacy-only, both-column and new-only schemas; check retains prior assertions and additionally rejects out-of-range VND. The separate final-tree smoke applied all migrations to an empty disposable DB, seeded 20,000 new-column-only rows and printed plain CONSISTENT. It is not live rollout evidence.
+
 ### Data and migration-down checks
 
 Append `npm run check` after **every step** and after **each individual instance roll**, with visible labels:
@@ -202,7 +239,7 @@ Before backfill the check may report `CONSISTENT, but ... rows have no price_vnd
 - Mixed v1/v2, v2/v3, v3/v4 (with bridge), rollback v3→v2→v3.
 - Final contract: old HTTP clients work after database `price` is gone.
 - All migrations run forward and `.down.sql` runs on a disposable DB.
-- Update starter `test/app.test.js` fixture and `scripts/seed.js` to support the final schema (both currently insert into legacy `price`).
+- Current app fixtures use new-column data; schema-aware `scripts/seed.js` supports both pre- and post-Contract DBs. Historical P1/P2/P3 tests continue loading exact versioned source.
 
 ## 6. Evidence and submission map
 
@@ -217,4 +254,4 @@ Before backfill the check may report `CONSISTENT, but ... rows have no price_vnd
 
 Deliverables at ZIP root (including repository's `.git`): tags `v1`...`v4`, all `.up/.down.sql`, batch backfill script, updated `MIGRATION.md`, `traffic-log.txt`, `check-log.txt`, English `AI-LOG.md` and English `SELF_ASSESSMENT_REPORT.md`. The report must have **one scored row per criterion**, evidence, a realistic total, “What I did not manage” and “What I would do differently.” Name the ZIP `<StudentID>_<total>.zip` and submit from `<StudentID>@student.hcmus.edu.vn`. GitHub's normal “Download ZIP” omits `.git` and is **not** suitable.
 
-**CI caveat:** `.github/workflows/migration-ci.yml` performs automated tests (including bounded disposable P2 concurrency and P3 rolling fixtures) and disposable-DB smoke checks. Passing it does not prove the final continuous live traffic run or live-target rollback. P3's tagged development rehearsal is separate evidence; the final v1-to-Contract run remains NOT RUN.
+**CI caveat:** `.github/workflows/migration-ci.yml` performs automated tests (including bounded disposable concurrency, rolling and Contract fixtures) and disposable-DB smoke checks. It does not qualify the live target or final continuous v1-to-Contract demonstration. Recorded local Node 22 results are separate from remote CI, and P5 remains NOT RUN.

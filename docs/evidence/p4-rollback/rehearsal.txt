@@ -1,0 +1,277 @@
+2026-11-04T09:43:30.116Z P4 DEVELOPMENT REHEARSAL ONLY; node=v22.23.4; shared DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+2026-11-04T09:43:30.120Z SOURCE v3 ref=v3 commit=ccd19db7c1cf14d2a5df21f38769c73dd96f27b2
+2026-11-04T09:43:30.124Z SOURCE_FILE v3/package.json sha256=cf2059249a8fb45c6b8a4e278c595ca178b95ad8529e2e078d9aa12ae5ffe073
+2026-11-04T09:43:30.128Z SOURCE_FILE v3/src/app.js sha256=26550c8bf1b08d9a1d7b9bf32d7d83c7dd64d8d028d2af209786e52e5e92833e
+2026-11-04T09:43:30.132Z SOURCE_FILE v3/src/db.js sha256=e9b9074529373eb5ca5f106a4110d22dcd362530a83500deebefdb376efbc1c4
+2026-11-04T09:43:30.136Z SOURCE_FILE v3/src/server.js sha256=87bac57fc8364e4fbc863ca94e94c2ff781f9d94d83ac876e2e2470c79b3e1f6
+2026-11-04T09:43:30.140Z SOURCE_FILE v3/scripts/migrate.js sha256=7896d57c3c1359e4bcbc9e9fe9f9fabf90322b520a40e057bf0939e2a61b58f7
+2026-11-04T09:43:30.144Z SOURCE_FILE v3/scripts/seed.js sha256=6b721a8f3983aa2e71b6f3fb29e4c19c61d2e5e2c4079fd4545152674a093078
+2026-11-04T09:43:30.147Z SOURCE_FILE v3/migrations/001_init.up.sql sha256=6ccae53c840d2d6925cb23744e21ab637d44c85cf1b0761432ef533ddd78fbf1
+2026-11-04T09:43:30.151Z SOURCE_FILE v3/migrations/002_add_price_vnd.up.sql sha256=d95073c8f9008753f2d9dc8dc4846f904353f72d28d9cf3b29413d56666a3bfa
+2026-11-04T09:43:30.154Z SOURCE v4 ref=v4 commit=51669379446f8f34473a90104ea939284335e9f2
+2026-11-04T09:43:30.158Z SOURCE_FILE v4/package.json sha256=b2954f4feac0132ace211effa44cbad8500a6ae28a9c4bb777f1f8fec2959207
+2026-11-04T09:43:30.162Z SOURCE_FILE v4/src/app.js sha256=f9bfd06cc1f27ed9e089d94c882e15f33cba0d6dfc65ecf5acdf162ba05c37f9
+2026-11-04T09:43:30.166Z SOURCE_FILE v4/src/db.js sha256=e9b9074529373eb5ca5f106a4110d22dcd362530a83500deebefdb376efbc1c4
+2026-11-04T09:43:30.169Z SOURCE_FILE v4/src/server.js sha256=87bac57fc8364e4fbc863ca94e94c2ff781f9d94d83ac876e2e2470c79b3e1f6
+2026-11-04T09:43:30.169Z COMMAND cwd=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/ /private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-node22-gmne4hnk/cache/_npx/52027bd8fc0022aa/node_modules/node/bin/node ["scripts/migrate.js","up","--to","002_add_price_vnd"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+2026-11-04T09:43:30.191Z applied  001_init
+applied  002_add_price_vnd
+2026-11-04T09:43:30.191Z (node:72758) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-11-04T09:43:30.191Z COMMAND cwd=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/ /private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-node22-gmne4hnk/cache/_npx/52027bd8fc0022aa/node_modules/node/bin/node ["scripts/seed.js","300"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+2026-11-04T09:43:30.214Z seeded 300 menu items
+2026-11-04T09:43:30.214Z (node:72759) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-11-04T09:43:30.217Z START A v3 pid=72760 cwd=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/v3 file=src/server.js env={"DB_PATH":"/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db","PORT":"61440"}
+2026-11-04T09:43:30.279Z HEALTH A http://127.0.0.1:61440 version=v3 pid=72760
+2026-11-04T09:43:30.280Z START B v3 pid=72761 cwd=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/v3 file=src/server.js env={"DB_PATH":"/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db","PORT":"61444"}
+2026-11-04T09:43:30.327Z HEALTH B http://127.0.0.1:61444 version=v3 pid=72761
+2026-11-04T09:43:30.327Z TARGETS=http://127.0.0.1:61440,http://127.0.0.1:61444
+2026-11-04T09:43:30.328Z COMMAND cwd=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/ npm ["run","migrate:status"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+2026-11-04T09:43:30.408Z > awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+2026-11-04T09:43:30.408Z (node:72804) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-11-04T09:43:30.408Z COMMAND cwd=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/ npm ["run","check"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+2026-11-04T09:43:30.483Z > awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   300
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+2026-11-04T09:43:30.483Z CHECK PASS QUALIFIED v3/v3 BEFORE BRIDGE state=v3/v3 traffic_pid=not started
+2026-11-04T09:43:30.483Z COMMAND cwd=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/ /private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-node22-gmne4hnk/cache/_npx/52027bd8fc0022aa/node_modules/node/bin/node ["scripts/migrate.js","up","--to","003_sync_legacy_price"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+2026-11-04T09:43:30.503Z applied  003_sync_legacy_price
+2026-11-04T09:43:30.503Z (node:72848) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-11-04T09:43:30.506Z COMMAND cwd=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/ npm ["run","migrate:status"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+2026-11-04T09:43:30.584Z > awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+2026-11-04T09:43:30.584Z (node:72891) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-11-04T09:43:30.584Z COMMAND cwd=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/ npm ["run","check"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+2026-11-04T09:43:30.660Z > awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   300
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+2026-11-04T09:43:30.660Z CHECK PASS BRIDGE INSTALLED / BEFORE v4 state=v3/v3 traffic_pid=not started
+2026-11-04T09:43:30.660Z START one continuous development traffic process pid=72935 cwd=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/ file=scripts/traffic.js env={"DB_PATH":"/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db","TARGETS":"http://127.0.0.1:61440,http://127.0.0.1:61444","IDS":"300","NEW_CLIENTS":"0.3","NEW_CLIENTS_FILE":"","DURATION":"0","LOG":"/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/docs/evidence/p4-rollback/traffic.txt"}
+2026-11-04T09:43:30.826Z COMMAND cwd=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/ npm ["run","migrate:status"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+2026-11-04T09:43:30.915Z > awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+2026-11-04T09:43:30.915Z (node:72978) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-11-04T09:43:30.915Z COMMAND cwd=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/ npm ["run","check"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+2026-11-04T09:43:31.001Z > awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   359
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+2026-11-04T09:43:31.001Z CHECK PASS BASELINE state=v3/v3 traffic_pid=72935
+2026-11-04T09:43:31.002Z ROLL DEPLOY A: stopping A v3 pid=72760; standby=B/v3
+2026-11-04T09:43:31.006Z START A v4 pid=73022 cwd=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/v4 file=src/server.js env={"DB_PATH":"/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db","PORT":"61440"}
+2026-11-04T09:43:31.052Z HEALTH A http://127.0.0.1:61440 version=v4 pid=73022
+2026-11-04T09:43:31.324Z COMMAND cwd=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/ npm ["run","migrate:status"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+2026-11-04T09:43:31.412Z > awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+2026-11-04T09:43:31.412Z (node:73083) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-11-04T09:43:31.412Z COMMAND cwd=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/ npm ["run","check"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+2026-11-04T09:43:31.497Z > awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   519
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+2026-11-04T09:43:31.497Z CHECK PASS DEPLOY A state=v4/v3 traffic_pid=72935
+2026-11-04T09:43:31.497Z ROLL DEPLOY B / BEFORE ROLLBACK: stopping B v3 pid=72761; standby=A/v4
+2026-11-04T09:43:31.502Z START B v4 pid=73127 cwd=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/v4 file=src/server.js env={"DB_PATH":"/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db","PORT":"61444"}
+2026-11-04T09:43:31.546Z HEALTH B http://127.0.0.1:61444 version=v4 pid=73127
+2026-11-04T09:43:31.820Z COMMAND cwd=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/ npm ["run","migrate:status"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+2026-11-04T09:43:31.906Z > awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+2026-11-04T09:43:31.906Z (node:73170) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-11-04T09:43:31.906Z COMMAND cwd=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/ npm ["run","check"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+2026-11-04T09:43:31.989Z > awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   701
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+2026-11-04T09:43:31.989Z CHECK PASS DEPLOY B / BEFORE ROLLBACK state=v4/v4 traffic_pid=72935
+2026-11-04T09:43:31.989Z ROLL ROLLBACK B: stopping B v4 pid=73127; standby=A/v4
+2026-11-04T09:43:31.993Z START B v3 pid=73214 cwd=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/v3 file=src/server.js env={"DB_PATH":"/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db","PORT":"61444"}
+2026-11-04T09:43:32.038Z HEALTH B http://127.0.0.1:61444 version=v3 pid=73214
+2026-11-04T09:43:32.311Z COMMAND cwd=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/ npm ["run","migrate:status"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+2026-11-04T09:43:32.398Z > awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+2026-11-04T09:43:32.398Z (node:73257) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-11-04T09:43:32.398Z COMMAND cwd=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/ npm ["run","check"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+2026-11-04T09:43:32.482Z > awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   903
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+2026-11-04T09:43:32.483Z CHECK PASS ROLLBACK B state=v4/v3 traffic_pid=72935
+2026-11-04T09:43:32.483Z ROLL ROLLBACK A: stopping A v4 pid=73022; standby=B/v3
+2026-11-04T09:43:32.486Z START A v3 pid=73303 cwd=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/v3 file=src/server.js env={"DB_PATH":"/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db","PORT":"61440"}
+2026-11-04T09:43:32.531Z HEALTH A http://127.0.0.1:61440 version=v3 pid=73303
+2026-11-04T09:43:32.801Z COMMAND cwd=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/ npm ["run","migrate:status"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+2026-11-04T09:43:32.889Z > awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+2026-11-04T09:43:32.889Z (node:73346) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-11-04T09:43:32.889Z COMMAND cwd=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/ npm ["run","check"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+2026-11-04T09:43:32.973Z > awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   1110
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+2026-11-04T09:43:32.973Z CHECK PASS ROLLBACK A state=v3/v3 traffic_pid=72935
+2026-11-04T09:43:32.973Z ROLL RESTORE B: stopping B v3 pid=73214; standby=A/v3
+2026-11-04T09:43:32.976Z START B v4 pid=73390 cwd=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/v4 file=src/server.js env={"DB_PATH":"/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db","PORT":"61444"}
+2026-11-04T09:43:33.019Z HEALTH B http://127.0.0.1:61444 version=v4 pid=73390
+2026-11-04T09:43:33.290Z COMMAND cwd=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/ npm ["run","migrate:status"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+2026-11-04T09:43:33.377Z > awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+2026-11-04T09:43:33.377Z (node:73451) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-11-04T09:43:33.377Z COMMAND cwd=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/ npm ["run","check"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+2026-11-04T09:43:33.459Z > awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   1282
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+2026-11-04T09:43:33.460Z CHECK PASS RESTORE B state=v3/v4 traffic_pid=72935
+2026-11-04T09:43:33.460Z ROLL RESTORE A / AFTER ROLLBACK: stopping A v3 pid=73303; standby=B/v4
+2026-11-04T09:43:33.463Z START A v4 pid=73495 cwd=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/v4 file=src/server.js env={"DB_PATH":"/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db","PORT":"61440"}
+2026-11-04T09:43:33.507Z HEALTH A http://127.0.0.1:61440 version=v4 pid=73495
+2026-11-04T09:43:33.780Z COMMAND cwd=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/ npm ["run","migrate:status"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+2026-11-04T09:43:33.866Z > awad-price-migration-starter@4.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+2026-11-04T09:43:33.866Z (node:73540) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-11-04T09:43:33.866Z COMMAND cwd=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/ npm ["run","check"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-6QPYvm/shared.db
+2026-11-04T09:43:33.957Z > awad-price-migration-starter@4.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   1476
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+2026-11-04T09:43:33.957Z CHECK PASS RESTORE A / AFTER ROLLBACK state=v4/v4 traffic_pid=72935
+2026-11-04T09:43:33.962Z PASS {"trafficPid":72935,"states":["v3/v3","v4/v3","v4/v4","v4/v3","v3/v3","v3/v4","v4/v4"],"final":"   3.3s FINAL ok=60286 error=0 contract=0 stale=0 unavailable=0 rerouted=33","down":6,"back":6}
+2026-11-04T09:43:33.962Z STDERR A v3: (node:72760) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-11-04T09:43:33.963Z STDERR B v3: (node:72761) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-11-04T09:43:33.963Z STDERR A v4: (node:73022) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-11-04T09:43:33.963Z STDERR B v4: (node:73127) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-11-04T09:43:33.963Z STDERR B v3: (node:73214) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-11-04T09:43:33.963Z STDERR A v3: (node:73303) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-11-04T09:43:33.965Z STDERR B v4: (node:73390) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-11-04T09:43:33.965Z STDERR A v4: (node:73495) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+2026-11-04T09:43:33.969Z CLEANUP complete; passed development rehearsal; final v1-to-Contract demo NOT RUN
