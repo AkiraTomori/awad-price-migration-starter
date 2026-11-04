@@ -22,6 +22,15 @@ This file records assistant involvement honestly and chronologically. It is not 
 - **Rejected / out of scope:** P2–P5, backfill, traffic-switch changes, v3/v4, contract, live deployment, live migration, final traffic demonstration and submission. Traffic counters and rolling down/back evidence: **NOT RUN**. Remote CI: **NOT RUN locally**; see the PR checks for their separate result. No zero-downtime claim is made.
 - **By hand / review gate:** student review of SQL, validation and down evidence remains pending. Do not send new clients to v1. v1 writes can still leave null or stale `price_vnd`; do not backfill or switch reads in this phase. Migration down is unsafe with dependent v2 code running. No v2 release tag was created before review. Existing unrelated `.gitignore` work is excluded from the P1 commit.
 
+## 2026-11-04 — P1 review follow-up for PR #3
+
+- **Tool:** Codex (OpenAI), local shell/file edits and GitHub connector. Retained the existing log format.
+- **Asked for:** full-history checkout in CI, full-suite verification on Node.js 22, explicit legacy rounding/minimum-VND documentation, and an update to the existing PR. P1 only.
+- **Changed / kept:** `actions/checkout@v4` now uses `fetch-depth: 0` so tests can resolve the immutable v1 tag and load the original starter commit. `MIGRATION.md` documents JavaScript floating-point rounding, preservation of legacy precision, one-VND minimum for new inputs, rejection of legacy values rounding to zero, maximums and matching-pair validation. Application behavior and test assertions are unchanged.
+- **Executed:** downloaded an isolated Node 22 runtime through `npm exec --package=node@22` using a temporary cache; verified `node --version` as **v22.23.4**, then ran `npm test`: **10/10 passed**, including mixed original v1/v2 HTTP and separate 002 up/down/re-up tests. This matches CI's Node major; local npm was 11.18.0, and local macOS validation is distinct from Ubuntu remote CI.
+- **Executed:** with that Node 22 runtime and a fresh absolute disposable `DB_PATH`, ran `npm run migrate`, `npm run seed` (20,000 rows), `npm run migrate:status`, and `npm run check`: all exited 0. Observed 20,000 expected NULL new values, 0 non-integers and 0 disagreements. Verified `v1^{}` remains the original SHA. Full command/output evidence is in `docs/evidence/p1-node22-validation.txt`; the runtime cache and disposable DB were removed afterward.
+- **Out of scope / by hand:** no backfill, P2–P5, live DB changes, deployment, final traffic demonstration, merge or submission. Student review remains pending. Remote CI results are reported separately on PR #3. Existing unrelated `.gitignore` work remains outside this commit.
+
 ## Future entries
 
 For each implementation phase, add the date, tool, prompt/task, kept, changed, rejected, and by-hand work. Only describe commands and results that actually happened.
