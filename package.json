@@ -1,6 +1,6 @@
 {
   "name": "awad-price-migration-starter",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "private": true,
   "type": "module",
   "description": "IA#2 starter — smart-restaurant menu service for a zero-downtime migration",

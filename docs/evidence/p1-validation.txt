@@ -1,0 +1,134 @@
+P1 local validation — 2026-11-04 ICT
+Scope: disposable database only; NOT the live demonstration DB.
+DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p1-cli-asb7w5bp/rehearsal.db
+The temporary database is removed after this rehearsal.
+
+$ node --version
+v26.6.0
+exit=0
+
+$ npm test
+
+> awad-price-migration-starter@2.0.0 test
+> node --test --test-reporter=spec
+
+✔ GET /menu/:id returns price in thousands of dong (13.564416ms)
+✔ PATCH /menu/:id changes the price (2.398958ms)
+✔ POST /orders totals at the current price (1.020708ms)
+✔ errors have one shape (2.053875ms)
+✔ v2 supports both clients on create/reprice/list/get and preserves order units (27.356625ms)
+✔ invalid payloads do not create or change rows on either write path (12.896166ms)
+✔ original v1 and v2 share expanded DB; v2 reads legacy writes even with stale VND (27.137917ms)
+✔ 002 up/down/re-up preserves legacy menu and order data on a separate DB (2.3705ms)
+✔ price conversion keeps legacy precision and rounds integer VND (0.719125ms)
+✔ price validation rejects absent, invalid, unsafe and conflicting values (0.165042ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 120.927125
+exit=0
+
+$ npm run migrate
+
+> awad-price-migration-starter@2.0.0 migrate
+> node scripts/migrate.js up
+
+applied  001_init
+applied  002_add_price_vnd
+exit=0
+
+$ npm run seed
+
+> awad-price-migration-starter@2.0.0 seed
+> node scripts/seed.js
+
+seeded 20000 menu items
+exit=0
+
+$ npm run migrate:status
+
+> awad-price-migration-starter@2.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p1-cli-asb7w5bp/rehearsal.db
+[x] 001_init
+[x] 002_add_price_vnd
+exit=0
+
+$ npm run check
+
+> awad-price-migration-starter@2.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   20000
+price_vnd_null         20000
+price_vnd_not_integer  0
+disagree               0
+CONSISTENT, but 20000 rows have no price_vnd yet — nothing may read price_vnd until they do
+exit=0
+
+$ npm run migrate:down
+
+> awad-price-migration-starter@2.0.0 migrate:down
+> node scripts/migrate.js down
+
+reverted 002_add_price_vnd
+exit=0
+
+$ npm run migrate:status
+
+> awad-price-migration-starter@2.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p1-cli-asb7w5bp/rehearsal.db
+[x] 001_init
+[ ] 002_add_price_vnd
+exit=0
+
+$ npm run check
+
+> awad-price-migration-starter@2.0.0 check
+> node scripts/check.js
+
+columns                id, name, price
+rows                   20000
+CONSISTENT
+exit=0
+
+$ npm run migrate
+
+> awad-price-migration-starter@2.0.0 migrate
+> node scripts/migrate.js up
+
+applied  002_add_price_vnd
+exit=0
+
+$ npm run migrate:status
+
+> awad-price-migration-starter@2.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p1-cli-asb7w5bp/rehearsal.db
+[x] 001_init
+[x] 002_add_price_vnd
+exit=0
+
+$ npm run check
+
+> awad-price-migration-starter@2.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   20000
+price_vnd_null         20000
+price_vnd_not_integer  0
+disagree               0
+CONSISTENT, but 20000 rows have no price_vnd yet — nothing may read price_vnd until they do
+exit=0
+
+NOT RUN: final traffic demonstration, rolling restart, P2–P5, remote CI, live DB migration.

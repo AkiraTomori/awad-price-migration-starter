@@ -23,7 +23,7 @@ const call = async (method, path, body) => {
 };
 
 test('GET /menu/:id returns price in thousands of dong', async () => {
-  assert.deepEqual(await call('GET', '/menu/1'), { status: 200, body: { id: 1, name: 'Phở bò', price: 45.5 } });
+  assert.deepEqual(await call('GET', '/menu/1'), { status: 200, body: { id: 1, name: 'Phở bò', price: 45.5, priceVnd: 45500 } });
 });
 
 test('PATCH /menu/:id changes the price', async () => {

@@ -1,6 +1,6 @@
 # Coding-Agent Workflow — IA#2
 
-Status: **PLAN ONLY** (2026-11-04). This is a handoff checklist for a coding agent, not a claim that any implementation or live test has happened. Work one phase at a time; commit code changes and ask the student to inspect each gate.
+Status: **P1 locally implemented and tested; student review pending** (2026-11-04). See `evidence/p1-validation.txt` for actual disposable validation. P2–P5 and live traffic are NOT RUN. The remaining workflow is a handoff checklist. Work one phase at a time; commit code changes and ask the student to inspect each gate.
 
 ## How to give the agent work
 
@@ -19,10 +19,10 @@ Start each agent session with: “Read `AGENTS.md`, `MIGRATION.md` and this work
 
 ### P1: Expand + dual write
 
-- [ ] `002` adds nullable INTEGER without changing or deleting `price`, and its down can revert safely before newer code depends on it.
-- [ ] Both `POST /menu` and `PATCH /menu/:id` accept legacy `price` or new `priceVnd` and write both columns atomically.
-- [ ] `GET /menu`, `GET /menu/:id`, and write responses expose numeric `price` and integer `priceVnd`; if `price_vnd` is initially null, derive the response from `price`.
-- [ ] Mixed v1/v2 is safe while only old clients send traffic. v1 may write just `price`, so backfill **must not start yet**.
+- [x] `002` adds nullable INTEGER without changing or deleting `price`, and its down can revert safely before newer code depends on it (disposable rehearsal passed).
+- [x] Both `POST /menu` and `PATCH /menu/:id` accept legacy `price` or new `priceVnd` and write both columns atomically.
+- [x] `GET /menu`, `GET /menu/:id`, and write responses expose numeric `price` and integer `priceVnd`; derive from legacy `price` for both null and stale new values.
+- [x] Mixed original v1/v2 compatibility verified by HTTP tests with old-client payloads on a shared temporary DB. v1 may write just `price`, so backfill **must not start yet**. Live rolling/traffic evidence is NOT RUN.
 
 ### P2: Batch backfill + dynamic clients
 

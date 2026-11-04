@@ -1,6 +1,8 @@
 # IA#2 — Zero-downtime menu price migration
 
-**Status: PLAN ONLY — no migration, traffic run, or rollback has been executed in this PR.**
+**Status: P1 implemented and locally tested; student review pending. P2–P5 and the live demonstration are NOT RUN.**
+
+P1 evidence: [docs/evidence/p1-validation.txt](docs/evidence/p1-validation.txt) records 10 passing tests and the actual 002 down/re-up CLI rehearsal on a fresh disposable database. Mixed original v1/v2 HTTP tests share one absolute temporary DB path; v2 reads only legacy `price` and derives both response fields from it, including after a v1 reprice leaves `price_vnd` stale. Health reports `version: v2`; `v1` remains the original starter SHA. No v2 tag has been created pending review. Existing seed rows intentionally retain NULL new values; no backfill ran. The runbook below remains proposed, not executed live evidence.
 
 Individual assignment (CSC13114), deadline **2026-11-05 22:00 ICT**. Original starter commit for immutable `v1`: `2b889bde433190c17744f30d3900d38ab333a756`. Convert `menu_items.price REAL` (thousands of VND, 45.5) to `menu_items.price_vnd INTEGER` (VND, 45500), then drop the old **database** column. The **HTTP** field `price` must remain usable by old clients. `order_items.unit_price` and `POST /orders` totals retain their old thousands-of-VND units.
 
