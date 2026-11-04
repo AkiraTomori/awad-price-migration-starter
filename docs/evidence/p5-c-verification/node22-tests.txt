@@ -1,0 +1,108 @@
+Cloning into '/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5c-tests-98w2sic8/repo'...
+done.
+Test checkout: /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5c-tests-98w2sic8/repo
+Commit: f8282979c0ad630e0ba2ddac7ce9cddcfdd68fc5
+
+v22.23.4
+
+> awad-price-migration-starter@4.0.0 test
+> node --test --test-reporter=spec
+
+(node:78188) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ GET /menu/:id returns price in thousands of dong (14.881916ms)
+✔ PATCH /menu/:id changes the price (3.682417ms)
+✔ POST /orders totals at the current price (1.495834ms)
+✔ errors have one shape (3.844083ms)
+(node:78189) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ v2 supports both clients on create/reprice/list/get and preserves order units (42.082083ms)
+✔ invalid payloads do not create or change rows on either write path (21.928167ms)
+✔ original v1 and v2 share expanded DB; v2 reads legacy writes even with stale VND (22.490209ms)
+✔ 002 up/down/re-up preserves legacy menu and order data on a separate DB (2.461417ms)
+(node:78190) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ backfill rolls back an invalid batch, retains earlier commits and resumes after repair (9.522417ms)
+✔ backfill reconciles NULL/stale rows in bounded batches without touching correct rows or orders (177.801ms)
+✔ SIGTERM preserves committed progress and a fresh process resumes idempotently (153.301417ms)
+✔ separate backfill process preserves concurrent v2 HTTP create/reprice writes from both instances (764.81425ms)
+✔ backfill waits for an in-flight v2 transaction before reading its latest price (154.497042ms)
+✔ CLI refuses backfill when either target is not v2, before changing data (168.785209ms)
+✔ client mix validates inputs, rejects bad updates, and reloads valid shares (6.668583ms)
+P2 disposable traffic child pid=79351: === traffic start 2026-11-04T12:17:59.925Z · targets http://127.0.0.1:51405 http://127.0.0.1:51406 · new clients 0 |    0.6s CLIENT_MIX 0 -> 0.3 file=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p2-test-SanLU4/share.json |    0.6s FINAL ok=1894 error=0 contract=0 stale=0 unavailable=0 rerouted=0 | RESULT: zero failed requests
+✔ one traffic child switches 0 to 0.3 under backfill with all original failure counters zero (662.72475ms)
+(node:78191) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ v3 refuses incomplete, disagreeing or invalid backfill before serving (2.828625ms)
+✔ v3 reads menu and order prices solely from VND, retaining thousands for orders (23.369291ms)
+✔ mixed exact-tag v2/v3 supports both payloads, atomic pairs, rounding and original order units (67.009208ms)
+P3 disposable rolling rehearsal {"trafficPid":78915,"states":["v2/v2","v3/v2","v3/v3","v3/v2","v2/v2","v2/v3","v3/v3"],"final":"   3.9s FINAL ok=39695 error=0 contract=0 stale=0 unavailable=0 rerouted=30","down":6,"back":6}
+✔ rolling v2/v3 deploy and rollback keep one real traffic process and consistent shared DB (4444.873708ms)
+(node:78192) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+P4 disposable schema/HTTP proof {"passed":true,"v4":"51669379446f8f34473a90104ea939284335e9f2","menuRows":17}
+✔ all migration downs, staged Contract, exact-tag v4 HTTP and schema recovery on a disposable DB (1254.52225ms)
+(node:78341) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:78344) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:78370) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:78523) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:78575) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:78193) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ 003 INSERT/UPDATE bridge is reversible and terminates with recursive triggers ON/OFF (1.405584ms)
+✔ explicit migration target stages 003, rejects invalid targets and preserves data on down/re-up (207.2805ms)
+✔ v4 SQL never names legacy price; bridge supports mixed v3/v4 old/new writes and order units (65.354458ms)
+✔ v4 startup rejects invalid VND without a legacy-column query (0.74375ms)
+P4 disposable rolling rehearsal {"trafficPid":79159,"states":["v3/v3","v4/v3","v4/v4","v4/v3","v3/v3","v3/v4","v4/v4"],"final":"   3.9s FINAL ok=41091 error=0 contract=0 stale=0 unavailable=0 rerouted=30","down":6,"back":6}
+✔ rolling v3/v4 bridge rollout and rollback preserve one traffic PID and consistency (4625.83725ms)
+(node:78194) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ P5 plan describes each roll with an explicit S8 gate and executes no demonstration operation (2.528792ms)
+✔ P5 preparation refuses existing logs, DB directories, unsafe paths and symlink ancestors (2.262166ms)
+✔ P5 port preflight refuses a busy port without stopping the existing listener (6.159625ms)
+✖ P5-A proves two exact-v1 PIDs open the same disposable DB; final DB/logs stay absent (0.626834ms)
+✔ price conversion keeps legacy precision and rounds integer VND (1.053708ms)
+✔ price validation rejects absent, invalid, unsafe and conflicting values (0.108042ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 31
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4988.055834
+
+✖ failing tests:
+
+test at test/p5.test.js:65:1
+✖ P5-A proves two exact-v1 PIDs open the same disposable DB; final DB/logs stay absent (0.626834ms)
+  AssertionError [ERR_ASSERTION]: The input did not match the regular expression /must be separate/. Input:
+  
+  'Error: preserve existing path; choose/review a fresh run instead: /private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5c-tests-98w2sic8/repo/traffic-log.txt'
+  
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async TestContext.<anonymous> (file:///private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5c-tests-98w2sic8/repo/test/p5.test.js:69:5)
+      at async Test.run (node:internal/test_runner/test:1054:7)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:744:7) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: Error: preserve existing path; choose/review a fresh run instead: /private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5c-tests-98w2sic8/repo/traffic-log.txt
+        at validateFinalPaths (file:///private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5c-tests-98w2sic8/repo/scripts/p5-plan.js:24:29)
+        at buildPlan (file:///private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5c-tests-98w2sic8/repo/scripts/p5-plan.js:33:3)
+        at preflight (file:///private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5c-tests-98w2sic8/repo/scripts/p5-preflight.js:116:16)
+        at TestContext.<anonymous> (file:///private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5c-tests-98w2sic8/repo/test/p5.test.js:69:26)
+        at Test.runInAsyncScope (node:async_hooks:214:14)
+        at Test.run (node:internal/test_runner/test:1047:25)
+        at Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+        at Test.postRun (node:internal/test_runner/test:1173:19)
+        at Test.run (node:internal/test_runner/test:1101:12)
+        at process.processTicksAndRejections (node:internal/process/task_queues:103:5),
+    expected: /must be separate/,
+    operator: 'rejects',
+    diff: 'simple'
+  }

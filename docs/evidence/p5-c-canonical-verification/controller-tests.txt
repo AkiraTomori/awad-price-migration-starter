@@ -1,0 +1,12 @@
+UTC 2026-11-04T12:27:10.924038+00:00
+Node v22.23.4
+Command ['python3', '-m', 'unittest', 'discover', '-s', 'test', '-p', 'p5_b_test.py', '-v']
+test_backup_compares_one_snapshot_while_an_independent_writer_commits (p5_b_test.SafetyTests.test_backup_compares_one_snapshot_while_an_independent_writer_commits) ... ok
+test_contract_is_not_an_executable_target (p5_b_test.SafetyTests.test_contract_is_not_an_executable_target) ... ok
+test_nonzero_counter_and_failure_details_stop_progression (p5_b_test.SafetyTests.test_nonzero_counter_and_failure_details_stop_progression) ... ok
+test_startup_wait_does_not_require_a_log_line_before_the_generator_writes_it (p5_b_test.SafetyTests.test_startup_wait_does_not_require_a_log_line_before_the_generator_writes_it) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.005s
+
+OK

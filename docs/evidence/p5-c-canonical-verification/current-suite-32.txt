@@ -1,0 +1,71 @@
+Command: ['/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/runtime/node', '--test', '--test-reporter=spec', 'test/app.test.js', 'test/p1.test.js', 'test/p2.test.js', 'test/p3.test.js', 'test/p4-contract.test.js', 'test/p4.test.js', 'test/p5.test.js', 'test/price.test.js']
+(node:96794) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ GET /menu/:id returns price in thousands of dong (13.886041ms)
+✔ PATCH /menu/:id changes the price (5.633291ms)
+✔ POST /orders totals at the current price (3.001667ms)
+✔ errors have one shape (4.036333ms)
+(node:96795) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ v2 supports both clients on create/reprice/list/get and preserves order units (48.75625ms)
+✔ invalid payloads do not create or change rows on either write path (25.134459ms)
+✔ original v1 and v2 share expanded DB; v2 reads legacy writes even with stale VND (24.868709ms)
+✔ 002 up/down/re-up preserves legacy menu and order data on a separate DB (2.3325ms)
+(node:96796) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ backfill rolls back an invalid batch, retains earlier commits and resumes after repair (10.620583ms)
+✔ backfill reconciles NULL/stale rows in bounded batches without touching correct rows or orders (209.747583ms)
+✔ SIGTERM preserves committed progress and a fresh process resumes idempotently (160.347709ms)
+✔ separate backfill process preserves concurrent v2 HTTP create/reprice writes from both instances (763.328708ms)
+✔ backfill waits for an in-flight v2 transaction before reading its latest price (128.604666ms)
+✔ CLI refuses backfill when either target is not v2, before changing data (160.369167ms)
+✔ client mix validates inputs, rejects bad updates, and reloads valid shares (6.434333ms)
+P2 disposable traffic child pid=97381: === traffic start 2026-11-04T12:27:35.675Z · targets http://127.0.0.1:54173 http://127.0.0.1:54174 · new clients 0 |    0.6s CLIENT_MIX 0 -> 0.3 file=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p2-test-EEYNOA/share.json |    0.6s FINAL ok=2658 error=0 contract=0 stale=0 unavailable=0 rerouted=0 | RESULT: zero failed requests
+✔ one traffic child switches 0 to 0.3 under backfill with all original failure counters zero (622.9215ms)
+(node:96797) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ v3 refuses incomplete, disagreeing or invalid backfill before serving (1.505667ms)
+✔ v3 reads menu and order prices solely from VND, retaining thousands for orders (23.357291ms)
+✔ mixed exact-tag v2/v3 supports both payloads, atomic pairs, rounding and original order units (86.651583ms)
+P3 disposable rolling rehearsal {"trafficPid":97135,"states":["v2/v2","v3/v2","v3/v3","v3/v2","v2/v2","v2/v3","v3/v3"],"final":"   3.9s FINAL ok=40940 error=0 contract=0 stale=0 unavailable=0 rerouted=33","down":6,"back":6}
+✔ rolling v2/v3 deploy and rollback keep one real traffic process and consistent shared DB (4475.524042ms)
+(node:96798) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+P4 disposable schema/HTTP proof {"passed":true,"v4":"51669379446f8f34473a90104ea939284335e9f2","menuRows":17}
+✔ all migration downs, staged Contract, exact-tag v4 HTTP and schema recovery on a disposable DB (1338.859917ms)
+(node:96832) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:96835) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:96841) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:96886) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:96899) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:96799) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ 003 INSERT/UPDATE bridge is reversible and terminates with recursive triggers ON/OFF (2.387584ms)
+✔ explicit migration target stages 003, rejects invalid targets and preserves data on down/re-up (221.683833ms)
+✔ v4 SQL never names legacy price; bridge supports mixed v3/v4 old/new writes and order units (77.480625ms)
+✔ v4 startup rejects invalid VND without a legacy-column query (0.860708ms)
+P4 disposable rolling rehearsal {"trafficPid":97290,"states":["v3/v3","v4/v3","v4/v4","v4/v3","v3/v3","v3/v4","v4/v4"],"final":"   3.8s FINAL ok=39266 error=0 contract=0 stale=0 unavailable=0 rerouted=26","down":6,"back":6}
+✔ rolling v3/v4 bridge rollout and rollback preserve one traffic PID and consistency (4517.753292ms)
+(node:96800) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+Cloning into '/private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5-preflight-test-xR9eG2/repo'...
+done.
+✔ P5 plan describes each roll with an explicit S8 gate and executes no demonstration operation (1.316041ms)
+✔ P5 preparation refuses existing logs, DB directories, unsafe paths and symlink ancestors (2.988042ms)
+✔ P5 port preflight refuses a busy port without stopping the existing listener (4.48075ms)
+✔ P5-A proves two exact-v1 PIDs open the same disposable DB; final DB/logs stay absent (817.304375ms)
+✔ price conversion keeps legacy precision and rounds integer VND (1.528875ms)
+✔ price validation rejects absent, invalid, unsafe and conflicting values (0.094583ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4899.241959

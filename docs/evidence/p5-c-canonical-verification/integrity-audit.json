@@ -1,0 +1,46 @@
+{
+  "at": "2026-11-04T12:28:00.275650+00:00",
+  "tags": {
+    "v1": "2b889bde433190c17744f30d3900d38ab333a756",
+    "v2": "dadb816bac9dad5ffcbf098d130d387bbbdd338c",
+    "v3": "ccd19db7c1cf14d2a5df21f38769c73dd96f27b2",
+    "v4": "51669379446f8f34473a90104ea939284335e9f2"
+  },
+  "baseline_evidence_files": 57,
+  "manifest_comparisons": 160,
+  "logs": {
+    "traffic-log.txt": {
+      "bytes": 63188,
+      "sha256": "f90fd5a26f607910f974f3feb09836dd3a0116971afd4f11555c9c383bfb36d6"
+    },
+    "check-log.txt": {
+      "bytes": 30612,
+      "sha256": "eb7aebae43bf9a391e04e19f387bffb91eae32446251957b06ff13384e094519"
+    }
+  },
+  "starts": 1,
+  "finals": 1,
+  "results": 1,
+  "down_events": 26,
+  "back_events": 26,
+  "migration_pairs": 4,
+  "production_source_unchanged": true,
+  "demo_database": "NOT OPENED OR MODIFIED; verified saved final evidence",
+  "saved_final_db_receipt": {
+    "at": "2026-11-04T12:09:51.571033+00:00",
+    "DB_PATH": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+    "integrity_check": "ok",
+    "foreign_key_check": [],
+    "columns": [
+      "id",
+      "name",
+      "price_vnd"
+    ],
+    "versions": [
+      "001_init",
+      "002_add_price_vnd",
+      "003_sync_legacy_price",
+      "004_drop_price"
+    ]
+  }
+}

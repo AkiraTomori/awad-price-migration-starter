@@ -1,0 +1,39 @@
+{
+  "student_id": "23127379",
+  "student_name": "Thái Minh Huy",
+  "criteria": [
+    {
+      "criterion": "1. The plan",
+      "maximum": 20,
+      "claimed": 20
+    },
+    {
+      "criterion": "2. Expand and dual write",
+      "maximum": 20,
+      "claimed": 19
+    },
+    {
+      "criterion": "3. Backfill",
+      "maximum": 15,
+      "claimed": 15
+    },
+    {
+      "criterion": "4. Zero failed requests",
+      "maximum": 20,
+      "claimed": 19
+    },
+    {
+      "criterion": "5. The way back",
+      "maximum": 15,
+      "claimed": 15
+    },
+    {
+      "criterion": "6. Contract",
+      "maximum": 10,
+      "claimed": 10
+    }
+  ],
+  "total": 98,
+  "archive": "23127379_98.zip",
+  "status": "PROPOSED FOR STUDENT REVIEW"
+}

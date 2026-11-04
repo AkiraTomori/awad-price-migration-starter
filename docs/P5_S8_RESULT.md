@@ -1,5 +1,8 @@
 # P5 final continuous demonstration — S8 completed
 
+**P5-C finalization follow-up:** the student authorized final verification, assessment, conditional PR #9 integration and ZIP packaging. Current Node22 source tests pass 32/32 and controller/backup tests 4/4; proposed assessment 98/100. [Final migration/status reference](../MIGRATION.md), [assessment](../SELF_ASSESSMENT_REPORT.md), and final integration/ZIP receipts supersede historical pending approval or submission-preparation statements below. S0–S8 logs and DB are frozen; no replay, migration or traffic restart is authorized. Upload remains manual.
+
+
 Observed completion: **2026-11-04 19:07:43 ICT**. The student explicitly authorized S8 in the current conversation: “Hãy thực hiện S8 và thực hiện thao tác như nãy giờ thực hiện”. The authorization applied to the same demonstration DB previously presented for review. No merge, report score, ZIP or submission was authorized or performed.
 
 ## Actual result

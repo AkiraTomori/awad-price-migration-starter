@@ -1,0 +1,15 @@
+{
+  "gate": "STOP: test fixture macOS path canonicalization failure",
+  "node": "v22.23.4",
+  "node_tests": {
+    "pass": 31,
+    "fail": 1
+  },
+  "controller_tests": "NOT RUN: full-suite failure stop condition",
+  "existing_evidence_files_unchanged": 57,
+  "production_files_changed": false,
+  "student_id": "23127379",
+  "student_name": "Thái Minh Huy",
+  "merge": "NOT RUN",
+  "zip": "NOT CREATED"
+}

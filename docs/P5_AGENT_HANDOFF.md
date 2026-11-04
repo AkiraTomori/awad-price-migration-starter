@@ -1,5 +1,8 @@
 # P5 Coding-Agent handoff — Final continuous demonstration and submission
 
+**P5-C finalization follow-up:** the student authorized final verification, assessment, conditional PR #9 integration and ZIP packaging. Current Node22 source tests pass 32/32 and controller/backup tests 4/4; proposed assessment 98/100. [Final migration/status reference](../MIGRATION.md), [assessment](../SELF_ASSESSMENT_REPORT.md), and final integration/ZIP receipts supersede historical pending approval or submission-preparation statements below. S0–S8 logs and DB are frozen; no replay, migration or traffic restart is authorized. Upload remains manual.
+
+
 **Current follow-up (2026-11-04 19:07:43 ICT):** the student explicitly approved S8. Migration `--to 004_drop_price` and both-client/order verification completed on the same DB and uninterrupted traffic PID 29850. The original generator ended once: **35,309,724 successful requests, zero error/contract/stale/unavailable**, one start/FINAL/RESULT and 26 observed down/back pairs (ten deliberate rolls plus sixteen transient route failures during the wait). Both v4 instances remain running. [Completed S8 evidence and limitations](P5_S8_RESULT.md). The earlier gate/snapshot text below is historical; do not rerun setup, migration or traffic. No merge, score/ZIP or submission.
 
 

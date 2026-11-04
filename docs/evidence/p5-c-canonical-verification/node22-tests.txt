@@ -1,0 +1,179 @@
+UTC 2026-11-04T12:27:03.848784+00:00
+Node v22.23.4
+Command ['npm', 'test']
+
+> awad-price-migration-starter@4.0.0 test
+> node --test --test-reporter=spec
+
+(node:90860) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ GET /menu/:id returns price in thousands of dong (24.091084ms)
+✔ PATCH /menu/:id changes the price (5.548208ms)
+✔ POST /orders totals at the current price (1.469833ms)
+✔ errors have one shape (9.601375ms)
+(node:90861) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ GET /menu/:id returns price in thousands of dong (21.162125ms)
+✔ PATCH /menu/:id changes the price (5.70425ms)
+✔ POST /orders totals at the current price (2.286333ms)
+✔ errors have one shape (8.047833ms)
+(node:90862) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ v2 supports both clients on create/reprice/list/get and preserves order units (57.5805ms)
+✔ invalid payloads do not create or change rows on either write path (38.628041ms)
+✔ original v1 and v2 share expanded DB; v2 reads legacy writes even with stale VND (58.870417ms)
+✔ 002 up/down/re-up preserves legacy menu and order data on a separate DB (3.755542ms)
+✔ price conversion keeps legacy precision and rounds integer VND (0.899708ms)
+✔ price validation rejects absent, invalid, unsafe and conflicting values (0.208709ms)
+(node:90864) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ GET /menu/:id returns price in thousands of dong (19.974458ms)
+✔ PATCH /menu/:id changes the price (5.554792ms)
+✔ POST /orders totals at the current price (3.833958ms)
+✔ errors have one shape (9.633583ms)
+(node:90865) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ v2 supports both clients on create/reprice/list/get and preserves order units (72.020792ms)
+✔ invalid payloads do not create or change rows on either write path (23.055292ms)
+✔ original v1 and v2 share expanded DB; v2 reads legacy writes even with stale VND (39.979292ms)
+✔ 002 up/down/re-up preserves legacy menu and order data on a separate DB (3.15925ms)
+(node:90866) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ backfill rolls back an invalid batch, retains earlier commits and resumes after repair (9.969666ms)
+✔ backfill reconciles NULL/stale rows in bounded batches without touching correct rows or orders (258.803584ms)
+✔ SIGTERM preserves committed progress and a fresh process resumes idempotently (255.331083ms)
+✔ separate backfill process preserves concurrent v2 HTTP create/reprice writes from both instances (829.888417ms)
+✔ backfill waits for an in-flight v2 transaction before reading its latest price (136.867334ms)
+✔ CLI refuses backfill when either target is not v2, before changing data (209.180042ms)
+✔ client mix validates inputs, rejects bad updates, and reloads valid shares (5.853042ms)
+P2 disposable traffic child pid=93024: === traffic start 2026-11-04T12:27:05.881Z · targets http://127.0.0.1:53227 http://127.0.0.1:53229 · new clients 0 |    0.6s CLIENT_MIX 0 -> 0.3 file=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p2-test-Gmx3y0/share.json |    0.7s FINAL ok=568 error=0 contract=0 stale=0 unavailable=0 rerouted=0 | RESULT: zero failed requests
+✔ one traffic child switches 0 to 0.3 under backfill with all original failure counters zero (784.019958ms)
+(node:90867) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ v3 refuses incomplete, disagreeing or invalid backfill before serving (2.762458ms)
+✔ v3 reads menu and order prices solely from VND, retaining thousands for orders (31.210084ms)
+✔ mixed exact-tag v2/v3 supports both payloads, atomic pairs, rounding and original order units (147.342291ms)
+P3 disposable rolling rehearsal {"trafficPid":92258,"states":["v2/v2","v3/v2","v3/v3","v3/v2","v2/v2","v2/v3","v3/v3"],"final":"   5.3s FINAL ok=16177 error=0 contract=0 stale=0 unavailable=0 rerouted=25","down":6,"back":6}
+✔ rolling v2/v3 deploy and rollback keep one real traffic process and consistent shared DB (6121.402083ms)
+✔ price conversion keeps legacy precision and rounds integer VND (0.764208ms)
+✔ price validation rejects absent, invalid, unsafe and conflicting values (0.094209ms)
+(node:90902) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ GET /menu/:id returns price in thousands of dong (28.39175ms)
+✔ PATCH /menu/:id changes the price (14.879208ms)
+✔ POST /orders totals at the current price (6.697167ms)
+✔ errors have one shape (4.837917ms)
+(node:90932) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ v2 supports both clients on create/reprice/list/get and preserves order units (62.323833ms)
+✔ invalid payloads do not create or change rows on either write path (27.661083ms)
+✔ original v1 and v2 share expanded DB; v2 reads legacy writes even with stale VND (32.428958ms)
+✔ 002 up/down/re-up preserves legacy menu and order data on a separate DB (2.975042ms)
+(node:90949) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ backfill rolls back an invalid batch, retains earlier commits and resumes after repair (13.486958ms)
+✔ backfill reconciles NULL/stale rows in bounded batches without touching correct rows or orders (281.08275ms)
+✔ SIGTERM preserves committed progress and a fresh process resumes idempotently (226.511125ms)
+✔ separate backfill process preserves concurrent v2 HTTP create/reprice writes from both instances (818.576667ms)
+✔ backfill waits for an in-flight v2 transaction before reading its latest price (155.764792ms)
+✔ CLI refuses backfill when either target is not v2, before changing data (198.665417ms)
+✔ client mix validates inputs, rejects bad updates, and reloads valid shares (5.501542ms)
+P2 disposable traffic child pid=93118: === traffic start 2026-11-04T12:27:06.016Z · targets http://127.0.0.1:53303 http://127.0.0.1:53304 · new clients 0 |    0.6s CLIENT_MIX 0 -> 0.3 file=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p2-test-A5cqkx/share.json |    0.8s FINAL ok=641 error=0 contract=0 stale=0 unavailable=0 rerouted=0 | RESULT: zero failed requests
+✔ one traffic child switches 0 to 0.3 under backfill with all original failure counters zero (833.221292ms)
+(node:90951) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ v3 refuses incomplete, disagreeing or invalid backfill before serving (5.139959ms)
+✔ v3 reads menu and order prices solely from VND, retaining thousands for orders (26.771042ms)
+✔ mixed exact-tag v2/v3 supports both payloads, atomic pairs, rounding and original order units (204.043917ms)
+P3 disposable rolling rehearsal {"trafficPid":92432,"states":["v2/v2","v3/v2","v3/v3","v3/v2","v2/v2","v2/v3","v3/v3"],"final":"   5.2s FINAL ok=15868 error=0 contract=0 stale=0 unavailable=0 rerouted=29","down":6,"back":6}
+✔ rolling v2/v3 deploy and rollback keep one real traffic process and consistent shared DB (5947.053583ms)
+(node:91099) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91125) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91192) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91380) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91451) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:90962) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ 003 INSERT/UPDATE bridge is reversible and terminates with recursive triggers ON/OFF (1.774625ms)
+✔ explicit migration target stages 003, rejects invalid targets and preserves data on down/re-up (313.840333ms)
+✔ v4 SQL never names legacy price; bridge supports mixed v3/v4 old/new writes and order units (131.866958ms)
+✔ v4 startup rejects invalid VND without a legacy-column query (0.924708ms)
+P4 disposable rolling rehearsal {"trafficPid":93002,"states":["v3/v3","v4/v3","v4/v4","v4/v3","v3/v3","v3/v4","v4/v4"],"final":"   5.0s FINAL ok=16554 error=0 contract=0 stale=0 unavailable=0 rerouted=26","down":6,"back":6}
+✔ rolling v3/v4 bridge rollout and rollback preserve one traffic PID and consistency (6103.327292ms)
+✔ price conversion keeps legacy precision and rounds integer VND (0.799917ms)
+✔ price validation rejects absent, invalid, unsafe and conflicting values (0.271041ms)
+(node:91097) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ GET /menu/:id returns price in thousands of dong (23.628917ms)
+✔ PATCH /menu/:id changes the price (10.737833ms)
+✔ POST /orders totals at the current price (2.102584ms)
+✔ errors have one shape (6.695375ms)
+(node:91098) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ v2 supports both clients on create/reprice/list/get and preserves order units (108.704875ms)
+✔ invalid payloads do not create or change rows on either write path (70.027209ms)
+✔ original v1 and v2 share expanded DB; v2 reads legacy writes even with stale VND (28.081833ms)
+✔ 002 up/down/re-up preserves legacy menu and order data on a separate DB (3.428083ms)
+(node:91117) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ backfill rolls back an invalid batch, retains earlier commits and resumes after repair (37.975458ms)
+✔ backfill reconciles NULL/stale rows in bounded batches without touching correct rows or orders (273.011541ms)
+✔ SIGTERM preserves committed progress and a fresh process resumes idempotently (216.500792ms)
+✔ separate backfill process preserves concurrent v2 HTTP create/reprice writes from both instances (817.057542ms)
+✔ backfill waits for an in-flight v2 transaction before reading its latest price (145.035625ms)
+✔ CLI refuses backfill when either target is not v2, before changing data (187.559583ms)
+✔ client mix validates inputs, rejects bad updates, and reloads valid shares (5.607916ms)
+P2 disposable traffic child pid=93164: === traffic start 2026-11-04T12:27:06.100Z · targets http://127.0.0.1:53322 http://127.0.0.1:53323 · new clients 0 |    0.6s CLIENT_MIX 0 -> 0.3 file=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p2-test-Y45rT9/share.json |    0.7s FINAL ok=512 error=0 contract=0 stale=0 unavailable=0 rerouted=0 | RESULT: zero failed requests
+✔ one traffic child switches 0 to 0.3 under backfill with all original failure counters zero (733.7955ms)
+(node:91202) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ v3 refuses incomplete, disagreeing or invalid backfill before serving (1.937ms)
+✔ v3 reads menu and order prices solely from VND, retaining thousands for orders (31.935083ms)
+✔ mixed exact-tag v2/v3 supports both payloads, atomic pairs, rounding and original order units (124.267459ms)
+P3 disposable rolling rehearsal {"trafficPid":92530,"states":["v2/v2","v3/v2","v3/v3","v3/v2","v2/v2","v2/v3","v3/v3"],"final":"   5.1s FINAL ok=13397 error=0 contract=0 stale=0 unavailable=0 rerouted=30","down":6,"back":6}
+✔ rolling v2/v3 deploy and rollback keep one real traffic process and consistent shared DB (5800.377542ms)
+(node:91331) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+P4 disposable schema/HTTP proof {"passed":true,"v4":"51669379446f8f34473a90104ea939284335e9f2","menuRows":17}
+✔ all migration downs, staged Contract, exact-tag v4 HTTP and schema recovery on a disposable DB (1790.997083ms)
+(node:91602) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91687) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91731) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91976) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91978) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:91475) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ 003 INSERT/UPDATE bridge is reversible and terminates with recursive triggers ON/OFF (2.524625ms)
+✔ explicit migration target stages 003, rejects invalid targets and preserves data on down/re-up (271.940208ms)
+✔ v4 SQL never names legacy price; bridge supports mixed v3/v4 old/new writes and order units (109.702584ms)
+✔ v4 startup rejects invalid VND without a legacy-column query (0.859292ms)
+P4 disposable rolling rehearsal {"trafficPid":93167,"states":["v3/v3","v4/v3","v4/v4","v4/v3","v3/v3","v3/v4","v4/v4"],"final":"   4.8s FINAL ok=18262 error=0 contract=0 stale=0 unavailable=0 rerouted=25","down":6,"back":6}
+✔ rolling v3/v4 bridge rollout and rollback preserve one traffic PID and consistency (5936.346709ms)
+(node:93270) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+Cloning into '/private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5-preflight-test-BENIiz/repo'...
+done.
+✔ P5 plan describes each roll with an explicit S8 gate and executes no demonstration operation (3.059916ms)
+✔ P5 preparation refuses existing logs, DB directories, unsafe paths and symlink ancestors (3.527958ms)
+✔ P5 port preflight refuses a busy port without stopping the existing listener (6.584875ms)
+✔ P5-A proves two exact-v1 PIDs open the same disposable DB; final DB/logs stay absent (1388.12875ms)
+✔ price conversion keeps legacy precision and rounds integer VND (0.707292ms)
+✔ price validation rejects absent, invalid, unsafe and conflicting values (0.091833ms)
+ℹ tests 95
+ℹ suites 0
+ℹ pass 95
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 6952.058916

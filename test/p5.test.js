@@ -1,12 +1,13 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { createServer } from 'node:net';
-import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, rmSync, symlinkSync } from 'node:fs';
+import { execFileSync, spawnSync } from 'node:child_process';
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, rmSync, symlinkSync, realpathSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { buildPlan } from '../scripts/p5-plan.js';
-import { checkPort, preflight } from '../scripts/p5-preflight.js';
+import { checkPort, evidenceHashes } from '../scripts/p5-preflight.js';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
 
@@ -63,16 +64,47 @@ test('P5 port preflight refuses a busy port without stopping the existing listen
 });
 
 test('P5-A proves two exact-v1 PIDs open the same disposable DB; final DB/logs stay absent', { timeout: 30000 }, async () => {
-  const dir = mkdtempSync(join(tmpdir(), 'ia2-p5-preflight-test-'));
+  const dir = realpathSync(mkdtempSync(join(tmpdir(), 'ia2-p5-preflight-test-')));
+  const before = evidenceHashes();
+  const originalLogs = Object.fromEntries(['traffic-log.txt', 'check-log.txt'].filter((name) => existsSync(join(root, name))).map((name) => [name, readFileSync(join(root, name))]));
   try {
-    const protectedRun = join(root, 'data', `p5-test-not-created-${process.pid}`);
-    await assert.rejects(preflight({ outputDir: join(protectedRun, 'evidence'), runDir: protectedRun }), /must be separate/);
-    await assert.rejects(preflight({ outputDir: join(protectedRun, '..still-inside'), runDir: protectedRun }), /must be separate/);
+    // Exercise the real CLI in an independent Git fixture. Selectively populate
+    // it without final-run logs; never hide or remove the operator's evidence.
+    const cloneDir = join(dir, 'repo');
+    execFileSync('git', ['clone', '--no-hardlinks', '--no-checkout', root, cloneDir]);
+    const fixture = realpathSync(cloneDir);
+    execFileSync('git', ['checkout', 'HEAD', '--', 'package.json', 'src', 'scripts', 'migrations', 'docs/evidence'], { cwd: fixture });
+    const protectedRun = join(fixture, 'data', 'not-created');
+    const invoke = (outputDir, ports) => spawnSync(process.execPath, ['--input-type=module', '-e', `
+      import { preflight } from './scripts/p5-preflight.js';
+      const options = JSON.parse(process.argv[1]);
+      try { console.log(JSON.stringify(await preflight(options))); }
+      catch (error) { console.error(error); process.exitCode = 1; }
+    `, JSON.stringify({ outputDir, runDir: protectedRun, ports })], { cwd: fixture, encoding: 'utf8' });
+    for (const output of ['evidence', '..still-inside']) {
+      const rejected = invoke(join(protectedRun, output));
+      assert.equal(rejected.status, 1);
+      assert.match(rejected.stderr, /must be separate/);
+    }
+    // Production CLI must still reject either pre-existing log, byte-for-byte.
+    const fixtureEnv = { ...process.env };
+    for (const key of ['DB_PATH', 'P5_RUN_DIR', 'P5_PREFLIGHT_EVIDENCE_DIR']) delete fixtureEnv[key];
+    for (const name of ['traffic-log.txt', 'check-log.txt']) {
+      const file = join(fixture, name), raw = 'preserve existing fixture evidence\n';
+      writeFileSync(file, raw);
+      const rejected = spawnSync(process.execPath, ['scripts/p5-preflight.js'], { cwd: fixture, env: fixtureEnv, encoding: 'utf8' });
+      assert.equal(rejected.status, 1);
+      assert.match(rejected.stderr, /preserve existing path/);
+      assert.equal(readFileSync(file, 'utf8'), raw);
+      rmSync(file); // This is only the temporary fixture's test-owned log.
+    }
     assert.equal(existsSync(protectedRun), false);
     const a = await checkPort(0);
     let b = await checkPort(0);
     while (b === a) b = await checkPort(0);
-    const result = await preflight({ outputDir: join(dir, 'evidence'), runDir: protectedRun, ports: [a, b] });
+    const completed = invoke(join(dir, 'evidence'), [a, b]);
+    assert.equal(completed.status, 0, completed.stderr);
+    const result = JSON.parse(completed.stdout);
     assert.equal(result.passed, true);
     assert.equal(result.demonstrationCreated, false);
     assert.equal(result.finalTrafficStarted, false);
@@ -81,7 +113,10 @@ test('P5-A proves two exact-v1 PIDs open the same disposable DB; final DB/logs s
     assert.notEqual(result.identityProbe.pids[0], result.identityProbe.pids[1]);
     assert.equal(result.identityProbe.initialRows, 20000);
     assert.equal(result.identityProbe.crossInstanceVisibility, true);
+    assert.equal(result.identityProbe.orderUnit, 'thousands of VND');
     assert.equal(existsSync(result.plannedDb), false);
     assert.equal(existsSync(result.identityProbe.dbPath), false);
+    assert.deepEqual(evidenceHashes(), before);
+    for (const [name, raw] of Object.entries(originalLogs)) assert.deepEqual(readFileSync(join(root, name)), raw);
   } finally { rmSync(dir, { recursive: true, force: true }); }
 });

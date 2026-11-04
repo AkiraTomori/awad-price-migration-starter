@@ -1,0 +1,15 @@
+{
+  "pr": {
+    "number": 9,
+    "head": "f8282979c0ad630e0ba2ddac7ce9cddcfdd68fc5",
+    "state": "open",
+    "draft": true,
+    "merged": false,
+    "url": "https://github.com/AkiraTomori/awad-price-migration-starter/pull/9"
+  },
+  "workflow_query": {
+    "workflow_runs": []
+  },
+  "ci_status": "NOT VERIFIED: this connector query returns pull-request-triggered runs only; no successful check run was supplied",
+  "gate": "STOP: Node 22 full suite failed 1 of 32; no merge or ZIP"
+}

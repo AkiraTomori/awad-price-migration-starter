@@ -1,0 +1,29 @@
+# Self-assessment — IA#2
+
+Submitted by: **23127379 — Thái Minh Huy** (individual assignment)
+
+Total I claim: **98 / 100**
+
+This is a proposed self-assessment for the student to review, not an awarded grade. The six criteria and maximum marks come from the supplied `IA#2 rubric — Zero-downtime migration (23KTPM1).pdf`, pages 2–3. The structure follows `SELF_ASSESSMENT_REPORT template.pdf`: criterion table, evidence, and the two reflection sections.
+
+| Criterion | Max | I claim | Evidence |
+|---|---:|---:|---|
+| 1. The plan | 20 | 20 | [MIGRATION.md](MIGRATION.md), “Executed steps and exact undo operations”: each S0–S8 state/individual roll has schema, A/B versions, exact conditional undo and compatibility. Immutable tag SHA table matches the four migrations. S8 is explicitly the end of safe code-only rollback; schema recovery and backup data-loss limitations are explained. |
+| 2. Expand and dual write | 20 | 19 | [002 up](migrations/002_add_price_vnd.up.sql)/[down](migrations/002_add_price_vnd.down.sql), deployable tag `v2=dadb816`, and [P1 tests](test/p1.test.js) prove v1 compatibility and single-statement dual writes for POST/PATCH with both HTTP fields. All four down/re-up rehearsals actually ran: [disposable output](docs/evidence/p5-a-disposable-migrations/contract.txt), lines 15–16, 54–55, 101–102, 184–185. Deduct 1: these down outputs are in a separate file rather than the rubric's requested root check-log.txt; the original completed log is preserved. |
+| 3. Backfill | 15 | 15 | [scripts/backfill.js](scripts/backfill.js), [concurrency/interruption/rerun tests](test/p2.test.js), and [final execution events](docs/evidence/p5-b-execution/events.jsonl): only after v2/v2, 207 short batches scanned 41078 rows and updated 38683; rerun updated 0. [check-log.txt lines 190–267](check-log.txt#L190-L267) shows immediate plain CONSISTENT, NULL/disagree=0, then share 0.3 in the same traffic process. |
+| 4. Zero failed requests | 20 | 19 | [traffic-log.txt](traffic-log.txt): one start at line 2, live share 0→0.3 at line 28, final at lines 889–890: 35309724 successful requests and error/contract/stale/unavailable=0, RESULT: zero failed requests. Same PID 29850 spans every migration/roll/rollback through Contract. Ten deliberate rolling down/back pairs are visible. Deduct 1: sixteen additional transient down/back events during the approval wait include overlapping route-down indications and their underlying cause was not established; retries recovered them, rerouted=101. This is not proof of zero transport interruptions or a latency SLO. |
+| 5. The way back | 15 | 15 | [check-log.txt lines 294–423](check-log.txt#L294-L423) and [execution events](docs/evidence/p5-b-execution/events.jsonl): under the same traffic PID, v3/v3→v3/v2→v2/v2→v2/v3→v3/v3; plain CONSISTENT before/after and each roll. [MIGRATION.md](MIGRATION.md) explains shared atomic dual writes and why post-004 code-only rollback is unsafe. Disposable 004 recovery and v3 restart are proved separately in [contract rehearsal](docs/evidence/p5-a-disposable-migrations/contract.txt). |
+| 6. Contract | 10 | 10 | [004 up/down](migrations/004_drop_price.up.sql), immutable tag `v4=5166937`, [SQL/compatibility tests](test/p4.test.js), [fresh v4/v4 backup packet](docs/evidence/p5-s8-approved-precontract/s8-packet.json), and [actual S8 events](docs/evidence/p5-s8-completion/events.jsonl) prove approval and both v4 writers before the drop. [check-log.txt lines 744–842](check-log.txt#L744-L842) reports price absent and CONSISTENT. Both ports pass old/new POST/PATCH/GET/list; qty2 total91.002 and stored unit_price45.501 retain thousands-of-VND units. Final traffic remains zero failed requests. |
+| **Total** | **100** | **98** | Computed as 20 + 19 + 15 + 19 + 15 + 10. [Machine-checked score](docs/evidence/p5-c-canonical-verification/assessment-score.json). Archive name: `23127379_98.zip`. |
+
+## What I did not manage
+
+I did not place disposable down-migration output inside the original root check log; the actual commands/output are in the linked separate evidence and the root log was not rewritten. I did not determine the underlying cause of all sixteen extra transient route failures during the long approval wait, or measure latency/availability beyond the starter's request counters. The final log records 26 down/back pairs in total, not just the ten planned rolls.
+
+The S0 controller readiness race and the post-Contract wrapper assertion were diagnosed while preserving the same traffic PID. S2 check failures (28/11 disagreements from v1 legacy-only reprices) were retained and reconciled only after v1 retirement at S3. The process was later reattached, so its OS exit status is unavailable; the actual FINAL/RESULT and termination are the evidence. Sub-VND precision changes at v3 are documented, not claimed unchanged. After Contract, v3 requires schema recovery; a pre-Contract backup restore alone would lose subsequent writes unless reconciled.
+
+The assistant authored code/documents and executed the shell/test/demonstration commands under the student's phase approvals. This is disclosed in [AI-LOG.md](AI-LOG.md), rather than described as manual student execution. The student must personally review, understand and explain the work before submission. GitHub CI status is separate from the local Node22 results and is reported only from actual check data.
+
+## What I would do differently
+
+Start with a permanent isolated preflight test fixture and canonical temporary paths on macOS/Linux; the earlier fresh-repository assumptions failed once completed logs were committed. Separate schema-dependent checks before and after Contract in the operator from the outset. Put disposable migration-down evidence into the designated check log during the original run, prepare gates before starting prolonged traffic, and capture latency/system observations to investigate transient reroutes without changing the starter's failure checks.

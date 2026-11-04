@@ -1,0 +1,21 @@
+{
+  "tags": {
+    "v1": "2b889bde433190c17744f30d3900d38ab333a756",
+    "v2": "dadb816bac9dad5ffcbf098d130d387bbbdd338c",
+    "v3": "ccd19db7c1cf14d2a5df21f38769c73dd96f27b2",
+    "v4": "51669379446f8f34473a90104ea939284335e9f2"
+  },
+  "migration_pairs": 4,
+  "evidence_hash_comparisons": 160,
+  "traffic_starts": 1,
+  "traffic_final": 1,
+  "traffic_result": 1,
+  "down_events": 26,
+  "back_events": 26,
+  "traffic_final_line": [
+    "4165.8s FINAL ok=35309724 error=0 contract=0 stale=0 unavailable=0 rerouted=101"
+  ],
+  "last_check": "CONSISTENT",
+  "demo_touched": false,
+  "unrelated_gitignore_sha256": "40e9d4d20e739791931a01ba26d1fccbcade818179f8414ea600614da8408246"
+}
