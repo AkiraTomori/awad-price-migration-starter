@@ -1,6 +1,8 @@
 # P5 final demonstration — prepared operator flow
 
-**PLAN ONLY.** P5-A performs preflight and disposable probes. This document does not authorize starting S0, creating the demonstration DB, or executing S8. Stop for Gate A review first. Final traffic/check logs, the self-assessment score and the submission ZIP do not exist as final evidence yet.
+**Executed follow-up (2026-11-04):** the student subsequently authorized P5-B S0–S7. Execution reached S7 and stopped for S8 review with original traffic PID 29850 running, v4/v4 PIDs 32012/32117 and no 004. [Current review packet](P5_S8_REVIEW.md). The recipe below is retained as the preparation reference; actual commands/checks/process identities are in the execution events, not an assertion that every illustrative shell block was run verbatim. Do not rerun setup against the active DB/logs. S8 remains separately approval-gated.
+
+**Historical preparation recipe.** P5-A covered preflight/disposable probes; the student later explicitly authorized P5-B S0–S7. The run is now stopped at S8 for separate approval, with live root logs and no final RESULT. This document does not authorize S8, a final score or a submission ZIP.
 
 P4 is integrated into main's PR #7 ancestry. PR #6 is closed with `merged=false`; that flag is not the integration gate. Verify that the reviewed P4 head `c0d33268bd8b791a1948d2dfda8bc116d9dadc17` is an ancestor of latest main. Preserve all four release pins listed in `scripts/p5-plan.js` and the existing raw evidence under `docs/evidence/`.
 

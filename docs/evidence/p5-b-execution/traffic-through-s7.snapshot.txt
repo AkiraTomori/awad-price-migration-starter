@@ -1,0 +1,46 @@
+
+=== traffic start 2026-11-04T10:58:18.059Z · targets http://127.0.0.1:3001 http://127.0.0.1:3002 · new clients 0
+   5.0s ok=51739 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  10.0s ok=102919 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  15.0s ok=154118 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  20.0s ok=204789 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  25.0s ok=255151 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  30.0s ok=307137 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  35.0s ok=359020 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  40.0s ok=410358 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  45.0s ok=461007 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  50.0s ok=512145 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  55.0s ok=562481 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  60.0s ok=614271 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  65.0s ok=664939 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  70.0s ok=715906 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  75.0s ok=766323 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  80.0s ok=815927 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  85.0s ok=866667 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  90.0s ok=917160 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  95.0s ok=968161 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  98.5s http://127.0.0.1:3001 down (ECONNRESET)
+  98.8s http://127.0.0.1:3001 back
+  99.3s http://127.0.0.1:3002 down (ECONNRESET)
+  99.6s http://127.0.0.1:3002 back
+ 100.0s ok=1028941 error=0 contract=0 stale=0 unavailable=0 rerouted=8
+ 105.0s ok=1075752 error=0 contract=0 stale=0 unavailable=0 rerouted=8
+ 105.8s CLIENT_MIX 0 -> 0.3 file=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/client-share.json
+ 106.1s http://127.0.0.1:3001 down (ECONNRESET)
+ 106.4s http://127.0.0.1:3001 back
+ 106.8s http://127.0.0.1:3002 down (ECONNRESET)
+ 107.1s http://127.0.0.1:3002 back
+ 107.5s http://127.0.0.1:3002 down (ECONNRESET)
+ 107.8s http://127.0.0.1:3002 back
+ 108.2s http://127.0.0.1:3001 down (ECONNRESET)
+ 108.5s http://127.0.0.1:3001 back
+ 108.9s http://127.0.0.1:3002 down (ECONNRESET)
+ 109.2s http://127.0.0.1:3002 back
+ 109.7s http://127.0.0.1:3001 down (ECONNRESET)
+ 110.0s http://127.0.0.1:3001 back
+ 110.0s ok=1153957 error=0 contract=0 stale=0 unavailable=0 rerouted=33
+ 110.9s http://127.0.0.1:3001 down (ECONNRESET)
+ 111.2s http://127.0.0.1:3001 back
+ 111.6s http://127.0.0.1:3002 down (ECONNRESET)
+ 111.9s http://127.0.0.1:3002 back
+ 115.0s ok=1215758 error=0 contract=0 stale=0 unavailable=0 rerouted=43

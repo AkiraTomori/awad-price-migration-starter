@@ -1,6 +1,6 @@
 # Coding-Agent Workflow — IA#2
 
-Status: **P4 integrated in main via PR #7 ancestry; PR #6 closed/unmerged. P5-A complete, pending Gate A review** (2026-11-04). See `evidence/p5-a-node22-validation.txt` and `evidence/p5-a-preflight/`. Final S0–S8, live Contract, score/ZIP and submission are NOT RUN. Stop at Gate A; do not merge automatically or start the demonstration.
+Status: **P5-A merged in PR #8; P5-B authorized S0–S7 completed; stopped at S8 awaiting explicit approval** (2026-11-04). See `P5_S8_REVIEW.md`, `evidence/p5-b-s8-review/` and `evidence/p5-b-validation.txt`. Original traffic PID 29850 and verified v4/v4 PIDs 32012/32117 remain alive. 004, post-S8 completion, score/ZIP and submission are NOT RUN. Do not merge automatically or execute Contract without further authorization.
 
 ## How to give the agent work
 
@@ -57,10 +57,19 @@ Start each agent session with: “Read `AGENTS.md`, `MIGRATION.md` and this work
 - [x] v1–v4 pins unchanged; v4 contains no 004. 32/32 tests pass on Node v22.23.4; disposable 001–004 down/re-up evidence captured separately.
 - [x] Gate A checked ports 3001/3002 and proved two exact-v1 PIDs share a disposable DB via file handles/inode and cross-instance operations. All 14 previous evidence files remain byte-identical.
 - [x] `npm run p5:plan` is non-executing. `npm run p5:preflight` rejects existing final paths/busy ports and never creates the planned demonstration DB. Operator flow and all per-roll/check/S8 requirements prepared in `P5_FINAL_OPERATOR.md`.
-- [ ] Student reviews Gate A plan and actual target choices before S0. The proposed DB, final traffic PID and root logs are absent; S0–S8 NOT RUN.
+- [x] Student explicitly authorized P5-B after PR #8 merged. S0–S7 are now executed on the reviewed target; actual process/log evidence supersedes Gate A's historical absence checks.
 - [ ] Later S8 requires fresh proof of actual v4/v4 PIDs, same intended DB/no legacy writers, bridge installed, zero failure counters, plain CONSISTENT and a verified current backup, then explicit student approval for that DB. Passing Gate A is not approval.
 
-### Final evidence requirements (not produced by Gate A)
+### P5-B executed through S7 / S8 gate still closed
+
+- [x] New branch from latest main `20b98d9`; 32/32 Node v22.23.4 tests and fresh preflight passed before final DB creation. Four additional controller/backup safety tests passed.
+- [x] S0 seeded 20,000 rows and started one generator PID 29850. S1/S2/S3/S4/S5/S6/S7 completed with explicit migration targets, actual per-roll source/PID/port/DB handle identity and labeled checks.
+- [x] Ten down/back pairs under the same original generator. v3 rollback/recovery completed. Raw S2 pre-backfill exit=1/disagreements were diagnosed and preserved; S3 repaired them. All S3-onward checks plain CONSISTENT; rerun updated 0.
+- [x] Current v4/v4 PIDs 32012/32117 verified against exact v4 SHA and the same DB inode. Only those DB holders remained. Both bridge triggers and legacy price remain; 004 pending.
+- [x] Verified SQLite-safe backup with integrity/foreign-key checks and exact source-read-snapshot schema/count/content digests; restore location and fresh zero traffic counters included in `P5_S8_REVIEW.md`/packet JSON.
+- [ ] Explicit student approval for S8 on that specific DB. Keep traffic/instances alive; refresh stale evidence before acting. No final RESULT, final score/ZIP or submission has been produced.
+
+### Final evidence requirements (completion still pending)
 
 - `traffic-log.txt`: **one continuous run**, start on v1, include every migration/restart/rollback, end with `RESULT: zero failed requests`; after all v2 instances are live, exercise `NEW_CLIENTS > 0`.
 - `check-log.txt`: label every schema/deploy/rollback step and include full `npm run check` output; separately append each migration down/up rehearsal on a disposable database.

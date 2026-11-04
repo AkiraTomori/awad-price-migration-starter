@@ -1,0 +1,308 @@
+{
+  "at": "2026-11-04T11:00:13.123168+00:00",
+  "gate": "S8 AWAITING EXPLICIT STUDENT APPROVAL; 004 NOT EXECUTED",
+  "DB_PATH": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+  "traffic_pid": 29850,
+  "traffic_running": true,
+  "traffic_counters": {
+    "seconds": "115.0",
+    "ok": "1215758",
+    "error": "0",
+    "contract": "0",
+    "stale": "0",
+    "unavailable": "0",
+    "rerouted": "43"
+  },
+  "traffic_log_prefix_bytes": 2702,
+  "traffic_log_prefix_sha256": "8131d74030cad2890a5c92ecf86d967332b0f7d9d01de448adbb1533f6e7d138",
+  "traffic_starts": 1,
+  "traffic_final_results": 0,
+  "down_events": 10,
+  "back_events": 10,
+  "instances": [
+    {
+      "slot": "A",
+      "pid": 32012,
+      "tag": "v4",
+      "sha": "51669379446f8f34473a90104ea939284335e9f2",
+      "port": 3001,
+      "health": {
+        "ok": true,
+        "version": "v4"
+      },
+      "ps": "32012 /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/runtime/node src/server.js",
+      "cwd_lsof": "p32012\nfcwd\nn/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/releases/v4",
+      "db_lsof": "p32012\nf11\nn/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+      "DB_PATH": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+      "db_device": 16777231,
+      "db_inode": 28975812
+    },
+    {
+      "slot": "B",
+      "pid": 32117,
+      "tag": "v4",
+      "sha": "51669379446f8f34473a90104ea939284335e9f2",
+      "port": 3002,
+      "health": {
+        "ok": true,
+        "version": "v4"
+      },
+      "ps": "32117 /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/runtime/node src/server.js",
+      "cwd_lsof": "p32117\nfcwd\nn/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/releases/v4",
+      "db_lsof": "p32117\nf11\nn/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+      "DB_PATH": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+      "db_device": 16777231,
+      "db_inode": 28975812
+    }
+  ],
+  "versions": [
+    "001_init",
+    "002_add_price_vnd",
+    "003_sync_legacy_price"
+  ],
+  "schema": [
+    [
+      0,
+      "id",
+      "INTEGER",
+      0,
+      null,
+      1
+    ],
+    [
+      1,
+      "name",
+      "TEXT",
+      1,
+      null,
+      0
+    ],
+    [
+      2,
+      "price",
+      "REAL",
+      0,
+      null,
+      0
+    ],
+    [
+      3,
+      "price_vnd",
+      "INTEGER",
+      0,
+      null,
+      0
+    ]
+  ],
+  "triggers": [
+    [
+      "menu_price_vnd_insert",
+      "CREATE TRIGGER menu_price_vnd_insert AFTER INSERT ON menu_items\nWHEN NEW.price_vnd IS NOT NULL AND NEW.price IS NOT NEW.price_vnd / 1000.0\nBEGIN\n  UPDATE menu_items SET price = NEW.price_vnd / 1000.0 WHERE id = NEW.id;\nEND"
+    ],
+    [
+      "menu_price_vnd_update",
+      "CREATE TRIGGER menu_price_vnd_update AFTER UPDATE OF price_vnd, price ON menu_items\nWHEN NEW.price_vnd IS NOT NULL AND NEW.price IS NOT NEW.price_vnd / 1000.0\nBEGIN\n  UPDATE menu_items SET price = NEW.price_vnd / 1000.0 WHERE id = NEW.id;\nEND"
+    ]
+  ],
+  "backup": {
+    "started_at": "2026-11-04T11:00:10.691460+00:00",
+    "verified_at": "2026-11-04T11:00:12.448256+00:00",
+    "source": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+    "backup": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/s8-precontract-backup.db",
+    "method": "SQLite backup API from one pinned read transaction; writers continue",
+    "integrity_check": "ok",
+    "foreign_key_check": [],
+    "tables": {
+      "menu_items": {
+        "rows": 43871,
+        "sha256": "513b32a98df861cdd3b9728026f7b09cfac37efa06f9bafe94adfc2444f11371"
+      },
+      "orders": {
+        "rows": 178651,
+        "sha256": "13d2ca15c1e9423fb5fffe8a9e3dd389c3acb85bff3917926a1d961957a2afc7"
+      },
+      "order_items": {
+        "rows": 357302,
+        "sha256": "de31cbd749a004636f06f98ef5707f89c8953a90b5a55878b7d1d01c8ab176e7"
+      },
+      "schema_migrations": {
+        "rows": 3,
+        "sha256": "7010b87bffbd80ef0704bc08640886160287b20de616bc998b1285c54f1d3932"
+      }
+    },
+    "schema_identical": true,
+    "versions": [
+      "001_init",
+      "002_add_price_vnd",
+      "003_sync_legacy_price"
+    ],
+    "triggers": [
+      "menu_price_vnd_insert",
+      "menu_price_vnd_update"
+    ],
+    "bytes": 13500416,
+    "file_sha256": "0b2ba7034e006cf429ceca98f98df0290f0f506e382460c897931cb134289b03",
+    "intended_restore_location": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/recovery/app-restored.db",
+    "restored": false
+  },
+  "stages": [
+    {
+      "label": "S0-schema-001",
+      "at": "2026-11-04T10:58:17.084156+00:00",
+      "state": "-/-",
+      "check_exit": 0,
+      "plain_required": false
+    },
+    {
+      "label": "S0-seed-20000",
+      "at": "2026-11-04T10:58:17.289441+00:00",
+      "state": "-/-",
+      "check_exit": 0,
+      "plain_required": false
+    },
+    {
+      "label": "S0-A-v1",
+      "at": "2026-11-04T10:58:17.547295+00:00",
+      "state": "v1/-",
+      "check_exit": 0,
+      "plain_required": false
+    },
+    {
+      "label": "S0-B-v1",
+      "at": "2026-11-04T10:58:18.008125+00:00",
+      "state": "v1/v1",
+      "check_exit": 0,
+      "plain_required": false
+    },
+    {
+      "label": "S0-one-traffic-start-share-0",
+      "at": "2026-11-04T10:59:56.226633+00:00",
+      "state": "v1/v1",
+      "check_exit": 0,
+      "plain_required": false
+    },
+    {
+      "label": "S1-expand",
+      "at": "2026-11-04T10:59:56.508487+00:00",
+      "state": "v1/v1",
+      "check_exit": 0,
+      "plain_required": false
+    },
+    {
+      "label": "S2-A-v2/v1",
+      "at": "2026-11-04T10:59:57.255601+00:00",
+      "state": "v2/v1",
+      "check_exit": 1,
+      "plain_required": false
+    },
+    {
+      "label": "S2-B-v2/v2",
+      "at": "2026-11-04T10:59:58.000338+00:00",
+      "state": "v2/v2",
+      "check_exit": 1,
+      "plain_required": false
+    },
+    {
+      "label": "S3-backfill-complete",
+      "at": "2026-11-04T11:00:00.940017+00:00",
+      "state": "v2/v2",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S3-idempotent-rerun",
+      "at": "2026-11-04T11:00:03.777777+00:00",
+      "state": "v2/v2",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S3-clients-0.3-same-PID",
+      "at": "2026-11-04T11:00:04.047225+00:00",
+      "state": "v2/v2",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S4-A-v3/v2",
+      "at": "2026-11-04T11:00:04.762342+00:00",
+      "state": "v3/v2",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S4-B-v3/v3",
+      "at": "2026-11-04T11:00:05.490254+00:00",
+      "state": "v3/v3",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S5-rollback-B-v3/v2",
+      "at": "2026-11-04T11:00:06.206697+00:00",
+      "state": "v3/v2",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S5-rollback-A-v2/v2",
+      "at": "2026-11-04T11:00:06.926328+00:00",
+      "state": "v2/v2",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S5-restore-B-v2/v3",
+      "at": "2026-11-04T11:00:07.645748+00:00",
+      "state": "v2/v3",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S5-restore-A-v3/v3",
+      "at": "2026-11-04T11:00:08.381927+00:00",
+      "state": "v3/v3",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S6-bridge-v3/v3",
+      "at": "2026-11-04T11:00:08.844567+00:00",
+      "state": "v3/v3",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S7-A-v4/v3",
+      "at": "2026-11-04T11:00:09.591802+00:00",
+      "state": "v4/v3",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S7-B-v4/v4",
+      "at": "2026-11-04T11:00:10.320103+00:00",
+      "state": "v4/v4",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S8-GATE-before-backup-NO-004",
+      "at": "2026-11-04T11:00:10.685779+00:00",
+      "state": "v4/v4",
+      "check_exit": 0,
+      "plain_required": true
+    },
+    {
+      "label": "S8-GATE-after-backup-NO-004",
+      "at": "2026-11-04T11:00:12.821370+00:00",
+      "state": "v4/v4",
+      "check_exit": 0,
+      "plain_required": true
+    }
+  ],
+  "previous_evidence_files_verified": 21,
+  "tags_unchanged": true,
+  "approval": "NOT GIVEN",
+  "final_submission": "NOT PREPARED"
+}

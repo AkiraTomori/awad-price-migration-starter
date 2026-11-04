@@ -1,0 +1,121 @@
+P5-B authorization: S0 through S7 only, stop at S8. 2026-11-04 ICT.
+Base main 20b98d97e734678fa9bd6204a3c953464751acc3 (merged PR #8).
+Temporary runtime /private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5-b-node22-_qoxidpp/cache/_npx/52027bd8fc0022aa/node_modules/node/bin/node
+
+$ node --version
+v22.23.4
+exit=0
+
+$ npm --version
+11.18.0
+exit=0
+
+$ npm test
+
+> awad-price-migration-starter@4.0.0 test
+> node --test --test-reporter=spec
+
+(node:26076) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ GET /menu/:id returns price in thousands of dong (16.057458ms)
+✔ PATCH /menu/:id changes the price (3.588208ms)
+✔ POST /orders totals at the current price (2.43475ms)
+✔ errors have one shape (4.239208ms)
+(node:26077) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ v2 supports both clients on create/reprice/list/get and preserves order units (46.971541ms)
+✔ invalid payloads do not create or change rows on either write path (23.017708ms)
+✔ original v1 and v2 share expanded DB; v2 reads legacy writes even with stale VND (25.297875ms)
+✔ 002 up/down/re-up preserves legacy menu and order data on a separate DB (2.907875ms)
+(node:26078) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ backfill rolls back an invalid batch, retains earlier commits and resumes after repair (10.883667ms)
+✔ backfill reconciles NULL/stale rows in bounded batches without touching correct rows or orders (190.403333ms)
+✔ SIGTERM preserves committed progress and a fresh process resumes idempotently (168.101208ms)
+✔ separate backfill process preserves concurrent v2 HTTP create/reprice writes from both instances (751.216542ms)
+✔ backfill waits for an in-flight v2 transaction before reading its latest price (154.147583ms)
+✔ CLI refuses backfill when either target is not v2, before changing data (175.0585ms)
+✔ client mix validates inputs, rejects bad updates, and reloads valid shares (6.783334ms)
+P2 disposable traffic child pid=27573: === traffic start 2026-11-04T10:57:12.248Z · targets http://127.0.0.1:64533 http://127.0.0.1:64534 · new clients 0 |    0.6s CLIENT_MIX 0 -> 0.3 file=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p2-test-8CwbdB/share.json |    0.6s FINAL ok=2682 error=0 contract=0 stale=0 unavailable=0 rerouted=0 | RESULT: zero failed requests
+✔ one traffic child switches 0 to 0.3 under backfill with all original failure counters zero (617.160459ms)
+(node:26079) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ v3 refuses incomplete, disagreeing or invalid backfill before serving (1.753042ms)
+✔ v3 reads menu and order prices solely from VND, retaining thousands for orders (21.760917ms)
+✔ mixed exact-tag v2/v3 supports both payloads, atomic pairs, rounding and original order units (73.960667ms)
+P3 disposable rolling rehearsal {"trafficPid":27135,"states":["v2/v2","v3/v2","v3/v3","v3/v2","v2/v2","v2/v3","v3/v3"],"final":"   3.7s FINAL ok=40871 error=0 contract=0 stale=0 unavailable=0 rerouted=29","down":6,"back":6}
+✔ rolling v2/v3 deploy and rollback keep one real traffic process and consistent shared DB (4255.664458ms)
+(node:26080) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+P4 disposable schema/HTTP proof {"passed":true,"v4":"51669379446f8f34473a90104ea939284335e9f2","menuRows":17}
+✔ all migration downs, staged Contract, exact-tag v4 HTTP and schema recovery on a disposable DB (1286.93325ms)
+(node:26228) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:26286) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:26354) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:26552) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:26611) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:26081) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ 003 INSERT/UPDATE bridge is reversible and terminates with recursive triggers ON/OFF (1.785958ms)
+✔ explicit migration target stages 003, rejects invalid targets and preserves data on down/re-up (215.603917ms)
+✔ v4 SQL never names legacy price; bridge supports mixed v3/v4 old/new writes and order units (70.479625ms)
+✔ v4 startup rejects invalid VND without a legacy-column query (0.723042ms)
+P4 disposable rolling rehearsal {"trafficPid":27383,"states":["v3/v3","v4/v3","v4/v4","v4/v3","v3/v3","v3/v4","v4/v4"],"final":"   3.8s FINAL ok=41436 error=0 contract=0 stale=0 unavailable=0 rerouted=29","down":6,"back":6}
+✔ rolling v3/v4 bridge rollout and rollback preserve one traffic PID and consistency (4407.635375ms)
+(node:26082) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ P5 plan describes each roll with an explicit S8 gate and executes no demonstration operation (2.094416ms)
+✔ P5 preparation refuses existing logs, DB directories, unsafe paths and symlink ancestors (3.578958ms)
+✔ P5 port preflight refuses a busy port without stopping the existing listener (6.550875ms)
+✔ P5-A proves two exact-v1 PIDs open the same disposable DB; final DB/logs stay absent (521.205167ms)
+✔ price conversion keeps legacy precision and rounds integer VND (0.67525ms)
+✔ price validation rejects absent, invalid, unsafe and conflicting values (0.097292ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4778.42475
+exit=0
+
+$ python3 -m unittest discover -s test -p p5_b_test.py -v
+test_backup_compares_one_snapshot_while_an_independent_writer_commits (p5_b_test.SafetyTests.test_backup_compares_one_snapshot_while_an_independent_writer_commits) ... ok
+test_contract_is_not_an_executable_target (p5_b_test.SafetyTests.test_contract_is_not_an_executable_target) ... ok
+test_nonzero_counter_and_failure_details_stop_progression (p5_b_test.SafetyTests.test_nonzero_counter_and_failure_details_stop_progression) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.005s
+
+OK
+exit=0
+
+$ npm run p5:preflight
+
+> awad-price-migration-starter@4.0.0 p5:preflight
+> node scripts/p5-preflight.js
+
+(node:28607) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"scope":"P5-A ONLY","passed":true,"identityProbe":{"initialRows":20000,"pids":[28824,28848],"dbPath":"/private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5-a-probe-D725E3/disposable.db","crossInstanceVisibility":true,"orderUnit":"thousands of VND"},"plannedDb":"/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db","demonstrationCreated":false,"finalTrafficStarted":false,"existingEvidenceFilesVerified":21,"existingEvidenceUnchanged":true,"tagsUnchanged":true,"gate":"STOP FOR GATE A REVIEW; no S0-S8 execution"}
+exit=0
+All tests/preflight completed before demonstration creation. Full-suite 004 tests use their own disposable DBs only.
+
+Controller-only startup race resolved: retained original traffic PID 29850, reattached v1/v1, no restart/reset. See execution events for the original assertion and recovery.
+$ PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s test -p p5_b_test.py -v
+test_backup_compares_one_snapshot_while_an_independent_writer_commits (p5_b_test.SafetyTests.test_backup_compares_one_snapshot_while_an_independent_writer_commits) ... ok
+test_contract_is_not_an_executable_target (p5_b_test.SafetyTests.test_contract_is_not_an_executable_target) ... ok
+test_nonzero_counter_and_failure_details_stop_progression (p5_b_test.SafetyTests.test_nonzero_counter_and_failure_details_stop_progression) ... ok
+test_startup_wait_does_not_require_a_log_line_before_the_generator_writes_it (p5_b_test.SafetyTests.test_startup_wait_does_not_require_a_log_line_before_the_generator_writes_it) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.007s
+
+OK
+exit=0

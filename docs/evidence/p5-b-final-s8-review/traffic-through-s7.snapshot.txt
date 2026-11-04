@@ -1,0 +1,168 @@
+
+=== traffic start 2026-11-04T10:58:18.059Z · targets http://127.0.0.1:3001 http://127.0.0.1:3002 · new clients 0
+   5.0s ok=51739 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  10.0s ok=102919 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  15.0s ok=154118 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  20.0s ok=204789 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  25.0s ok=255151 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  30.0s ok=307137 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  35.0s ok=359020 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  40.0s ok=410358 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  45.0s ok=461007 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  50.0s ok=512145 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  55.0s ok=562481 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  60.0s ok=614271 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  65.0s ok=664939 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  70.0s ok=715906 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  75.0s ok=766323 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  80.0s ok=815927 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  85.0s ok=866667 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  90.0s ok=917160 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  95.0s ok=968161 error=0 contract=0 stale=0 unavailable=0 rerouted=0
+  98.5s http://127.0.0.1:3001 down (ECONNRESET)
+  98.8s http://127.0.0.1:3001 back
+  99.3s http://127.0.0.1:3002 down (ECONNRESET)
+  99.6s http://127.0.0.1:3002 back
+ 100.0s ok=1028941 error=0 contract=0 stale=0 unavailable=0 rerouted=8
+ 105.0s ok=1075752 error=0 contract=0 stale=0 unavailable=0 rerouted=8
+ 105.8s CLIENT_MIX 0 -> 0.3 file=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/client-share.json
+ 106.1s http://127.0.0.1:3001 down (ECONNRESET)
+ 106.4s http://127.0.0.1:3001 back
+ 106.8s http://127.0.0.1:3002 down (ECONNRESET)
+ 107.1s http://127.0.0.1:3002 back
+ 107.5s http://127.0.0.1:3002 down (ECONNRESET)
+ 107.8s http://127.0.0.1:3002 back
+ 108.2s http://127.0.0.1:3001 down (ECONNRESET)
+ 108.5s http://127.0.0.1:3001 back
+ 108.9s http://127.0.0.1:3002 down (ECONNRESET)
+ 109.2s http://127.0.0.1:3002 back
+ 109.7s http://127.0.0.1:3001 down (ECONNRESET)
+ 110.0s http://127.0.0.1:3001 back
+ 110.0s ok=1153957 error=0 contract=0 stale=0 unavailable=0 rerouted=33
+ 110.9s http://127.0.0.1:3001 down (ECONNRESET)
+ 111.2s http://127.0.0.1:3001 back
+ 111.6s http://127.0.0.1:3002 down (ECONNRESET)
+ 111.9s http://127.0.0.1:3002 back
+ 115.0s ok=1215758 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 120.0s ok=1266384 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 125.0s ok=1316693 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 130.0s ok=1367172 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 135.1s ok=1417622 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 140.1s ok=1468130 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 145.1s ok=1518691 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 150.1s ok=1569260 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 155.1s ok=1619930 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 160.1s ok=1671197 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 165.1s ok=1721503 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 170.1s ok=1771655 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 175.1s ok=1822316 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 180.1s ok=1872521 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 185.1s ok=1923071 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 190.1s ok=1973725 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 195.1s ok=2024616 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 200.1s ok=2074555 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 205.1s ok=2125612 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 210.1s ok=2176484 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 215.1s ok=2226755 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 220.1s ok=2277417 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 225.1s ok=2327770 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 230.1s ok=2377756 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 235.1s ok=2427852 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 240.1s ok=2478015 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 245.1s ok=2527872 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 250.1s ok=2578319 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 255.1s ok=2630045 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 260.1s ok=2680229 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 265.1s ok=2730429 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 270.1s ok=2780962 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 275.1s ok=2831476 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 280.1s ok=2881949 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 285.1s ok=2932807 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 290.1s ok=2983636 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 295.1s ok=3034203 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 300.1s ok=3084804 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 305.1s ok=3135144 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 310.1s ok=3186583 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 315.1s ok=3237246 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 320.1s ok=3287852 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 325.1s ok=3338672 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 330.1s ok=3389427 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 335.1s ok=3440320 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 340.1s ok=3490595 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 345.1s ok=3541005 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 350.1s ok=3591671 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 355.1s ok=3642094 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 360.1s ok=3692117 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 365.1s ok=3741959 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 370.1s ok=3792309 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 375.1s ok=3842719 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 380.1s ok=3893232 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 385.1s ok=3943917 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 390.1s ok=3994431 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 395.1s ok=4044568 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 400.1s ok=4095578 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 405.1s ok=4146931 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 410.1s ok=4201846 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 415.1s ok=4261405 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 420.1s ok=4317914 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 425.1s ok=4376672 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 430.1s ok=4436773 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 435.1s ok=4496710 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 440.1s ok=4554293 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 445.1s ok=4611366 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 450.1s ok=4669338 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 455.1s ok=4727031 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 460.1s ok=4785145 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 465.1s ok=4843241 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 470.1s ok=4901433 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 475.1s ok=4958262 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 480.1s ok=5014558 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 485.1s ok=5072710 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 490.1s ok=5130056 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 495.1s ok=5189326 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 500.1s ok=5248155 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 505.1s ok=5306910 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 510.1s ok=5365113 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 515.1s ok=5423822 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 520.1s ok=5482050 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 525.1s ok=5540799 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 530.1s ok=5599613 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 535.1s ok=5658108 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 540.1s ok=5711449 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 545.1s ok=5767749 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 550.1s ok=5825853 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 555.1s ok=5882633 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 560.1s ok=5940000 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 565.1s ok=5998354 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 570.1s ok=6055635 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 575.1s ok=6113455 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 580.1s ok=6170311 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 585.1s ok=6228960 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 590.1s ok=6286769 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 595.1s ok=6344245 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 600.1s ok=6401274 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 605.1s ok=6459017 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 610.1s ok=6517109 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 615.1s ok=6574766 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 620.1s ok=6632315 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 625.1s ok=6689560 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 630.1s ok=6748129 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 635.1s ok=6808106 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 640.1s ok=6867003 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 645.1s ok=6925565 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 650.1s ok=6984170 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 655.1s ok=7042547 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 660.1s ok=7100490 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 665.1s ok=7158670 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 670.1s ok=7216412 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 675.1s ok=7275221 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 680.1s ok=7333937 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 685.1s ok=7389366 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 690.1s ok=7448082 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 695.1s ok=7506039 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 700.1s ok=7564018 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 705.1s ok=7622208 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 710.1s ok=7682221 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 715.1s ok=7736505 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 720.1s ok=7791664 error=0 contract=0 stale=0 unavailable=0 rerouted=43
+ 725.1s ok=7847467 error=0 contract=0 stale=0 unavailable=0 rerouted=43
