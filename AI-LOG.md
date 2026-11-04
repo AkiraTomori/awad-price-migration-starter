@@ -52,6 +52,16 @@ This file records assistant involvement honestly and chronologically. It is not 
 - **Executed after the code commit:** created new `v3` tag at tested deployable code `ccd19db7c1cf14d2a5df21f38769c73dd96f27b2`, leaving v1/v2 untouched. With Node v22.23.4, ran `V3_REF=v3 P3_EVIDENCE_DIR=<absolute docs/evidence/p3-rollback> npm run rehearse:p3`. Exact-tag v2/v3 release sources shared one fresh absolute temporary SQLite DB; backfill and plain CONSISTENT preceded the first v3 startup. One traffic PID 51678, share 0.3, traversed v2/v2 → v3/v2 → v3/v3 → v3/v2 → v2/v2 → v2/v3 → v3/v3. All eight labeled status/check pairs were plain CONSISTENT with NULL=0 and disagree=0. Actual traffic: six down/back pairs, final `ok=59401 error=0 contract=0 stale=0 unavailable=0 rerouted=24`; process exited 0. Source fingerprints, exact commands, health/PID identity, raw traffic and checks are in `docs/evidence/p3-rollback/`. Temporary instance processes and DB were cleaned up by the harness. This bounded 300-row starting fixture is a development rehearsal, not the final demonstration.
 - **Not run / review gate:** final continuous v1-to-Contract demonstration, live deployment/DB changes, v4, Contract, merge and submission. Remote CI is separate from local tests. Student review remains required; no v1 writer may return during v2/v3 operation.
 
+## 2026-11-04 — P3 review/merge and P4 agent preparation
+
+- **Tool:** ChatGPT (OpenAI), GitHub connector.
+- **Asked for:** merge the reviewed P3 PR #5 and prepare the next Coding-Agent phase.
+- **Kept:** existing P3 implementation, test evidence and immutable `v1`/`v2`/`v3` tags. The PR head was unchanged from the earlier review.
+- **Executed:** checked PR #5 metadata, the v3 tagged source and available GitHub status data; merge-commit merged PR #5 to `main` at `308c92db6ff7aa3b958519d102467119ee8869e5`. Created branch `feat/p4-bridge-v4-contract` from merged `main` and added `docs/P4_AGENT_HANDOFF.md` with P4 implementation, disposable verification and review gates.
+- **Changed:** updated documentation status to distinguish merged P3 from unexecuted P4/P5. This preparation did not change application behavior, migration files or release tags.
+- **Rejected / blocked:** attempted to create a GitHub P4 Issue, but the repository's Issues feature is disabled (GitHub HTTP 410). Used a versioned handoff document instead. No remote workflow runs or commit statuses were returned by the connector; no remote-CI success claim.
+- **By hand / not run:** Coding-Agent P4 implementation, Node 22 tests, new migrations, live DB changes, final continuous v1-to-Contract demonstration and submission remain to be done and reviewed. Contract must not execute without explicit student approval.
+
 ## Future entries
 
 For each implementation phase, add the date, tool, prompt/task, kept, changed, rejected, and by-hand work. Only describe commands and results that actually happened.
