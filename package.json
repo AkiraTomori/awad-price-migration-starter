@@ -14,6 +14,8 @@
     "backfill": "node scripts/backfill.js",
     "rehearse:p3": "node scripts/rehearse-p3.js",
     "rehearse:p4": "node scripts/rehearse-p4.js",
+    "p5:plan": "node scripts/p5-plan.js",
+    "p5:preflight": "node scripts/p5-preflight.js",
     "traffic": "node scripts/traffic.js",
     "check": "node scripts/check.js",
     "test": "node --test --test-reporter=spec"

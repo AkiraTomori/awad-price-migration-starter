@@ -1,0 +1,488 @@
+P5-A Gate A only — 2026-11-04 ICT. No demonstration DB or final logs are created.
+Base main: 3733dbde2336f3de1d35eb85408ceaa2d2fc8f2f; P4 integration verified by PR #7 and ancestry; PR #6 closed/unmerged.
+Isolated Node 22 runtime: /private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5-node22-0qq0l046/cache/_npx/52027bd8fc0022aa/node_modules/node/bin/node
+Proposed only: P5_RUN_DIR=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104 DB_PATH=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db
+
+$ node --version
+v22.23.4
+exit=0
+
+$ npm --version
+11.18.0
+exit=0
+
+$ npm test
+
+> awad-price-migration-starter@4.0.0 test
+> node --test --test-reporter=spec
+
+(node:8443) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ GET /menu/:id returns price in thousands of dong (14.096291ms)
+✔ PATCH /menu/:id changes the price (3.976375ms)
+✔ POST /orders totals at the current price (1.57375ms)
+✔ errors have one shape (3.195291ms)
+(node:8444) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ v2 supports both clients on create/reprice/list/get and preserves order units (40.996875ms)
+✔ invalid payloads do not create or change rows on either write path (28.62475ms)
+✔ original v1 and v2 share expanded DB; v2 reads legacy writes even with stale VND (23.415792ms)
+✔ 002 up/down/re-up preserves legacy menu and order data on a separate DB (2.67475ms)
+(node:8445) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ backfill rolls back an invalid batch, retains earlier commits and resumes after repair (9.644416ms)
+✔ backfill reconciles NULL/stale rows in bounded batches without touching correct rows or orders (189.638333ms)
+✔ SIGTERM preserves committed progress and a fresh process resumes idempotently (183.356917ms)
+✔ separate backfill process preserves concurrent v2 HTTP create/reprice writes from both instances (754.839ms)
+✔ backfill waits for an in-flight v2 transaction before reading its latest price (124.738542ms)
+✔ CLI refuses backfill when either target is not v2, before changing data (166.409625ms)
+✔ client mix validates inputs, rejects bad updates, and reloads valid shares (6.862792ms)
+P2 disposable traffic child pid=9939: === traffic start 2026-11-04T10:35:52.940Z · targets http://127.0.0.1:63297 http://127.0.0.1:63298 · new clients 0 |    0.6s CLIENT_MIX 0 -> 0.3 file=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p2-test-t5yR47/share.json |    0.6s FINAL ok=2430 error=0 contract=0 stale=0 unavailable=0 rerouted=0 | RESULT: zero failed requests
+✔ one traffic child switches 0 to 0.3 under backfill with all original failure counters zero (617.042667ms)
+(node:8446) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ v3 refuses incomplete, disagreeing or invalid backfill before serving (1.375083ms)
+✔ v3 reads menu and order prices solely from VND, retaining thousands for orders (25.754084ms)
+✔ mixed exact-tag v2/v3 supports both payloads, atomic pairs, rounding and original order units (77.845417ms)
+P3 disposable rolling rehearsal {"trafficPid":9499,"states":["v2/v2","v3/v2","v3/v3","v3/v2","v2/v2","v2/v3","v3/v3"],"final":"   3.7s FINAL ok=40284 error=0 contract=0 stale=0 unavailable=0 rerouted=31","down":6,"back":6}
+✔ rolling v2/v3 deploy and rollback keep one real traffic process and consistent shared DB (4258.37775ms)
+(node:8447) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+P4 disposable schema/HTTP proof {"passed":true,"v4":"51669379446f8f34473a90104ea939284335e9f2","menuRows":17}
+✔ all migration downs, staged Contract, exact-tag v4 HTTP and schema recovery on a disposable DB (1258.536208ms)
+(node:8606) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8664) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8723) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8942) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8986) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:8448) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ 003 INSERT/UPDATE bridge is reversible and terminates with recursive triggers ON/OFF (2.035375ms)
+✔ explicit migration target stages 003, rejects invalid targets and preserves data on down/re-up (208.039166ms)
+✔ v4 SQL never names legacy price; bridge supports mixed v3/v4 old/new writes and order units (73.553209ms)
+✔ v4 startup rejects invalid VND without a legacy-column query (0.711916ms)
+P4 disposable rolling rehearsal {"trafficPid":9737,"states":["v3/v3","v4/v3","v4/v4","v4/v3","v3/v3","v3/v4","v4/v4"],"final":"   3.7s FINAL ok=40484 error=0 contract=0 stale=0 unavailable=0 rerouted=22","down":6,"back":6}
+✔ rolling v3/v4 bridge rollout and rollback preserve one traffic PID and consistency (4329.889542ms)
+(node:8449) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ P5 plan describes each roll with an explicit S8 gate and executes no demonstration operation (1.313084ms)
+✔ P5 preparation refuses existing logs, DB directories, unsafe paths and symlink ancestors (3.090166ms)
+✔ P5 port preflight refuses a busy port without stopping the existing listener (7.119875ms)
+✔ P5-A proves two exact-v1 PIDs open the same disposable DB; final DB/logs stay absent (552.279375ms)
+✔ price conversion keeps legacy precision and rounds integer VND (0.67925ms)
+✔ price validation rejects absent, invalid, unsafe and conflicting values (0.087583ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4702.283833
+exit=0
+Syntax-check planned Bash recipe ONLY; none of its commands are executed.
+
+$ bash -n
+
+exit=0
+
+$ npm run p5:preflight
+
+> awad-price-migration-starter@4.0.0 p5:preflight
+> node scripts/p5-preflight.js
+
+(node:10973) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"scope":"P5-A ONLY","passed":true,"identityProbe":{"initialRows":20000,"pids":[11174,11198],"dbPath":"/private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5-a-probe-TTT4p7/disposable.db","crossInstanceVisibility":true,"orderUnit":"thousands of VND"},"plannedDb":"/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db","demonstrationCreated":false,"finalTrafficStarted":false,"existingEvidenceFilesVerified":14,"existingEvidenceUnchanged":true,"tagsUnchanged":true,"gate":"STOP FOR GATE A REVIEW; no S0-S8 execution"}
+exit=0
+
+$ node scripts/rehearse-contract.js
+(node:11363) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"passed":true,"v4":"51669379446f8f34473a90104ea939284335e9f2","menuRows":17}
+exit=0
+
+$ git rev-parse HEAD origin/main v1^{} v2^{} v3^{} v4^{}
+3733dbde2336f3de1d35eb85408ceaa2d2fc8f2f
+3733dbde2336f3de1d35eb85408ceaa2d2fc8f2f
+2b889bde433190c17744f30d3900d38ab333a756
+dadb816bac9dad5ffcbf098d130d387bbbdd338c
+ccd19db7c1cf14d2a5df21f38769c73dd96f27b2
+51669379446f8f34473a90104ea939284335e9f2
+exit=0
+
+$ git diff --check
+
+exit=0
+VERIFIED ABSENT: /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104
+VERIFIED ABSENT: /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/traffic-log.txt
+VERIFIED ABSENT: /Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/check-log.txt
+S0–S8 final run: NOT RUN. S8 authorization: NOT GIVEN. No final score, ZIP or submission.
+
+Final revalidation after output-path isolation hardening; $ npm test
+
+> awad-price-migration-starter@4.0.0 test
+> node --test --test-reporter=spec
+
+(node:12919) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ GET /menu/:id returns price in thousands of dong (15.624125ms)
+✔ PATCH /menu/:id changes the price (4.70025ms)
+✔ POST /orders totals at the current price (2.48425ms)
+✔ errors have one shape (3.527375ms)
+(node:12920) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ v2 supports both clients on create/reprice/list/get and preserves order units (37.820583ms)
+✔ invalid payloads do not create or change rows on either write path (24.231625ms)
+✔ original v1 and v2 share expanded DB; v2 reads legacy writes even with stale VND (26.54625ms)
+✔ 002 up/down/re-up preserves legacy menu and order data on a separate DB (2.540417ms)
+(node:12921) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ backfill rolls back an invalid batch, retains earlier commits and resumes after repair (11.572584ms)
+✔ backfill reconciles NULL/stale rows in bounded batches without touching correct rows or orders (191.129125ms)
+✔ SIGTERM preserves committed progress and a fresh process resumes idempotently (162.425459ms)
+✔ separate backfill process preserves concurrent v2 HTTP create/reprice writes from both instances (757.013625ms)
+✔ backfill waits for an in-flight v2 transaction before reading its latest price (127.644083ms)
+✔ CLI refuses backfill when either target is not v2, before changing data (160.3925ms)
+✔ client mix validates inputs, rejects bad updates, and reloads valid shares (6.106208ms)
+P2 disposable traffic child pid=14362: === traffic start 2026-11-04T10:38:44.912Z · targets http://127.0.0.1:63738 http://127.0.0.1:63739 · new clients 0 |    0.5s CLIENT_MIX 0 -> 0.3 file=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p2-test-auBiQX/share.json |    0.6s FINAL ok=2924 error=0 contract=0 stale=0 unavailable=0 rerouted=0 | RESULT: zero failed requests
+✔ one traffic child switches 0 to 0.3 under backfill with all original failure counters zero (620.179167ms)
+(node:12922) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ v3 refuses incomplete, disagreeing or invalid backfill before serving (2.676375ms)
+✔ v3 reads menu and order prices solely from VND, retaining thousands for orders (18.070166ms)
+✔ mixed exact-tag v2/v3 supports both payloads, atomic pairs, rounding and original order units (68.971541ms)
+P3 disposable rolling rehearsal {"trafficPid":13976,"states":["v2/v2","v3/v2","v3/v3","v3/v2","v2/v2","v2/v3","v3/v3"],"final":"   3.7s FINAL ok=40806 error=0 contract=0 stale=0 unavailable=0 rerouted=31","down":6,"back":6}
+✔ rolling v2/v3 deploy and rollback keep one real traffic process and consistent shared DB (4245.318417ms)
+(node:12923) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+P4 disposable schema/HTTP proof {"passed":true,"v4":"51669379446f8f34473a90104ea939284335e9f2","menuRows":17}
+✔ all migration downs, staged Contract, exact-tag v4 HTTP and schema recovery on a disposable DB (1309.85875ms)
+(node:13094) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13129) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13197) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13408) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:13456) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:12924) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ 003 INSERT/UPDATE bridge is reversible and terminates with recursive triggers ON/OFF (1.4865ms)
+✔ explicit migration target stages 003, rejects invalid targets and preserves data on down/re-up (197.895542ms)
+✔ v4 SQL never names legacy price; bridge supports mixed v3/v4 old/new writes and order units (76.536583ms)
+✔ v4 startup rejects invalid VND without a legacy-column query (0.888958ms)
+P4 disposable rolling rehearsal {"trafficPid":14219,"states":["v3/v3","v4/v3","v4/v4","v4/v3","v3/v3","v3/v4","v4/v4"],"final":"   3.7s FINAL ok=39069 error=0 contract=0 stale=0 unavailable=0 rerouted=22","down":6,"back":6}
+✔ rolling v3/v4 bridge rollout and rollback preserve one traffic PID and consistency (4462.2635ms)
+(node:12925) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ P5 plan describes each roll with an explicit S8 gate and executes no demonstration operation (1.578333ms)
+✔ P5 preparation refuses existing logs, DB directories, unsafe paths and symlink ancestors (2.991041ms)
+✔ P5 port preflight refuses a busy port without stopping the existing listener (7.198375ms)
+✔ P5-A proves two exact-v1 PIDs open the same disposable DB; final DB/logs stay absent (542.6715ms)
+✔ price conversion keeps legacy precision and rounds integer VND (0.912542ms)
+✔ price validation rejects absent, invalid, unsafe and conflicting values (0.093375ms)
+ℹ tests 32
+ℹ suites 0
+ℹ pass 32
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 4830.25575
+
+exit=0
+
+Final revalidation after output-path isolation hardening; $ npm run p5:plan
+
+> awad-price-migration-starter@4.0.0 p5:plan
+> node scripts/p5-plan.js
+
+{
+  "scope": "P5-A PLAN ONLY",
+  "executionEnabled": false,
+  "repo": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter",
+  "runDir": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104",
+  "dbPath": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+  "ports": [
+    3001,
+    3002
+  ],
+  "targets": [
+    "http://127.0.0.1:3001",
+    "http://127.0.0.1:3002"
+  ],
+  "releases": {
+    "v1": "2b889bde433190c17744f30d3900d38ab333a756",
+    "v2": "dadb816bac9dad5ffcbf098d130d387bbbdd338c",
+    "v3": "ccd19db7c1cf14d2a5df21f38769c73dd96f27b2",
+    "v4": "51669379446f8f34473a90104ea939284335e9f2"
+  },
+  "trafficLog": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/traffic-log.txt",
+  "checkLog": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/check-log.txt",
+  "shareFile": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/client-share.json",
+  "reviewGate": "No demonstration DB creation, instance deployment or traffic start before Gate A review. No S8 without separate explicit approval.",
+  "steps": [
+    {
+      "id": "S0-schema",
+      "state": "v1/v1",
+      "action": "migration",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "command": [
+        "npm",
+        "run",
+        "migrate",
+        "--",
+        "--to",
+        "001_init"
+      ]
+    },
+    {
+      "id": "S0-seed",
+      "state": "v1/v1",
+      "action": "seed exactly 20000 rows before traffic",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "command": [
+        "node",
+        "scripts/seed.js",
+        "20000"
+      ]
+    },
+    {
+      "id": "S0-start-A",
+      "state": "v1/-",
+      "action": "start_instance",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "A",
+      "version": "v1"
+    },
+    {
+      "id": "S0-start-B",
+      "state": "v1/v1",
+      "action": "start_instance",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "B",
+      "version": "v1"
+    },
+    {
+      "id": "S0-traffic",
+      "state": "v1/v1",
+      "action": "start exactly one traffic process",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "share": 0,
+      "duration": 0,
+      "log": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/traffic-log.txt"
+    },
+    {
+      "id": "S1",
+      "state": "v1/v1",
+      "action": "migration",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "command": [
+        "npm",
+        "run",
+        "migrate",
+        "--",
+        "--to",
+        "002_add_price_vnd"
+      ]
+    },
+    {
+      "id": "S2-A",
+      "state": "v2/v1",
+      "action": "roll_one",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "A",
+      "version": "v2",
+      "keepTrafficPid": true
+    },
+    {
+      "id": "S2-B",
+      "state": "v2/v2",
+      "action": "roll_one",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "B",
+      "version": "v2",
+      "keepTrafficPid": true
+    },
+    {
+      "id": "S3-backfill",
+      "state": "v2/v2",
+      "action": "backfill after proving no v1 writer remains",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "command": [
+        "npm",
+        "run",
+        "backfill"
+      ],
+      "requirePlainConsistent": true
+    },
+    {
+      "id": "S3-rerun",
+      "state": "v2/v2",
+      "action": "backfill rerun must update 0",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "command": [
+        "npm",
+        "run",
+        "backfill"
+      ],
+      "requirePlainConsistent": true
+    },
+    {
+      "id": "S3-clients",
+      "state": "v2/v2",
+      "action": "atomically replace NEW_CLIENTS_FILE; observe accepted log entry in same traffic PID",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "share": 0.3
+    },
+    {
+      "id": "S4-A",
+      "state": "v3/v2",
+      "action": "roll_one",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "A",
+      "version": "v3",
+      "keepTrafficPid": true
+    },
+    {
+      "id": "S4-B",
+      "state": "v3/v3",
+      "action": "roll_one",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "B",
+      "version": "v3",
+      "keepTrafficPid": true
+    },
+    {
+      "id": "S5-back-B",
+      "state": "v3/v2",
+      "action": "roll_one",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "B",
+      "version": "v2",
+      "keepTrafficPid": true
+    },
+    {
+      "id": "S5-back-A",
+      "state": "v2/v2",
+      "action": "roll_one",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "A",
+      "version": "v2",
+      "keepTrafficPid": true
+    },
+    {
+      "id": "S5-forward-B",
+      "state": "v2/v3",
+      "action": "roll_one",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "B",
+      "version": "v3",
+      "keepTrafficPid": true
+    },
+    {
+      "id": "S5-forward-A",
+      "state": "v3/v3",
+      "action": "roll_one",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "A",
+      "version": "v3",
+      "keepTrafficPid": true
+    },
+    {
+      "id": "S6",
+      "state": "v3/v3",
+      "action": "migration",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "command": [
+        "npm",
+        "run",
+        "migrate",
+        "--",
+        "--to",
+        "003_sync_legacy_price"
+      ]
+    },
+    {
+      "id": "S7-A",
+      "state": "v4/v3",
+      "action": "roll_one",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "A",
+      "version": "v4",
+      "keepTrafficPid": true
+    },
+    {
+      "id": "S7-B",
+      "state": "v4/v4",
+      "action": "roll_one",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "slot": "B",
+      "version": "v4",
+      "keepTrafficPid": true
+    },
+    {
+      "id": "S8-gate",
+      "state": "v4/v4",
+      "action": "STOP; keep traffic running; present DB/PID/bridge/consistency/counter/backup evidence for explicit student approval",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "approvalRequired": true
+    },
+    {
+      "id": "S8",
+      "state": "v4/v4",
+      "action": "migration ONLY AFTER specific DB approval and fresh revalidation",
+      "status": "NOT RUN",
+      "checkAfter": true,
+      "approvalRequired": true,
+      "command": [
+        "npm",
+        "run",
+        "migrate",
+        "--",
+        "--to",
+        "004_drop_price"
+      ]
+    },
+    {
+      "id": "post-S8",
+      "state": "v4/v4",
+      "action": "verify both HTTP clients and orders; stop traffic exactly once; inspect one final result",
+      "status": "NOT RUN",
+      "checkAfter": true
+    }
+  ]
+}
+
+exit=0
+Final preservation check: 14 prior evidence files and all tag objects unchanged; final paths absent.
+Temporary Node 22 runtime removed after verification.

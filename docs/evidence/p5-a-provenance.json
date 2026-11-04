@@ -1,0 +1,22 @@
+{
+  "scope": "P5-A source provenance",
+  "source": "GitHub connector get_pr_info; fetched during this task",
+  "pr6": {
+    "number": 6,
+    "state": "closed",
+    "merged": false,
+    "merged_at": null,
+    "head_sha": "c0d33268bd8b791a1948d2dfda8bc116d9dadc17",
+    "url": "https://github.com/AkiraTomori/awad-price-migration-starter/pull/6"
+  },
+  "pr7": {
+    "number": 7,
+    "state": "closed",
+    "merged": true,
+    "merged_at": "2026-11-04T10:11:59Z",
+    "merge_commit_sha": "3733dbde2336f3de1d35eb85408ceaa2d2fc8f2f",
+    "url": "https://github.com/AkiraTomori/awad-price-migration-starter/pull/7"
+  },
+  "localIntegrationProof": "git merge-base --is-ancestor c0d33268bd8b791a1948d2dfda8bc116d9dadc17 3733dbde2336f3de1d35eb85408ceaa2d2fc8f2f exited 0",
+  "interpretation": "P4 reviewed head is in main at the merged PR #7 commit. PR #6 remains closed and is not marked merged."
+}

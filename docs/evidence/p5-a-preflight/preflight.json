@@ -1,0 +1,242 @@
+[
+  {
+    "scope": "P5-A ONLY",
+    "node": "v22.23.4",
+    "time": "2026-11-04T10:35:56.177Z",
+    "main": "3733dbde2336f3de1d35eb85408ceaa2d2fc8f2f",
+    "branch": "feat/p5-final-execution",
+    "tagObjects": {
+      "v1": "2b889bde433190c17744f30d3900d38ab333a756",
+      "v2": "dadb816bac9dad5ffcbf098d130d387bbbdd338c",
+      "v3": "ccd19db7c1cf14d2a5df21f38769c73dd96f27b2",
+      "v4": "51669379446f8f34473a90104ea939284335e9f2"
+    },
+    "releaseCommits": {
+      "v1": "2b889bde433190c17744f30d3900d38ab333a756",
+      "v2": "dadb816bac9dad5ffcbf098d130d387bbbdd338c",
+      "v3": "ccd19db7c1cf14d2a5df21f38769c73dd96f27b2",
+      "v4": "51669379446f8f34473a90104ea939284335e9f2"
+    },
+    "portsAvailableAtPreflight": [
+      3001,
+      3002
+    ],
+    "proposedDbPath": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+    "proposedDbExists": false,
+    "demoStage": "NOT STARTED",
+    "S8": "NOT AUTHORIZED / NOT EVALUATED",
+    "testSuite": "run separately; this command does not claim npm test results"
+  },
+  {
+    "source": "v1:package.json",
+    "sha256": "ad73cd5a1f5b3553b67a0b7cfdae07d6ffc12adacde66ba1841abf5b9c6f7bd7"
+  },
+  {
+    "source": "v1:src/app.js",
+    "sha256": "f7383563d21cd6f8db79ad2bb4b90186c57002f0d2c4d56bf7b01b7f1aa99925"
+  },
+  {
+    "source": "v1:src/db.js",
+    "sha256": "e9b9074529373eb5ca5f106a4110d22dcd362530a83500deebefdb376efbc1c4"
+  },
+  {
+    "source": "v1:src/server.js",
+    "sha256": "87bac57fc8364e4fbc863ca94e94c2ff781f9d94d83ac876e2e2470c79b3e1f6"
+  },
+  {
+    "source": "v1:scripts/seed.js",
+    "sha256": "6b721a8f3983aa2e71b6f3fb29e4c19c61d2e5e2c4079fd4545152674a093078"
+  },
+  {
+    "scope": "DISPOSABLE ONLY",
+    "dbPath": "/private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5-a-probe-TTT4p7/disposable.db",
+    "command": [
+      "node",
+      "scripts/migrate.js",
+      "up",
+      "--to",
+      "001_init"
+    ]
+  },
+  {
+    "migration": "applied  001_init",
+    "stderr": "(node:11172) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+  },
+  {
+    "seed": "seeded 20000 menu items",
+    "stderr": "(node:11173) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+  },
+  {
+    "slot": "A",
+    "pid": 11174,
+    "sourceCommit": "2b889bde433190c17744f30d3900d38ab333a756",
+    "command": [
+      "/private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5-node22-0qq0l046/cache/_npx/52027bd8fc0022aa/node_modules/node/bin/node",
+      "src/server.js"
+    ],
+    "cwd": "/private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5-a-probe-TTT4p7",
+    "port": 63521,
+    "dbPath": "/private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5-a-probe-TTT4p7/disposable.db",
+    "dbInode": 28966093,
+    "handle": {
+      "lsof": "p11174\nf12\nn/private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5-a-probe-TTT4p7/disposable.db"
+    },
+    "health": {
+      "ok": true
+    },
+    "note": "v1 has no version field; pinned source, PID, cwd and open DB handle establish identity"
+  },
+  {
+    "slot": "B",
+    "pid": 11198,
+    "sourceCommit": "2b889bde433190c17744f30d3900d38ab333a756",
+    "command": [
+      "/private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5-node22-0qq0l046/cache/_npx/52027bd8fc0022aa/node_modules/node/bin/node",
+      "src/server.js"
+    ],
+    "cwd": "/private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5-a-probe-TTT4p7",
+    "port": 63525,
+    "dbPath": "/private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5-a-probe-TTT4p7/disposable.db",
+    "dbInode": 28966093,
+    "handle": {
+      "lsof": "p11198\nf12\nn/private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5-a-probe-TTT4p7/disposable.db"
+    },
+    "health": {
+      "ok": true
+    },
+    "note": "v1 has no version field; pinned source, PID, cwd and open DB handle establish identity"
+  },
+  {
+    "probeHttp": true,
+    "pid": 11174,
+    "method": "POST",
+    "path": "/menu",
+    "body": {
+      "name": "P5-A disposable probe",
+      "price": 45.5
+    },
+    "status": 201,
+    "response": {
+      "id": 20001,
+      "name": "P5-A disposable probe",
+      "price": 45.5
+    }
+  },
+  {
+    "probeHttp": true,
+    "pid": 11198,
+    "method": "GET",
+    "path": "/menu/20001",
+    "status": 200,
+    "response": {
+      "id": 20001,
+      "name": "P5-A disposable probe",
+      "price": 45.5
+    }
+  },
+  {
+    "probeHttp": true,
+    "pid": 11198,
+    "method": "PATCH",
+    "path": "/menu/20001",
+    "body": {
+      "price": 6
+    },
+    "status": 200,
+    "response": {
+      "id": 20001,
+      "name": "P5-A disposable probe",
+      "price": 6
+    }
+  },
+  {
+    "probeHttp": true,
+    "pid": 11174,
+    "method": "GET",
+    "path": "/menu/20001",
+    "status": 200,
+    "response": {
+      "id": 20001,
+      "name": "P5-A disposable probe",
+      "price": 6
+    }
+  },
+  {
+    "probeHttp": true,
+    "pid": 11174,
+    "method": "POST",
+    "path": "/orders",
+    "body": {
+      "items": [
+        {
+          "menuItemId": 20001,
+          "qty": 2
+        }
+      ]
+    },
+    "status": 201,
+    "response": {
+      "id": 1,
+      "total": 12
+    }
+  },
+  {
+    "command": [
+      "npm",
+      "run",
+      "migrate:status"
+    ],
+    "dbPath": "/private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5-a-probe-TTT4p7/disposable.db",
+    "stdout": "\n> awad-price-migration-starter@4.0.0 migrate:status\n> node scripts/migrate.js status\n\ndb /private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5-a-probe-TTT4p7/disposable.db\n[x] 001_init\n[ ] 002_add_price_vnd\n[ ] 003_sync_legacy_price\n[ ] 004_drop_price\n",
+    "stderr": "(node:11264) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+  },
+  {
+    "command": [
+      "npm",
+      "run",
+      "check"
+    ],
+    "dbPath": "/private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5-a-probe-TTT4p7/disposable.db",
+    "stdout": "\n> awad-price-migration-starter@4.0.0 check\n> node scripts/check.js\n\ncolumns                id, name, price\nrows                   20001\nCONSISTENT\n",
+    "stderr": ""
+  },
+  {
+    "disposableInstanceExit": 11174,
+    "code": 0,
+    "signal": null,
+    "stdout": "menu service on :63521 · db /private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5-a-probe-TTT4p7/disposable.db · pid 11174\n",
+    "stderr": "(node:11174) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+  },
+  {
+    "disposableInstanceExit": 11198,
+    "code": 0,
+    "signal": null,
+    "stdout": "menu service on :63525 · db /private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5-a-probe-TTT4p7/disposable.db · pid 11198\n",
+    "stderr": "(node:11198) ExperimentalWarning: SQLite is an experimental feature and might change at any time\n(Use `node --trace-warnings ...` to show where the warning was created)\n"
+  },
+  {
+    "disposableProbeCleanedUp": true,
+    "passed": true
+  },
+  {
+    "scope": "P5-A ONLY",
+    "passed": true,
+    "identityProbe": {
+      "initialRows": 20000,
+      "pids": [
+        11174,
+        11198
+      ],
+      "dbPath": "/private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p5-a-probe-TTT4p7/disposable.db",
+      "crossInstanceVisibility": true,
+      "orderUnit": "thousands of VND"
+    },
+    "plannedDb": "/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/data/p5-final-20261104/app.db",
+    "demonstrationCreated": false,
+    "finalTrafficStarted": false,
+    "existingEvidenceFilesVerified": 14,
+    "existingEvidenceUnchanged": true,
+    "tagsUnchanged": true,
+    "gate": "STOP FOR GATE A REVIEW; no S0-S8 execution"
+  }
+]
