@@ -4,7 +4,7 @@ import { readFileSync, writeFileSync, mkdtempSync, rmSync } from 'node:fs';
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { open } from '../src/db.js';
-import { createApp } from '../src/app.js';
+import { createV3 as createApp } from '../test-support/v3.js';
 import { createV2 } from '../test-support/v2.js';
 import { rehearseP3 } from '../scripts/rehearse-p3.js';
 import { createClientMix } from '../scripts/lib/client-mix.js';

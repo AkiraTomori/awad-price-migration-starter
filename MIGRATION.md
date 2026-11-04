@@ -1,6 +1,8 @@
 # IA#2 — Zero-downtime menu price migration
 
-**Status: P1/P2/P3 merged (PR #3/#4/#5); P3 tested on Node 22 and rehearsed from exact v2/v3 tags on a disposable DB. P4 is prepared on a separate agent branch but NOT IMPLEMENTED. P5 and final continuous v1-to-Contract demonstration are NOT RUN.**
+**Status: P1–P3 merged. P4 bridge/v4 code passes pre-tag Node 22 validation; v4 tagging and later 004 disposable verification are pending. P5 and the final live demonstration are NOT RUN.**
+
+P4 implementation follows [docs/P4_AGENT_HANDOFF.md](docs/P4_AGENT_HANDOFF.md). Pre-tag evidence: [27/27 Node 22 tests](docs/evidence/p4-pretag-node22.txt). Migration 003 covers INSERT/UPDATE with guarded legacy synchronization, tested with recursive triggers ON and OFF. v4 SQL uses only `price_vnd`, including startup validation, while JSON `price` and order amounts remain thousands of VND. The tested target option `npm run migrate -- --to 003_sync_legacy_price` stages the bridge without applying later migrations. Migration 004 will be introduced only after the immutable v4 code tag; no live demonstration operation is authorized here.
 
 P1 evidence: [docs/evidence/p1-validation.txt](docs/evidence/p1-validation.txt) records 10 passing tests and the actual 002 down/re-up CLI rehearsal on a fresh disposable database. Mixed original v1/v2 HTTP tests share one absolute temporary DB path; v2 reads only legacy `price` and derives both response fields from it, including after a v1 reprice leaves `price_vnd` stale. Health reports `version: v2`; `v1` remains the original starter SHA. The existing `v2` tag points to merged P1 commit `dadb816bac9dad5ffcbf098d130d387bbbdd338c`; P2 does not move this tag. P1 left existing seed rows NULL without backfill.
 

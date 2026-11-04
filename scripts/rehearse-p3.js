@@ -31,7 +31,7 @@ async function unusedPort() {
   return port;
 }
 
-export async function rehearseP3({ outputDir, v3Ref = null, rows = 300 } = {}) {
+export async function rehearseP3({ outputDir, v3Ref = 'v3', rows = 300 } = {}) {
   assert.ok(outputDir, 'outputDir is required');
   assert.ok(Number.isInteger(rows) && rows >= 100, 'at least 100 rows required');
   for (const [tag, sha] of Object.entries(pins)) assert.equal(git('rev-parse', `${tag}^{}`), sha);

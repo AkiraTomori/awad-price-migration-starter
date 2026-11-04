@@ -64,4 +64,11 @@ This file records assistant involvement honestly and chronologically. It is not 
 
 ## Future entries
 
+## 2026-11-04 — P4 bridge/v4 foundation (pre-Contract code commit)
+
+- **Tool/task:** Codex (OpenAI), local shell/file edits and GitHub connector; implement only P4 on the existing `feat/p4-bridge-v4-contract` branch per its handoff, preserving existing tags and the demonstration DB.
+- **Base/changed:** branch started at `e75676926bae0c57e90c5871438b191e72ab918e`, after merged P3. Added reversible 003 INSERT/UPDATE synchronization with a recursion-stopping guard. v4 SQL no longer references legacy `price`; API fields and order units remain unchanged. Added explicit migration `--to` staging and schema-aware seed/check support. Historical P3 tests now load immutable tagged v3 source. Added mixed v3/v4 and one-PID rolling/rollback tests and a disposable-only P4 harness.
+- **Executed:** development suite 27/27 on Node v26.6.0, then full pre-tag suite **27/27 on Node v22.23.4** (local npm 11.18.0), including 003 down/re-up, recursive triggers ON/OFF, a SQL trace asserting no legacy-column reference, mixed payloads, order units and zero-failure rolling rollback. Full output: `docs/evidence/p4-pretag-node22.txt`.
+- **Sequence/gates:** this code commit contains 003 but no 004. Create a new immutable v4 tag at this tested deployable version before introducing 004 in a later commit. Existing v1/v2/v3 remain unchanged. Contract verification, exact-tag evidence and final P4 review remain pending at this point; live Contract, P5, final demonstration, merge and submission are not authorized.
+
 For each implementation phase, add the date, tool, prompt/task, kept, changed, rejected, and by-hand work. Only describe commands and results that actually happened.

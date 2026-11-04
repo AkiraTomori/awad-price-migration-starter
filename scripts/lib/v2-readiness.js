@@ -4,7 +4,7 @@ export async function requireV2(targets) {
 }
 
 export async function requireMenuClients(targets) {
-  return requireVersions(targets, ['v2', 'v3']);
+  return requireVersions(targets, ['v2', 'v3', 'v4']);
 }
 
 async function requireVersions(targets, versions) {

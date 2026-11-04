@@ -1,7 +1,7 @@
 import { createServer } from 'node:http';
 
-// v3: integer VND is the read source. Both columns remain atomically written
-// so a backfilled database supports mixed v2/v3 and code-only rollback to v2.
+// v4: application SQL uses integer VND only. Migration 003 synchronizes the
+// legacy DB column while v3 coexists; HTTP price remains in thousands of VND.
 
 const json = (res, status, body) => {
   res.writeHead(status, { 'content-type': 'application/json' });
@@ -36,14 +36,13 @@ export function parsePrice(body) {
 export function createApp(db) {
   const invalid = db.prepare(`SELECT count(*) AS n FROM menu_items
     WHERE price_vnd IS NULL OR typeof(price_vnd) <> 'integer'
-      OR price_vnd <= 0 OR price_vnd > 100000000 OR price IS NULL
-      OR price_vnd <> CAST(round(price * 1000) AS INTEGER)`).get().n;
-  if (invalid) throw new Error(`v3 requires completed backfill and CONSISTENT data; ${invalid} invalid menu rows`);
+      OR price_vnd <= 0 OR price_vnd > 100000000`).get().n;
+  if (invalid) throw new Error(`v4 requires valid backfilled integer VND; ${invalid} invalid menu rows`);
   const q = {
     list: db.prepare('SELECT id, name, price_vnd FROM menu_items ORDER BY id LIMIT ? OFFSET ?'),
     get: db.prepare('SELECT id, name, price_vnd FROM menu_items WHERE id = ?'),
-    insert: db.prepare('INSERT INTO menu_items (name, price, price_vnd) VALUES (?, ?, ?)'),
-    setPrice: db.prepare('UPDATE menu_items SET price = ?, price_vnd = ? WHERE id = ?'),
+    insert: db.prepare('INSERT INTO menu_items (name, price_vnd) VALUES (?, ?)'),
+    setPrice: db.prepare('UPDATE menu_items SET price_vnd = ? WHERE id = ?'),
     insertOrder: db.prepare("INSERT INTO orders (created_at) VALUES (datetime('now'))"),
     insertLine: db.prepare('INSERT INTO order_items (order_id, menu_item_id, qty, unit_price) VALUES (?, ?, ?, ?)'),
   };
@@ -58,7 +57,7 @@ export function createApp(db) {
     const url = new URL(req.url, 'http://x');
     const parts = url.pathname.split('/').filter(Boolean);
 
-    if (req.method === 'GET' && url.pathname === '/health') return json(res, 200, { ok: true, version: 'v3' });
+    if (req.method === 'GET' && url.pathname === '/health') return json(res, 200, { ok: true, version: 'v4' });
 
     if (parts[0] === 'menu' && parts.length === 1) {
       if (req.method === 'GET') {
@@ -71,7 +70,7 @@ export function createApp(db) {
         const prices = parsePrice(body);
         if (!prices || typeof body.name !== 'string' || !body.name)
           return error(res, 400, 'invalid_body', 'name (string) and price (thousands of dong) or priceVnd (integer dong) are required; both prices must agree');
-        const { lastInsertRowid } = q.insert.run(body.name, prices.priceVnd / 1000, prices.priceVnd);
+        const { lastInsertRowid } = q.insert.run(body.name, prices.priceVnd);
         return json(res, 201, view(q.get.get(lastInsertRowid)));
       }
     }
@@ -86,7 +85,7 @@ export function createApp(db) {
         const prices = parsePrice(body);
         if (!prices)
           return error(res, 400, 'invalid_body', 'price (thousands of dong) or priceVnd (integer dong) is required; both prices must agree');
-        q.setPrice.run(prices.priceVnd / 1000, prices.priceVnd, id);
+        q.setPrice.run(prices.priceVnd, id);
         return json(res, 200, view(q.get.get(id)));
       }
     }
