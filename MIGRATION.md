@@ -1,6 +1,8 @@
 # IA#2 — Zero-downtime menu price migration
 
-**Status: PLAN ONLY — no migration, traffic run, or rollback has been executed in this PR.**
+**Status: P1 implemented and locally tested; student review pending. P2–P5 and the live demonstration are NOT RUN.**
+
+P1 evidence: [docs/evidence/p1-validation.txt](docs/evidence/p1-validation.txt) records 10 passing tests and the actual 002 down/re-up CLI rehearsal on a fresh disposable database. Mixed original v1/v2 HTTP tests share one absolute temporary DB path; v2 reads only legacy `price` and derives both response fields from it, including after a v1 reprice leaves `price_vnd` stale. Health reports `version: v2`; `v1` remains the original starter SHA. No v2 tag has been created pending review. Existing seed rows intentionally retain NULL new values; no backfill ran. The runbook below remains proposed, not executed live evidence.
 
 Individual assignment (CSC13114), deadline **2026-11-05 22:00 ICT**. Original starter commit for immutable `v1`: `2b889bde433190c17744f30d3900d38ab333a756`. Convert `menu_items.price REAL` (thousands of VND, 45.5) to `menu_items.price_vnd INTEGER` (VND, 45500), then drop the old **database** column. The **HTTP** field `price` must remain usable by old clients. `order_items.unit_price` and `POST /orders` totals retain their old thousands-of-VND units.
 
@@ -17,6 +19,14 @@ Read `AGENTS.md` and `docs/AGENT_WORKFLOW.md` before implementing. These are pro
 7. Do not drop `price` until **both** instances run v4, which has no SQL reads or writes involving the legacy column.
 
 ## 2. Version contracts
+
+### P1 price conversion and minimum VND
+
+On both create and reprice, v2 preserves an accepted legacy `price` unchanged in thousands of VND and writes `price_vnd = Math.round(price * 1000)`. Menu responses continue reading legacy `price` and derive `priceVnd` using that same conversion. For example, `price: 45.1234` remains `45.1234`, with `priceVnd: 45123`; `price: 1.2345` produces `1235` VND. Rounding follows JavaScript `Math.round` on the actual binary floating-point value, rather than exact decimal arithmetic. Order unit prices and totals retain their legacy thousands-of-VND behavior.
+
+The smallest accepted new-client value is `priceVnd: 1` (one VND), stored with legacy `price: 0.001`. Legacy inputs must be finite, positive, at most `100000`, and round to at least one VND: `price: 0.0005` rounds to `1` and is accepted, while `price: 0.0001` rounds to `0` and returns HTTP 400. This intentionally rejects positive sub-VND legacy inputs that round to zero, which v1 previously accepted. A legacy value that rounds upward is preserved in `price`; it is not normalized to `priceVnd / 1000`.
+
+New-client `priceVnd` must be a positive safe integer, at most `100000000` VND, and is converted to legacy `price` by division by 1000. If both fields are supplied, each must be valid and `priceVnd` must equal `Math.round(price * 1000)`; conflicting pairs return HTTP 400. The existing unit and HTTP integration tests cover these rules. This conversion is per-request dual write only; P1 does not backfill existing rows.
 
 | Code tag | DB source for reads | Inserts/reprices | HTTP contract | Safe coexistence |
 |---|---|---|---|---|

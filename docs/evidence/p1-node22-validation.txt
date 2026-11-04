@@ -1,0 +1,102 @@
+P1 review follow-up — 2026-11-04 ICT
+Scope: Node.js 22 full suite and disposable smoke check; no live DB or traffic run.
+$ npm exec --cache /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p1-node22-4mp8kept/npm-cache --yes --package=node@22 -- node -p process.execPath
+/private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p1-node22-4mp8kept/npm-cache/_npx/52027bd8fc0022aa/node_modules/node/bin/node
+npm notice
+npm notice New major version of npm available! 11.18.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+exit=0
+PATH prepended with /private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p1-node22-4mp8kept/npm-cache/_npx/52027bd8fc0022aa/node_modules/node/bin
+DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p1-node22-4mp8kept/smoke.db
+Runtime cache and disposable database are removed after verification.
+
+$ node --version
+v22.23.4
+exit=0
+
+$ npm --version
+11.18.0
+exit=0
+
+$ npm test
+
+> awad-price-migration-starter@2.0.0 test
+> node --test --test-reporter=spec
+
+(node:30758) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ GET /menu/:id returns price in thousands of dong (11.051041ms)
+✔ PATCH /menu/:id changes the price (2.794958ms)
+✔ POST /orders totals at the current price (1.450042ms)
+✔ errors have one shape (2.620333ms)
+(node:30759) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+✔ v2 supports both clients on create/reprice/list/get and preserves order units (30.2705ms)
+✔ invalid payloads do not create or change rows on either write path (13.939ms)
+✔ original v1 and v2 share expanded DB; v2 reads legacy writes even with stale VND (20.965ms)
+✔ 002 up/down/re-up preserves legacy menu and order data on a separate DB (3.079292ms)
+✔ price conversion keeps legacy precision and rounds integer VND (0.656ms)
+✔ price validation rejects absent, invalid, unsafe and conflicting values (0.092167ms)
+ℹ tests 10
+ℹ suites 0
+ℹ pass 10
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 114.702958
+exit=0
+
+$ npm run migrate
+
+> awad-price-migration-starter@2.0.0 migrate
+> node scripts/migrate.js up
+
+applied  001_init
+applied  002_add_price_vnd
+(node:30804) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+exit=0
+
+$ npm run seed
+
+> awad-price-migration-starter@2.0.0 seed
+> node scripts/seed.js
+
+seeded 20000 menu items
+(node:30826) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+exit=0
+
+$ npm run migrate:status
+
+> awad-price-migration-starter@2.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p1-node22-4mp8kept/smoke.db
+[x] 001_init
+[x] 002_add_price_vnd
+(node:30848) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+exit=0
+
+$ npm run check
+
+> awad-price-migration-starter@2.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   20000
+price_vnd_null         20000
+price_vnd_not_integer  0
+disagree               0
+CONSISTENT, but 20000 rows have no price_vnd yet — nothing may read price_vnd until they do
+exit=0
+
+$ git rev-parse v1^{}
+2b889bde433190c17744f30d3900d38ab333a756
+exit=0
+
+NOT RUN: P2–P5, backfill, final traffic demonstration, live DB migration/deployment.

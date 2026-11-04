@@ -1,7 +1,7 @@
 import { createServer } from 'node:http';
 
-// v1 of the menu service. Prices are stored in THOUSANDS of dong, as a float:
-// 45.5 means 45,500 đ. That was last year's decision; IA#2 undoes it.
+// v2: price (thousands of dong) remains the read source while v1 may coexist.
+// Every v2 write stores both representations in one atomic SQL statement.
 
 const json = (res, status, body) => {
   res.writeHead(status, { 'content-type': 'application/json' });
@@ -18,23 +18,39 @@ async function readBody(req) {
 
 const isPrice = (p) => typeof p === 'number' && Number.isFinite(p) && p > 0 && p <= 100000;
 
+export function parsePrice(body) {
+  if (!body || typeof body !== 'object' || Array.isArray(body)) return null;
+  const hasPrice = Object.hasOwn(body, 'price');
+  const hasVnd = Object.hasOwn(body, 'priceVnd');
+  if (!hasPrice && !hasVnd) return null;
+  if (hasPrice && !isPrice(body.price)) return null;
+  // Keep the starter's 100,000-thousand-dong ceiling for either client.
+  if (hasVnd && (!Number.isSafeInteger(body.priceVnd) || body.priceVnd <= 0 || body.priceVnd > 100000000)) return null;
+  const price = hasPrice ? body.price : body.priceVnd / 1000;
+  const priceVnd = Math.round(price * 1000);
+  if (!Number.isSafeInteger(priceVnd) || priceVnd <= 0) return null;
+  if (hasVnd && body.priceVnd !== priceVnd) return null;
+  return { price, priceVnd };
+}
+
 export function createApp(db) {
   const q = {
     list: db.prepare('SELECT id, name, price FROM menu_items ORDER BY id LIMIT ? OFFSET ?'),
     get: db.prepare('SELECT id, name, price FROM menu_items WHERE id = ?'),
-    insert: db.prepare('INSERT INTO menu_items (name, price) VALUES (?, ?)'),
-    setPrice: db.prepare('UPDATE menu_items SET price = ? WHERE id = ?'),
+    insert: db.prepare('INSERT INTO menu_items (name, price, price_vnd) VALUES (?, ?, ?)'),
+    setPrice: db.prepare('UPDATE menu_items SET price = ?, price_vnd = ? WHERE id = ?'),
     insertOrder: db.prepare("INSERT INTO orders (created_at) VALUES (datetime('now'))"),
     insertLine: db.prepare('INSERT INTO order_items (order_id, menu_item_id, qty, unit_price) VALUES (?, ?, ?, ?)'),
   };
 
-  const view = (row) => ({ id: row.id, name: row.name, price: row.price });
+  // Derive even when price_vnd is non-null: a v1 reprice can leave it stale.
+  const view = (row) => ({ id: row.id, name: row.name, price: row.price, priceVnd: Math.round(row.price * 1000) });
 
   async function handle(req, res) {
     const url = new URL(req.url, 'http://x');
     const parts = url.pathname.split('/').filter(Boolean);
 
-    if (req.method === 'GET' && url.pathname === '/health') return json(res, 200, { ok: true });
+    if (req.method === 'GET' && url.pathname === '/health') return json(res, 200, { ok: true, version: 'v2' });
 
     if (parts[0] === 'menu' && parts.length === 1) {
       if (req.method === 'GET') {
@@ -44,9 +60,10 @@ export function createApp(db) {
       }
       if (req.method === 'POST') {
         const body = await readBody(req);
-        if (!body || typeof body.name !== 'string' || !body.name || !isPrice(body.price))
-          return error(res, 400, 'invalid_body', 'name (string) and price (thousands of dong) are required');
-        const { lastInsertRowid } = q.insert.run(body.name, body.price);
+        const prices = parsePrice(body);
+        if (!prices || typeof body.name !== 'string' || !body.name)
+          return error(res, 400, 'invalid_body', 'name (string) and price (thousands of dong) or priceVnd (integer dong) are required; both prices must agree');
+        const { lastInsertRowid } = q.insert.run(body.name, prices.price, prices.priceVnd);
         return json(res, 201, view(q.get.get(lastInsertRowid)));
       }
     }
@@ -58,9 +75,10 @@ export function createApp(db) {
       if (req.method === 'GET') return json(res, 200, view(row));
       if (req.method === 'PATCH') {
         const body = await readBody(req);
-        if (!body || !isPrice(body.price))
-          return error(res, 400, 'invalid_body', 'price (thousands of dong) is required');
-        q.setPrice.run(body.price, id);
+        const prices = parsePrice(body);
+        if (!prices)
+          return error(res, 400, 'invalid_body', 'price (thousands of dong) or priceVnd (integer dong) is required; both prices must agree');
+        q.setPrice.run(prices.price, prices.priceVnd, id);
         return json(res, 200, view(q.get.get(id)));
       }
     }
