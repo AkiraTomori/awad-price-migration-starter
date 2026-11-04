@@ -78,6 +78,15 @@ This file records assistant involvement honestly and chronologically. It is not 
 - **Documentation/review:** updated English migration runbook, workflow status and handoff completion pointers. Bare migrate still applies every pending file; use the current runner's tested explicit stage targets for a rollout. Sub-VND precision is not recovered by 004.down. Health checks do not identify every writer or prove shared DB identity. A short 300-row starting rehearsal does not establish capacity or final live qualification.
 - **Not run / required gates:** no live/demonstration DB mutation, final continuous v1-to-Contract run, merge, submission or score claim. Remote CI is distinct from local Node 22 evidence. Student review is required before P5; live S8 additionally requires verified v4/v4, verified current backup and explicit student go-ahead. SSH remote authentication was unavailable during a read-only probe; existing authenticated GitHub CLI HTTPS credentials are available for publishing without changing credentials or release pins.
 
+## 2026-11-04 — P4 merge request and P5 preparation (merge unconfirmed)
+
+- **Tool:** ChatGPT (OpenAI), GitHub connector.
+- **Asked for:** merge reviewed P4 PR #6 and prepare P5 for the Coding-Agent.
+- **Verified:** PR #6 was open, mergeable, and unchanged at head `c0d33268bd8b791a1948d2dfda8bc116d9dadc17`; existing v4 tag still resolved to `51669379446f8f34473a90104ea939284335e9f2`, exactly one commit before 004 was introduced. No release tag was moved.
+- **Attempted / blocker:** requested a merge commit with an exact expected PR head; the GitHub merge tool timed out, and a retry reported HTTP 405 “Merge already in progress.” Repeated status checks still showed PR #6 **OPEN, not merged**. Do **not** claim a successful merge without later verification.
+- **Changed / kept:** created `feat/p5-final-demonstration` from the exact P4 PR head (rather than unmerged `main`) and wrote `docs/P5_AGENT_HANDOFF.md` with the one-traffic-PID S0–S8 sequence, evidence requirements and mandatory explicit student permission before 004 on the demonstration DB. Kept all v1–v4 tags, application code and migrations untouched.
+- **Not run / by hand:** no P5 demonstration, S8, test rerun, generated final logs, self-assessed score, ZIP or submission. Verify P4 merge before opening a P5 PR; obtain approval at the actual S8 gate.
+
 ## Future entries
 
 For each implementation phase, add the date, tool, prompt/task, kept, changed, rejected, and by-hand work. Only describe commands and results that actually happened.
