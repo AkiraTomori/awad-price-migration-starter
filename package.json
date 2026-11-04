@@ -1,6 +1,6 @@
 {
   "name": "awad-price-migration-starter",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "private": true,
   "type": "module",
   "description": "IA#2 starter — smart-restaurant menu service for a zero-downtime migration",
@@ -12,6 +12,7 @@
     "migrate:status": "node scripts/migrate.js status",
     "seed": "node scripts/seed.js",
     "backfill": "node scripts/backfill.js",
+    "rehearse:p3": "node scripts/rehearse-p3.js",
     "traffic": "node scripts/traffic.js",
     "check": "node scripts/check.js",
     "test": "node --test --test-reporter=spec"

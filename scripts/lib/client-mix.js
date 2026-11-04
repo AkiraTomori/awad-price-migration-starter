@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs';
-import { requireV2 } from './v2-readiness.js';
+import { requireMenuClients } from './v2-readiness.js';
 
 export function parseShare(value) {
   if (typeof value !== 'number' || !Number.isFinite(value) || value < 0 || value > 1)
@@ -16,7 +16,7 @@ export async function createClientMix({ initial = 0, file, targets, log, interva
     return parseShare(JSON.parse(raw));
   };
   let share = file ? read() : parseShare(initial);
-  if (share > 0) await requireV2(targets);
+  if (share > 0) await requireMenuClients(targets);
   let nextPoll = 0, pending, lastError;
   return {
     get share() { return share; },
@@ -29,7 +29,7 @@ export async function createClientMix({ initial = 0, file, targets, log, interva
         try {
           const next = read();
           if (next !== share) {
-            if (next > 0) await requireV2(targets);
+            if (next > 0) await requireMenuClients(targets);
             log(`CLIENT_MIX ${share} -> ${next} file=${file}`);
             share = next;
           }

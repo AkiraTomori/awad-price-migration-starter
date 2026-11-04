@@ -1,7 +1,7 @@
 import { createServer } from 'node:http';
 
-// v2: price (thousands of dong) remains the read source while v1 may coexist.
-// Every v2 write stores both representations in one atomic SQL statement.
+// v3: integer VND is the read source. Both columns remain atomically written
+// so a backfilled database supports mixed v2/v3 and code-only rollback to v2.
 
 const json = (res, status, body) => {
   res.writeHead(status, { 'content-type': 'application/json' });
@@ -34,23 +34,31 @@ export function parsePrice(body) {
 }
 
 export function createApp(db) {
+  const invalid = db.prepare(`SELECT count(*) AS n FROM menu_items
+    WHERE price_vnd IS NULL OR typeof(price_vnd) <> 'integer'
+      OR price_vnd <= 0 OR price_vnd > 100000000 OR price IS NULL
+      OR price_vnd <> CAST(round(price * 1000) AS INTEGER)`).get().n;
+  if (invalid) throw new Error(`v3 requires completed backfill and CONSISTENT data; ${invalid} invalid menu rows`);
   const q = {
-    list: db.prepare('SELECT id, name, price FROM menu_items ORDER BY id LIMIT ? OFFSET ?'),
-    get: db.prepare('SELECT id, name, price FROM menu_items WHERE id = ?'),
+    list: db.prepare('SELECT id, name, price_vnd FROM menu_items ORDER BY id LIMIT ? OFFSET ?'),
+    get: db.prepare('SELECT id, name, price_vnd FROM menu_items WHERE id = ?'),
     insert: db.prepare('INSERT INTO menu_items (name, price, price_vnd) VALUES (?, ?, ?)'),
     setPrice: db.prepare('UPDATE menu_items SET price = ?, price_vnd = ? WHERE id = ?'),
     insertOrder: db.prepare("INSERT INTO orders (created_at) VALUES (datetime('now'))"),
     insertLine: db.prepare('INSERT INTO order_items (order_id, menu_item_id, qty, unit_price) VALUES (?, ?, ?, ?)'),
   };
 
-  // Derive even when price_vnd is non-null: a v1 reprice can leave it stale.
-  const view = (row) => ({ id: row.id, name: row.name, price: row.price, priceVnd: Math.round(row.price * 1000) });
+  const view = (row) => {
+    if (!Number.isSafeInteger(row.price_vnd) || row.price_vnd <= 0 || row.price_vnd > 100000000)
+      throw new Error(`invalid price_vnd for menu item ${row.id}`);
+    return { id: row.id, name: row.name, price: row.price_vnd / 1000, priceVnd: row.price_vnd };
+  };
 
   async function handle(req, res) {
     const url = new URL(req.url, 'http://x');
     const parts = url.pathname.split('/').filter(Boolean);
 
-    if (req.method === 'GET' && url.pathname === '/health') return json(res, 200, { ok: true, version: 'v2' });
+    if (req.method === 'GET' && url.pathname === '/health') return json(res, 200, { ok: true, version: 'v3' });
 
     if (parts[0] === 'menu' && parts.length === 1) {
       if (req.method === 'GET') {
@@ -63,7 +71,7 @@ export function createApp(db) {
         const prices = parsePrice(body);
         if (!prices || typeof body.name !== 'string' || !body.name)
           return error(res, 400, 'invalid_body', 'name (string) and price (thousands of dong) or priceVnd (integer dong) are required; both prices must agree');
-        const { lastInsertRowid } = q.insert.run(body.name, prices.price, prices.priceVnd);
+        const { lastInsertRowid } = q.insert.run(body.name, prices.priceVnd / 1000, prices.priceVnd);
         return json(res, 201, view(q.get.get(lastInsertRowid)));
       }
     }
@@ -78,7 +86,7 @@ export function createApp(db) {
         const prices = parsePrice(body);
         if (!prices)
           return error(res, 400, 'invalid_body', 'price (thousands of dong) or priceVnd (integer dong) is required; both prices must agree');
-        q.setPrice.run(prices.price, prices.priceVnd, id);
+        q.setPrice.run(prices.priceVnd / 1000, prices.priceVnd, id);
         return json(res, 200, view(q.get.get(id)));
       }
     }
@@ -94,8 +102,9 @@ export function createApp(db) {
         for (const { menuItemId, qty } of body.items) {
           const item = q.get.get(menuItemId);
           if (!item || !Number.isInteger(qty) || qty < 1) throw Object.assign(new Error(), { status: 400 });
-          q.insertLine.run(orderId, item.id, qty, item.price);
-          total += item.price * qty;
+          const price = view(item).price;
+          q.insertLine.run(orderId, item.id, qty, price);
+          total += price * qty;
         }
         db.exec('COMMIT');
         return json(res, 201, { id: Number(orderId), total: Math.round(total * 1000) / 1000 });

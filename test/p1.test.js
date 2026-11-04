@@ -5,7 +5,7 @@ import { readFileSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { open } from '../src/db.js';
-import { createApp } from '../src/app.js';
+import { createV2 as createApp } from '../test-support/v2.js';
 
 const sql = (name) => readFileSync(new URL(`../migrations/${name}.sql`, import.meta.url), 'utf8');
 const call = async (base, method, path, body) => {

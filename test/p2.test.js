@@ -7,7 +7,7 @@ import { join } from 'node:path';
 import { setTimeout as pause } from 'node:timers/promises';
 import { createServer } from 'node:http';
 import { open } from '../src/db.js';
-import { createApp } from '../src/app.js';
+import { createV2 as createApp } from '../test-support/v2.js';
 import { backfill } from '../scripts/backfill.js';
 import { createClientMix, parseShare } from '../scripts/lib/client-mix.js';
 
