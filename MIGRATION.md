@@ -1,6 +1,6 @@
 # IA#2 — Zero-downtime menu price migration
 
-**Status: P1/P2 merged (PR #3/#4); P3 implemented, tested on Node 22 and rehearsed from exact v2/v3 tags on a disposable DB. Student review pending. P4/P5 and the final live demonstration are NOT RUN.**
+**Status: P1/P2/P3 merged (PR #3/#4/#5); P3 tested on Node 22 and rehearsed from exact v2/v3 tags on a disposable DB. P4 is prepared on a separate agent branch but NOT IMPLEMENTED. P5 and final continuous v1-to-Contract demonstration are NOT RUN.**
 
 P1 evidence: [docs/evidence/p1-validation.txt](docs/evidence/p1-validation.txt) records 10 passing tests and the actual 002 down/re-up CLI rehearsal on a fresh disposable database. Mixed original v1/v2 HTTP tests share one absolute temporary DB path; v2 reads only legacy `price` and derives both response fields from it, including after a v1 reprice leaves `price_vnd` stale. Health reports `version: v2`; `v1` remains the original starter SHA. The existing `v2` tag points to merged P1 commit `dadb816bac9dad5ffcbf098d130d387bbbdd338c`; P2 does not move this tag. P1 left existing seed rows NULL without backfill.
 
