@@ -1,6 +1,6 @@
 # Coding-Agent Workflow — IA#2
 
-Status: **P1–P3 merged; P4 implemented and validated on disposable databases, pending student review** (2026-11-04). See `evidence/p4-node22-validation.txt`, `evidence/p4-rollback/`, and `evidence/p4-contract/`. Live Contract, P5 and the final continuous demonstration are NOT RUN. Stop after P4; do not merge automatically.
+Status: **P4 integrated in main via PR #7 ancestry; PR #6 closed/unmerged. P5-A complete, pending Gate A review** (2026-11-04). See `evidence/p5-a-node22-validation.txt` and `evidence/p5-a-preflight/`. Final S0–S8, live Contract, score/ZIP and submission are NOT RUN. Stop at Gate A; do not merge automatically or start the demonstration.
 
 ## How to give the agent work
 
@@ -13,7 +13,9 @@ Start each agent session with: “Read `AGENTS.md`, `MIGRATION.md` and this work
 | P2 — backfill | Implement `scripts/backfill.js` using bounded batches and transactions, resumable without changing completed rows; add runtime traffic-share toggle | Backfill under live writes, twice, yields `CONSISTENT` and 0 nulls; traffic remains one process | Student verifies that no v1 writer remains and enables new clients |
 | P3 — switch reads | Implement/tag v3; roll v2→v3 one instance at a time; roll v3→v2→v3 while traffic continues | Mixed-version writes stay consistent; zero failed requests; consistency before/after rollback | Student reviews logged `down`/`back` events |
 | P4 — contract | Add reversible bridge `003`; implement/tag new-only v4; roll v3→v4; add `004_drop_price.up/down.sql` only after v4 is everywhere | Old and new clients work after drop; no references to `price` in v4 SQL; no traffic failures | **Explicit student approval** for drop/point of no return |
-| P5 — submission | Re-run clean demonstration once, capture all evidence, update English docs, self-score with precise file/line evidence, package `.git` | Tags can be checked out and replayed; one ZIP with correct ID/score name | Student verifies and submits from university account |
+| P5-A — preparation | Verify main ancestry/tags, Node 22 suite, isolated DB/PID/down-up proofs; prepare non-executing operator plan | Actual preflight evidence, preserved history/raw logs and clearly identified proposed target | **Gate A review before S0 or final traffic starts** |
+| P5-B — execution | One continuous v1-to-Contract traffic run, checks after each action/roll | Actual S0–post-S8 output with zero failure counters | **Separate explicit S8 approval** after verified v4/v4, shared DB, consistency and backup |
+| P5-C — submission preparation | English self-assessment and evidence-backed score, ZIP including `.git`, extraction verification | Reviewable final artifacts with correct StudentID/score | Student reviews and submits; no automatic merge/submission |
 
 ## Phase-specific implementation checklist
 
@@ -48,6 +50,17 @@ Start each agent session with: “Read `AGENTS.md`, `MIGRATION.md` and this work
 - [ ] **Live S8 gate remains closed:** student review of P4, verified live v4/v4 and shared DB identity, current verified backup and explicit student go-ahead are required before dropping live `price`. Final demonstration/P5 needs a separate task. No live Contract has been executed.
 
 ## Evidence and reproducibility
+
+### P5-A completed / execution gates pending
+
+- [x] Branch `feat/p5-final-execution` starts at latest main `3733dbd`; PR #7 is merged and P4 head `c0d3326` is in ancestry. PR #6 remains closed/unmerged; provenance corrected without changing historical AI-log entries.
+- [x] v1–v4 pins unchanged; v4 contains no 004. 32/32 tests pass on Node v22.23.4; disposable 001–004 down/re-up evidence captured separately.
+- [x] Gate A checked ports 3001/3002 and proved two exact-v1 PIDs share a disposable DB via file handles/inode and cross-instance operations. All 14 previous evidence files remain byte-identical.
+- [x] `npm run p5:plan` is non-executing. `npm run p5:preflight` rejects existing final paths/busy ports and never creates the planned demonstration DB. Operator flow and all per-roll/check/S8 requirements prepared in `P5_FINAL_OPERATOR.md`.
+- [ ] Student reviews Gate A plan and actual target choices before S0. The proposed DB, final traffic PID and root logs are absent; S0–S8 NOT RUN.
+- [ ] Later S8 requires fresh proof of actual v4/v4 PIDs, same intended DB/no legacy writers, bridge installed, zero failure counters, plain CONSISTENT and a verified current backup, then explicit student approval for that DB. Passing Gate A is not approval.
+
+### Final evidence requirements (not produced by Gate A)
 
 - `traffic-log.txt`: **one continuous run**, start on v1, include every migration/restart/rollback, end with `RESULT: zero failed requests`; after all v2 instances are live, exercise `NEW_CLIENTS > 0`.
 - `check-log.txt`: label every schema/deploy/rollback step and include full `npm run check` output; separately append each migration down/up rehearsal on a disposable database.

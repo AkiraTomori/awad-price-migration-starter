@@ -1,0 +1,286 @@
+2026-11-04T10:35:56.572Z P4 DISPOSABLE MIGRATION/RECOVERY PROOF node=v22.23.4 DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db v4=51669379446f8f34473a90104ea939284335e9f2
+2026-11-04T10:35:56.572Z COMMAND node ["scripts/migrate.js","up","--to","001_init"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:56.593Z applied  001_init
+2026-11-04T10:35:56.593Z CHECK 001 up
+2026-11-04T10:35:56.593Z COMMAND node ["scripts/migrate.js","status"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:56.614Z db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+[x] 001_init
+[ ] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+2026-11-04T10:35:56.614Z COMMAND node ["scripts/check.js"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:56.633Z columns                id, name, price
+rows                   0
+CONSISTENT
+2026-11-04T10:35:56.633Z COMMAND node ["scripts/migrate.js","down"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:56.654Z reverted 001_init
+2026-11-04T10:35:56.655Z COMMAND node ["scripts/migrate.js","status"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:56.675Z db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+[ ] 001_init
+[ ] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+2026-11-04T10:35:56.676Z 001 down verified absent application tables; app consistency check not applicable to absent schema
+2026-11-04T10:35:56.676Z COMMAND node ["scripts/migrate.js","up","--to","001_init"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:56.695Z applied  001_init
+2026-11-04T10:35:56.696Z CHECK 001 re-up and fixture
+2026-11-04T10:35:56.696Z COMMAND node ["scripts/migrate.js","status"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:56.717Z db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+[x] 001_init
+[ ] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+2026-11-04T10:35:56.717Z COMMAND node ["scripts/check.js"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:56.737Z columns                id, name, price
+rows                   2
+CONSISTENT
+2026-11-04T10:35:56.737Z COMMAND node ["scripts/migrate.js","up","--to","002_add_price_vnd"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:56.757Z applied  002_add_price_vnd
+2026-11-04T10:35:56.757Z CHECK 002 up
+2026-11-04T10:35:56.757Z COMMAND node ["scripts/migrate.js","status"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:56.778Z db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+[x] 001_init
+[x] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+2026-11-04T10:35:56.778Z COMMAND node ["scripts/check.js"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:56.799Z columns                id, name, price, price_vnd
+rows                   2
+price_vnd_null         2
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT, but 2 rows have no price_vnd yet — nothing may read price_vnd until they do
+2026-11-04T10:35:56.799Z COMMAND node ["scripts/migrate.js","down"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:56.820Z reverted 002_add_price_vnd
+2026-11-04T10:35:56.820Z CHECK 002 down data preserved
+2026-11-04T10:35:56.820Z COMMAND node ["scripts/migrate.js","status"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:56.840Z db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+[x] 001_init
+[ ] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+2026-11-04T10:35:56.840Z COMMAND node ["scripts/check.js"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:56.859Z columns                id, name, price
+rows                   2
+CONSISTENT
+2026-11-04T10:35:56.859Z COMMAND node ["scripts/migrate.js","up","--to","002_add_price_vnd"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:56.880Z applied  002_add_price_vnd
+2026-11-04T10:35:56.881Z CHECK 002 re-up / fixture populated with valid VND
+2026-11-04T10:35:56.881Z COMMAND node ["scripts/migrate.js","status"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:56.902Z db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+[x] 001_init
+[x] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+2026-11-04T10:35:56.902Z COMMAND node ["scripts/check.js"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:56.922Z columns                id, name, price, price_vnd
+rows                   2
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+2026-11-04T10:35:56.922Z COMMAND node ["scripts/migrate.js","up","--to","003_sync_legacy_price"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:56.943Z applied  003_sync_legacy_price
+2026-11-04T10:35:56.943Z CHECK 003 up
+2026-11-04T10:35:56.943Z COMMAND node ["scripts/migrate.js","status"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:56.964Z db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+2026-11-04T10:35:56.964Z COMMAND node ["scripts/check.js"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:56.983Z columns                id, name, price, price_vnd
+rows                   2
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+2026-11-04T10:35:56.983Z COMMAND node ["scripts/migrate.js","down"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:57.003Z reverted 003_sync_legacy_price
+2026-11-04T10:35:57.003Z CHECK 003 down offline, no v4 writer present
+2026-11-04T10:35:57.004Z COMMAND node ["scripts/migrate.js","status"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:57.023Z db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+[x] 001_init
+[x] 002_add_price_vnd
+[ ] 003_sync_legacy_price
+[ ] 004_drop_price
+2026-11-04T10:35:57.023Z COMMAND node ["scripts/check.js"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:57.042Z columns                id, name, price, price_vnd
+rows                   2
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+2026-11-04T10:35:57.042Z COMMAND node ["scripts/migrate.js","up","--to","003_sync_legacy_price"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:57.063Z applied  003_sync_legacy_price
+2026-11-04T10:35:57.063Z CHECK 003 re-up; 004 staged but NOT applied
+2026-11-04T10:35:57.063Z COMMAND node ["scripts/migrate.js","status"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:57.083Z db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+2026-11-04T10:35:57.083Z COMMAND node ["scripts/check.js"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:57.105Z columns                id, name, price, price_vnd
+rows                   2
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+2026-11-04T10:35:57.150Z START v4=51669379446f8f34473a90104ea939284335e9f2 pid=11416 port=63532 DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:57.183Z START v4=51669379446f8f34473a90104ea939284335e9f2 pid=11417 port=63533 DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:57.196Z HEALTH pid=11416 {"ok":true,"version":"v4"}
+2026-11-04T10:35:57.198Z HEALTH pid=11417 {"ok":true,"version":"v4"}
+2026-11-04T10:35:57.200Z VERIFIED DISPOSABLE BACKUP /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/before-first-contract.db integrity=ok
+2026-11-04T10:35:57.200Z COMMAND node ["scripts/migrate.js","up","--to","004_drop_price"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:57.222Z applied  004_drop_price
+2026-11-04T10:35:57.222Z CHECK 004 up: data preserved and triggers removed
+2026-11-04T10:35:57.222Z COMMAND node ["scripts/migrate.js","status"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:57.242Z db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[x] 004_drop_price
+2026-11-04T10:35:57.242Z COMMAND node ["scripts/check.js"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:57.261Z columns                id, name, price_vnd
+rows                   2
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+CONSISTENT
+2026-11-04T10:35:57.266Z EXPECTED: v3 cannot start after Contract; schema recovery must precede code rollback
+2026-11-04T10:35:57.269Z HTTP http://127.0.0.1:63532 POST /menu body={"name":"Contract HTTP proof","price":45.501} status=201 response={"id":3,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.270Z HTTP http://127.0.0.1:63532 PATCH /menu/3 body={"price":12.345} status=200 response={"id":3,"name":"Contract HTTP proof","price":12.345,"priceVnd":12345}
+2026-11-04T10:35:57.271Z HTTP http://127.0.0.1:63532 PATCH /menu/3 body={"priceVnd":45501} status=200 response={"id":3,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.272Z HTTP http://127.0.0.1:63532 GET /menu/3 body=undefined status=200 response={"id":3,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.272Z HTTP http://127.0.0.1:63532 GET /menu?limit=200 body=undefined status=200 response=[{"id":1,"name":"Tea","price":5,"priceVnd":5000},{"id":2,"name":"Pho","price":45.5,"priceVnd":45500},{"id":3,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}]
+2026-11-04T10:35:57.273Z HTTP http://127.0.0.1:63532 POST /orders body={"items":[{"menuItemId":3,"qty":2}]} status=201 response={"id":2,"total":91.002}
+2026-11-04T10:35:57.275Z HTTP http://127.0.0.1:63532 POST /menu body={"name":"Contract HTTP proof","priceVnd":45501} status=201 response={"id":4,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.276Z HTTP http://127.0.0.1:63532 PATCH /menu/4 body={"price":12.345} status=200 response={"id":4,"name":"Contract HTTP proof","price":12.345,"priceVnd":12345}
+2026-11-04T10:35:57.277Z HTTP http://127.0.0.1:63532 PATCH /menu/4 body={"priceVnd":45501} status=200 response={"id":4,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.277Z HTTP http://127.0.0.1:63532 GET /menu/4 body=undefined status=200 response={"id":4,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.277Z HTTP http://127.0.0.1:63532 GET /menu?limit=200 body=undefined status=200 response=[{"id":1,"name":"Tea","price":5,"priceVnd":5000},{"id":2,"name":"Pho","price":45.5,"priceVnd":45500},{"id":3,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":4,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}]
+2026-11-04T10:35:57.278Z HTTP http://127.0.0.1:63532 POST /orders body={"items":[{"menuItemId":4,"qty":2}]} status=201 response={"id":3,"total":91.002}
+2026-11-04T10:35:57.279Z HTTP http://127.0.0.1:63533 POST /menu body={"name":"Contract HTTP proof","price":45.501} status=201 response={"id":5,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.280Z HTTP http://127.0.0.1:63533 PATCH /menu/5 body={"price":12.345} status=200 response={"id":5,"name":"Contract HTTP proof","price":12.345,"priceVnd":12345}
+2026-11-04T10:35:57.281Z HTTP http://127.0.0.1:63533 PATCH /menu/5 body={"priceVnd":45501} status=200 response={"id":5,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.281Z HTTP http://127.0.0.1:63533 GET /menu/5 body=undefined status=200 response={"id":5,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.281Z HTTP http://127.0.0.1:63533 GET /menu?limit=200 body=undefined status=200 response=[{"id":1,"name":"Tea","price":5,"priceVnd":5000},{"id":2,"name":"Pho","price":45.5,"priceVnd":45500},{"id":3,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":4,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":5,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}]
+2026-11-04T10:35:57.282Z HTTP http://127.0.0.1:63533 POST /orders body={"items":[{"menuItemId":5,"qty":2}]} status=201 response={"id":4,"total":91.002}
+2026-11-04T10:35:57.282Z HTTP http://127.0.0.1:63533 POST /menu body={"name":"Contract HTTP proof","priceVnd":45501} status=201 response={"id":6,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.283Z HTTP http://127.0.0.1:63533 PATCH /menu/6 body={"price":12.345} status=200 response={"id":6,"name":"Contract HTTP proof","price":12.345,"priceVnd":12345}
+2026-11-04T10:35:57.284Z HTTP http://127.0.0.1:63533 PATCH /menu/6 body={"priceVnd":45501} status=200 response={"id":6,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.284Z HTTP http://127.0.0.1:63533 GET /menu/6 body=undefined status=200 response={"id":6,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.284Z HTTP http://127.0.0.1:63533 GET /menu?limit=200 body=undefined status=200 response=[{"id":1,"name":"Tea","price":5,"priceVnd":5000},{"id":2,"name":"Pho","price":45.5,"priceVnd":45500},{"id":3,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":4,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":5,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":6,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}]
+2026-11-04T10:35:57.285Z HTTP http://127.0.0.1:63533 POST /orders body={"items":[{"menuItemId":6,"qty":2}]} status=201 response={"id":5,"total":91.002}
+2026-11-04T10:35:57.320Z START v4=51669379446f8f34473a90104ea939284335e9f2 pid=11425 port=63532 DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:57.321Z HEALTH pid=11417 {"ok":true,"version":"v4"}
+2026-11-04T10:35:57.323Z HEALTH pid=11425 {"ok":true,"version":"v4"}
+2026-11-04T10:35:57.323Z COMMAND node ["scripts/migrate.js","down"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:57.344Z reverted 004_drop_price
+2026-11-04T10:35:57.345Z RECOVERY verified: v3 constructor succeeds only after 004.down; both active listeners remain v4
+2026-11-04T10:35:57.345Z CHECK 004 down recovery with bridge restored
+2026-11-04T10:35:57.345Z COMMAND node ["scripts/migrate.js","status"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:57.366Z db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[ ] 004_drop_price
+2026-11-04T10:35:57.366Z COMMAND node ["scripts/check.js"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:57.385Z columns                id, name, price_vnd, price
+rows                   6
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+disagree               0
+CONSISTENT
+2026-11-04T10:35:57.386Z HTTP http://127.0.0.1:63533 POST /menu body={"name":"Contract HTTP proof","price":45.501} status=201 response={"id":7,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.387Z HTTP http://127.0.0.1:63533 PATCH /menu/7 body={"price":12.345} status=200 response={"id":7,"name":"Contract HTTP proof","price":12.345,"priceVnd":12345}
+2026-11-04T10:35:57.387Z HTTP http://127.0.0.1:63533 PATCH /menu/7 body={"priceVnd":45501} status=200 response={"id":7,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.387Z HTTP http://127.0.0.1:63533 GET /menu/7 body=undefined status=200 response={"id":7,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.388Z HTTP http://127.0.0.1:63533 GET /menu?limit=200 body=undefined status=200 response=[{"id":1,"name":"Tea","price":5,"priceVnd":5000},{"id":2,"name":"Pho","price":45.5,"priceVnd":45500},{"id":3,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":4,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":5,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":6,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":7,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}]
+2026-11-04T10:35:57.388Z HTTP http://127.0.0.1:63533 POST /orders body={"items":[{"menuItemId":7,"qty":2}]} status=201 response={"id":6,"total":91.002}
+2026-11-04T10:35:57.389Z HTTP http://127.0.0.1:63533 POST /menu body={"name":"Contract HTTP proof","priceVnd":45501} status=201 response={"id":8,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.389Z HTTP http://127.0.0.1:63533 PATCH /menu/8 body={"price":12.345} status=200 response={"id":8,"name":"Contract HTTP proof","price":12.345,"priceVnd":12345}
+2026-11-04T10:35:57.389Z HTTP http://127.0.0.1:63533 PATCH /menu/8 body={"priceVnd":45501} status=200 response={"id":8,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.390Z HTTP http://127.0.0.1:63533 GET /menu/8 body=undefined status=200 response={"id":8,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.390Z HTTP http://127.0.0.1:63533 GET /menu?limit=200 body=undefined status=200 response=[{"id":1,"name":"Tea","price":5,"priceVnd":5000},{"id":2,"name":"Pho","price":45.5,"priceVnd":45500},{"id":3,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":4,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":5,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":6,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":7,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":8,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}]
+2026-11-04T10:35:57.391Z HTTP http://127.0.0.1:63533 POST /orders body={"items":[{"menuItemId":8,"qty":2}]} status=201 response={"id":7,"total":91.002}
+2026-11-04T10:35:57.392Z HTTP http://127.0.0.1:63532 POST /menu body={"name":"Contract HTTP proof","price":45.501} status=201 response={"id":9,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.393Z HTTP http://127.0.0.1:63532 PATCH /menu/9 body={"price":12.345} status=200 response={"id":9,"name":"Contract HTTP proof","price":12.345,"priceVnd":12345}
+2026-11-04T10:35:57.393Z HTTP http://127.0.0.1:63532 PATCH /menu/9 body={"priceVnd":45501} status=200 response={"id":9,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.394Z HTTP http://127.0.0.1:63532 GET /menu/9 body=undefined status=200 response={"id":9,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.394Z HTTP http://127.0.0.1:63532 GET /menu?limit=200 body=undefined status=200 response=[{"id":1,"name":"Tea","price":5,"priceVnd":5000},{"id":2,"name":"Pho","price":45.5,"priceVnd":45500},{"id":3,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":4,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":5,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":6,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":7,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":8,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":9,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}]
+2026-11-04T10:35:57.394Z HTTP http://127.0.0.1:63532 POST /orders body={"items":[{"menuItemId":9,"qty":2}]} status=201 response={"id":8,"total":91.002}
+2026-11-04T10:35:57.395Z HTTP http://127.0.0.1:63532 POST /menu body={"name":"Contract HTTP proof","priceVnd":45501} status=201 response={"id":10,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.396Z HTTP http://127.0.0.1:63532 PATCH /menu/10 body={"price":12.345} status=200 response={"id":10,"name":"Contract HTTP proof","price":12.345,"priceVnd":12345}
+2026-11-04T10:35:57.396Z HTTP http://127.0.0.1:63532 PATCH /menu/10 body={"priceVnd":45501} status=200 response={"id":10,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.396Z HTTP http://127.0.0.1:63532 GET /menu/10 body=undefined status=200 response={"id":10,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.397Z HTTP http://127.0.0.1:63532 GET /menu?limit=200 body=undefined status=200 response=[{"id":1,"name":"Tea","price":5,"priceVnd":5000},{"id":2,"name":"Pho","price":45.5,"priceVnd":45500},{"id":3,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":4,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":5,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":6,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":7,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":8,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":9,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":10,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}]
+2026-11-04T10:35:57.397Z HTTP http://127.0.0.1:63532 POST /orders body={"items":[{"menuItemId":10,"qty":2}]} status=201 response={"id":9,"total":91.002}
+2026-11-04T10:35:57.397Z HEALTH pid=11417 {"ok":true,"version":"v4"}
+2026-11-04T10:35:57.398Z HEALTH pid=11425 {"ok":true,"version":"v4"}
+2026-11-04T10:35:57.399Z VERIFIED DISPOSABLE BACKUP /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/before-second-contract.db integrity=ok
+2026-11-04T10:35:57.399Z COMMAND node ["scripts/migrate.js","up","--to","004_drop_price"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:57.420Z applied  004_drop_price
+2026-11-04T10:35:57.420Z CHECK 004 re-up preserves recovered menu/orders
+2026-11-04T10:35:57.420Z COMMAND node ["scripts/migrate.js","status"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:57.441Z db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[x] 004_drop_price
+2026-11-04T10:35:57.441Z COMMAND node ["scripts/check.js"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:57.459Z columns                id, name, price_vnd
+rows                   10
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+CONSISTENT
+2026-11-04T10:35:57.460Z HTTP http://127.0.0.1:63533 POST /menu body={"name":"Contract HTTP proof","price":45.501} status=201 response={"id":11,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.461Z HTTP http://127.0.0.1:63533 PATCH /menu/11 body={"price":12.345} status=200 response={"id":11,"name":"Contract HTTP proof","price":12.345,"priceVnd":12345}
+2026-11-04T10:35:57.461Z HTTP http://127.0.0.1:63533 PATCH /menu/11 body={"priceVnd":45501} status=200 response={"id":11,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.462Z HTTP http://127.0.0.1:63533 GET /menu/11 body=undefined status=200 response={"id":11,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.462Z HTTP http://127.0.0.1:63533 GET /menu?limit=200 body=undefined status=200 response=[{"id":1,"name":"Tea","price":5,"priceVnd":5000},{"id":2,"name":"Pho","price":45.5,"priceVnd":45500},{"id":3,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":4,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":5,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":6,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":7,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":8,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":9,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":10,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":11,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}]
+2026-11-04T10:35:57.463Z HTTP http://127.0.0.1:63533 POST /orders body={"items":[{"menuItemId":11,"qty":2}]} status=201 response={"id":10,"total":91.002}
+2026-11-04T10:35:57.463Z HTTP http://127.0.0.1:63533 POST /menu body={"name":"Contract HTTP proof","priceVnd":45501} status=201 response={"id":12,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.463Z HTTP http://127.0.0.1:63533 PATCH /menu/12 body={"price":12.345} status=200 response={"id":12,"name":"Contract HTTP proof","price":12.345,"priceVnd":12345}
+2026-11-04T10:35:57.464Z HTTP http://127.0.0.1:63533 PATCH /menu/12 body={"priceVnd":45501} status=200 response={"id":12,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.464Z HTTP http://127.0.0.1:63533 GET /menu/12 body=undefined status=200 response={"id":12,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.464Z HTTP http://127.0.0.1:63533 GET /menu?limit=200 body=undefined status=200 response=[{"id":1,"name":"Tea","price":5,"priceVnd":5000},{"id":2,"name":"Pho","price":45.5,"priceVnd":45500},{"id":3,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":4,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":5,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":6,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":7,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":8,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":9,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":10,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":11,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":12,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}]
+2026-11-04T10:35:57.465Z HTTP http://127.0.0.1:63533 POST /orders body={"items":[{"menuItemId":12,"qty":2}]} status=201 response={"id":11,"total":91.002}
+2026-11-04T10:35:57.466Z HTTP http://127.0.0.1:63532 POST /menu body={"name":"Contract HTTP proof","price":45.501} status=201 response={"id":13,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.466Z HTTP http://127.0.0.1:63532 PATCH /menu/13 body={"price":12.345} status=200 response={"id":13,"name":"Contract HTTP proof","price":12.345,"priceVnd":12345}
+2026-11-04T10:35:57.466Z HTTP http://127.0.0.1:63532 PATCH /menu/13 body={"priceVnd":45501} status=200 response={"id":13,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.467Z HTTP http://127.0.0.1:63532 GET /menu/13 body=undefined status=200 response={"id":13,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.467Z HTTP http://127.0.0.1:63532 GET /menu?limit=200 body=undefined status=200 response=[{"id":1,"name":"Tea","price":5,"priceVnd":5000},{"id":2,"name":"Pho","price":45.5,"priceVnd":45500},{"id":3,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":4,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":5,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":6,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":7,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":8,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":9,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":10,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":11,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":12,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":13,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}]
+2026-11-04T10:35:57.467Z HTTP http://127.0.0.1:63532 POST /orders body={"items":[{"menuItemId":13,"qty":2}]} status=201 response={"id":12,"total":91.002}
+2026-11-04T10:35:57.468Z HTTP http://127.0.0.1:63532 POST /menu body={"name":"Contract HTTP proof","priceVnd":45501} status=201 response={"id":14,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.468Z HTTP http://127.0.0.1:63532 PATCH /menu/14 body={"price":12.345} status=200 response={"id":14,"name":"Contract HTTP proof","price":12.345,"priceVnd":12345}
+2026-11-04T10:35:57.469Z HTTP http://127.0.0.1:63532 PATCH /menu/14 body={"priceVnd":45501} status=200 response={"id":14,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.469Z HTTP http://127.0.0.1:63532 GET /menu/14 body=undefined status=200 response={"id":14,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}
+2026-11-04T10:35:57.469Z HTTP http://127.0.0.1:63532 GET /menu?limit=200 body=undefined status=200 response=[{"id":1,"name":"Tea","price":5,"priceVnd":5000},{"id":2,"name":"Pho","price":45.5,"priceVnd":45500},{"id":3,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":4,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":5,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":6,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":7,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":8,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":9,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":10,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":11,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":12,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":13,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501},{"id":14,"name":"Contract HTTP proof","price":45.501,"priceVnd":45501}]
+2026-11-04T10:35:57.469Z HTTP http://127.0.0.1:63532 POST /orders body={"items":[{"menuItemId":14,"qty":2}]} status=201 response={"id":13,"total":91.002}
+2026-11-04T10:35:57.469Z COMMAND node ["scripts/seed.js","3"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:57.490Z seeded 3 menu items
+2026-11-04T10:35:57.490Z CHECK post-Contract old/new HTTP and seed
+2026-11-04T10:35:57.490Z COMMAND node ["scripts/migrate.js","status"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:57.510Z db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+[x] 001_init
+[x] 002_add_price_vnd
+[x] 003_sync_legacy_price
+[x] 004_drop_price
+2026-11-04T10:35:57.510Z COMMAND node ["scripts/check.js"] DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p4-contract-DZFNS7/disposable.db
+2026-11-04T10:35:57.529Z columns                id, name, price_vnd
+rows                   17
+price_vnd_null         0
+price_vnd_not_integer  0
+price_vnd_out_of_range 0
+CONSISTENT
+2026-11-04T10:35:57.529Z PASS 001/002/003/004 up/down/re-up, staged runner, backups, legacy/new HTTP, order units and recovered bridge
+2026-11-04T10:35:57.532Z CLEANUP disposable DB, backup files and listeners removed; live Contract/final demonstration NOT RUN
