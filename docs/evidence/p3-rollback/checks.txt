@@ -1,0 +1,152 @@
+
+=== BACKFILL COMPLETE / BEFORE v3 v2/v2 DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p3-1QpGJH/shared.db ===
+
+> awad-price-migration-starter@3.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p3-1QpGJH/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+
+> awad-price-migration-starter@3.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   300
+price_vnd_null         0
+price_vnd_not_integer  0
+disagree               0
+CONSISTENT
+
+=== BASELINE v2/v2 DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p3-1QpGJH/shared.db ===
+
+> awad-price-migration-starter@3.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p3-1QpGJH/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+
+> awad-price-migration-starter@3.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   356
+price_vnd_null         0
+price_vnd_not_integer  0
+disagree               0
+CONSISTENT
+
+=== DEPLOY A v3/v2 DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p3-1QpGJH/shared.db ===
+
+> awad-price-migration-starter@3.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p3-1QpGJH/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+
+> awad-price-migration-starter@3.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   538
+price_vnd_null         0
+price_vnd_not_integer  0
+disagree               0
+CONSISTENT
+
+=== DEPLOY B / BEFORE ROLLBACK v3/v3 DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p3-1QpGJH/shared.db ===
+
+> awad-price-migration-starter@3.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p3-1QpGJH/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+
+> awad-price-migration-starter@3.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   739
+price_vnd_null         0
+price_vnd_not_integer  0
+disagree               0
+CONSISTENT
+
+=== ROLLBACK B v3/v2 DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p3-1QpGJH/shared.db ===
+
+> awad-price-migration-starter@3.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p3-1QpGJH/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+
+> awad-price-migration-starter@3.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   915
+price_vnd_null         0
+price_vnd_not_integer  0
+disagree               0
+CONSISTENT
+
+=== ROLLBACK A v2/v2 DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p3-1QpGJH/shared.db ===
+
+> awad-price-migration-starter@3.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p3-1QpGJH/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+
+> awad-price-migration-starter@3.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   1091
+price_vnd_null         0
+price_vnd_not_integer  0
+disagree               0
+CONSISTENT
+
+=== RESTORE B v2/v3 DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p3-1QpGJH/shared.db ===
+
+> awad-price-migration-starter@3.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p3-1QpGJH/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+
+> awad-price-migration-starter@3.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   1307
+price_vnd_null         0
+price_vnd_not_integer  0
+disagree               0
+CONSISTENT
+
+=== RESTORE A / AFTER ROLLBACK v3/v3 DB_PATH=/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p3-1QpGJH/shared.db ===
+
+> awad-price-migration-starter@3.0.0 migrate:status
+> node scripts/migrate.js status
+
+db /var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p3-1QpGJH/shared.db
+[x] 001_init
+[x] 002_add_price_vnd
+
+> awad-price-migration-starter@3.0.0 check
+> node scripts/check.js
+
+columns                id, name, price, price_vnd
+rows                   1501
+price_vnd_null         0
+price_vnd_not_integer  0
+disagree               0
+CONSISTENT

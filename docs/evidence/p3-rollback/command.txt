@@ -1,0 +1,11 @@
+P3 tagged development rehearsal — 2026-11-04 ICT
+Node runtime: /private/var/folders/fn/ps35j03x0l78ms39f2drgm4w0000gn/T/ia2-p3-node22-y5b0siw2/cache/_npx/52027bd8fc0022aa/node_modules/node/bin/node
+V3_REF=v3 P3_EVIDENCE_DIR=/Users/thaiminhhuy/docs/Github/IA/IA2/awad-price-migration-starter/docs/evidence/p3-rollback npm run rehearse:p3
+
+> awad-price-migration-starter@3.0.0 rehearse:p3
+> node scripts/rehearse-p3.js
+
+{"trafficPid":51678,"states":["v2/v2","v3/v2","v3/v3","v3/v2","v2/v2","v2/v3","v3/v3"],"final":"   3.3s FINAL ok=59401 error=0 contract=0 stale=0 unavailable=0 rerouted=24","down":6,"back":6}
+
+exit=0
+Temporary Node 22 runtime cache removed after successful rehearsal. No live DB was used.

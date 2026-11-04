@@ -1,6 +1,6 @@
 # Coding-Agent Workflow — IA#2
 
-Status: **P1/P2 merged (PR #3/#4); P3 implemented and tested on Node 22; tagged rehearsal and student review pending** (2026-11-04). See `evidence/p3-node22-tests.txt`. P4/P5 and the final live traffic demonstration are NOT RUN. Work one phase at a time; commit code changes and ask the student to inspect each gate.
+Status: **P1/P2 merged (PR #3/#4); P3 implemented, Node 22 tested and exact-tag rehearsed; student review pending** (2026-11-04). See `evidence/p3-node22-tests.txt` and `evidence/p3-rollback/`. P4/P5 and the final live traffic demonstration are NOT RUN. Stop after P3 for review.
 
 ## How to give the agent work
 
@@ -36,7 +36,7 @@ Start each agent session with: “Read `AGENTS.md`, `MIGRATION.md` and this work
 - [x] v3 startup rejects incomplete/invalid/disagreeing data before listening; menu and order reads use `price_vnd`. Fixtures qualify backfill before constructing v3.
 - [x] v3 keeps atomic dual writes; both client payloads and legacy thousands-of-VND order units pass mixed exact-tag v2/v3 tests. P1/P2 tests retain real v2 source instead of silently changing phase semantics.
 - [x] Automated WORKTREE rehearsal rolls v2/v2 → v3/v2 → v3/v3 → v3/v2 → v2/v2 → v2/v3 → v3/v3, with one traffic PID, real down/back events and labeled checks after every roll. Full Node 22 suite: 22/22 passed.
-- [ ] Tag tested v3 code, capture separate tagged rehearsal evidence, then stop for student review. Keep final v1-to-Contract demonstration separate.
+- [x] Tested code tagged `v3=ccd19db7c1cf14d2a5df21f38769c73dd96f27b2` without changing v1/v2. Separate Node 22 exact-tag rehearsal captured all seven states, six down/back pairs and one traffic PID 51678; final error/contract/stale/unavailable all 0. Every labeled check was plain CONSISTENT with NULL/disagree=0. Sources, process identity, command output and cleanup are in `evidence/p3-rollback/`. Student review pending; final v1-to-Contract demonstration remains separate and NOT RUN.
 
 ### P4: New-only and contract
 
@@ -55,4 +55,4 @@ Start each agent session with: “Read `AGENTS.md`, `MIGRATION.md` and this work
 
 ## One-command CI is intentionally limited
 
-The GitHub Actions workflow `.github/workflows/migration-ci.yml` runs tests and a fresh DB smoke sequence on PR/push. P2 tests include two-instance disposable HTTP concurrency and a bounded traffic process; these do not replace the final continuous demonstration. Passing CI cannot show rolling zero downtime, replay all release tags, or prove live rollback. Those remain for the separately reviewed live run.
+The GitHub Actions workflow `.github/workflows/migration-ci.yml` runs tests and a fresh DB smoke sequence on PR/push. P2 tests include two-instance disposable HTTP concurrency; P3 adds a bounded rolling/rollback traffic fixture. These do not replace the final continuous demonstration. Passing CI cannot qualify a live target or the full v1-to-Contract run. Remote CI is separate from the recorded local Node 22/tagged development evidence.
