@@ -1,5 +1,8 @@
 # P5 final demonstration — prepared operator flow
 
+**Current follow-up (2026-11-04 19:07:43 ICT):** the student explicitly approved S8. Migration `--to 004_drop_price` and both-client/order verification completed on the same DB and uninterrupted traffic PID 29850. The original generator ended once: **35,309,724 successful requests, zero error/contract/stale/unavailable**, one start/FINAL/RESULT and 26 observed down/back pairs (ten deliberate rolls plus sixteen transient route failures during the wait). Both v4 instances remain running. [Completed S8 evidence and limitations](P5_S8_RESULT.md). The earlier gate/snapshot text below is historical; do not rerun setup, migration or traffic. No merge, score/ZIP or submission.
+
+
 **Executed follow-up (2026-11-04):** the student subsequently authorized P5-B S0–S7. Execution reached S7 and stopped for S8 review with original traffic PID 29850 running, v4/v4 PIDs 32012/32117 and no 004. [Current review packet](P5_S8_REVIEW.md). The recipe below is retained as the preparation reference; actual commands/checks/process identities are in the execution events, not an assertion that every illustrative shell block was run verbatim. Do not rerun setup against the active DB/logs. S8 remains separately approval-gated.
 
 **Historical preparation recipe.** P5-A covered preflight/disposable probes; the student later explicitly authorized P5-B S0–S7. The run is now stopped at S8 for separate approval, with live root logs and no final RESULT. This document does not authorize S8, a final score or a submission ZIP.

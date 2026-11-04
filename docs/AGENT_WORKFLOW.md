@@ -1,5 +1,8 @@
 # Coding-Agent Workflow — IA#2
 
+**Current follow-up (2026-11-04 19:07:43 ICT):** the student explicitly approved S8. Migration `--to 004_drop_price` and both-client/order verification completed on the same DB and uninterrupted traffic PID 29850. The original generator ended once: **35,309,724 successful requests, zero error/contract/stale/unavailable**, one start/FINAL/RESULT and 26 observed down/back pairs (ten deliberate rolls plus sixteen transient route failures during the wait). Both v4 instances remain running. [Completed S8 evidence and limitations](P5_S8_RESULT.md). The earlier gate/snapshot text below is historical; do not rerun setup, migration or traffic. No merge, score/ZIP or submission.
+
+
 Status: **P5-A merged in PR #8; P5-B authorized S0–S7 completed; stopped at S8 awaiting explicit approval** (2026-11-04). See `P5_S8_REVIEW.md`, `evidence/p5-b-s8-review/` and `evidence/p5-b-validation.txt`. Original traffic PID 29850 and verified v4/v4 PIDs 32012/32117 remain alive. 004, post-S8 completion, score/ZIP and submission are NOT RUN. Do not merge automatically or execute Contract without further authorization.
 
 ## How to give the agent work
