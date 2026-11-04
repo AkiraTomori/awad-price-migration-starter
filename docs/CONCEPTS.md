@@ -20,6 +20,60 @@ Tài liệu ngắn để hiểu *vì sao* từng bước có mặt trong [MIGRAT
 | **Migrate** | v2 dual-write, backfill, v3 đọc cột mới, rollback thử | Không cần chuyển tất cả instance trong một thời điểm |
 | **Contract** | Sau khi mọi instance chỉ dùng cột mới, bỏ `price` | Không còn query nào đòi cột cũ |
 
+### Giai đoạn A — Expand: schema mở rộng, code cũ vẫn chạy
+
+```mermaid
+sequenceDiagram
+    participant C as Client cũ
+    participant A as Instance A (v2)
+    participant B as Instance B (v1)
+    participant DB as SQLite
+    C->>B: PATCH price = 45.5
+    B->>DB: Ghi price
+    C->>A: GET /menu/1
+    A->>DB: Đọc price
+    A-->>C: price = 45.5, priceVnd = 45500
+    Note over A,B: v1 và v2 cùng đọc cột price
+```
+
+Trong lúc A đã lên **v2** còn B vẫn là **v1**, cả hai đọc cột cũ. v2 có thể tính `priceVnd` để trả về ngay cả khi bản ghi chưa backfill. Chưa cho client mới gửi request tới v1.
+
+### Giai đoạn B — Migrate: dual write, backfill, chuyển nguồn đọc
+
+```mermaid
+sequenceDiagram
+    participant O as Người triển khai
+    participant V2 as Hai instance v2
+    participant BF as Backfill script
+    participant DB as SQLite
+    O->>V2: Xác nhận không còn v1
+    V2->>DB: POST/PATCH ghi hai cột
+    O->>BF: Bắt đầu backfill
+    loop Mỗi batch nhỏ
+        BF->>DB: Điền price_vnd còn NULL
+        DB-->>BF: COMMIT batch
+    end
+    O->>DB: npm run check
+    DB-->>O: CONSISTENT, 0 NULL, 0 disagree
+    Note over O,V2: Sau đó mới rollout v3 để đọc price_vnd
+```
+
+Điều kiện chuyển sang **v3** là không còn dữ liệu thiếu hoặc lệch. Ở v3, hai cột vẫn được ghi đồng thời để có thể quay về v2.
+
+### Giai đoạn C — Contract: loại bỏ phụ thuộc cột cũ
+
+```mermaid
+flowchart TD
+    A["v3/v3: đọc cột mới, ghi hai cột"] --> B["Cài trigger đồng bộ new → old"]
+    B --> C["Roll v4 từng instance"]
+    C --> D{"Cả A và B đều v4?"}
+    D -- "Chưa" --> C
+    D -- "Rồi" --> E["Xóa trigger và cột price"]
+    E --> F["API vẫn trả price từ price_vnd"]
+```
+
+**Point of no return về vận hành:** sau khi đã xóa cột `price`, không được khởi động thẳng v1/v2/v3. Muốn quay lại phải phục hồi schema trước, kiểm tra dữ liệu, rồi mới cân nhắc rollback code.
+
 Đừng `RENAME COLUMN price TO price_vnd` hoặc đổi loại trực tiếp khi v1 còn chạy: code v1 sẽ gọi tên cột không tồn tại.
 
 ## 3. Dual write và source of truth
@@ -89,6 +143,21 @@ Counters:
 **Down migration**: chạy `npm run migrate:down` để hoàn tác *schema step cuối cùng*. Đây **không đồng nghĩa** với việc rollback code luôn an toàn. Cần kiểm tra phiên bản nào đang chạy trước.
 
 **Point of no return (về vận hành)**: sau khi drop cột `price`, không thể đơn giản khởi động lại v1/v2/v3; query đòi cột cũ có thể lỗi. Một bản `004.down.sql` có thể mô tả phương án phục hồi có kiểm soát bằng cách tái tạo giá từ `price_vnd`, nhưng đó là recovery schema trước khi deploy code cũ, không phải rolling rollback một bước.
+
+
+### Luồng rollback bắt buộc trong lúc traffic vẫn chạy
+
+```mermaid
+flowchart TD
+    A["v3/v3: đọc mới, dual write"] --> B["Rollback B: v3/v2"]
+    B --> C["Rollback A: v2/v2"]
+    C --> D{"npm run check: CONSISTENT?"}
+    D -- "Có" --> E["Roll forward A rồi B về v3/v3"]
+    D -- "Không" --> F["Dừng và tìm nguyên nhân"]
+    E --> G["Xác nhận traffic không có failure"]
+```
+
+Không chạy `migrate:down` trong thử nghiệm rollback code v3↔v2 này: cả hai phiên bản cần giữ nguyên schema mở rộng và cùng dual-write.
 
 ## 9. Git tag và worktree
 
